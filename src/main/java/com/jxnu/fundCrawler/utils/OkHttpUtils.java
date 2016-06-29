@@ -25,7 +25,6 @@ public class OkHttpUtils {
             logger.info("http response status:{}", status);
             if (status != 200) return null;
             String body = new String(response.body().bytes(), encode);
-            System.out.println();
             Document document = Jsoup.parse(body, url);
             return document;
         } catch (Exception e) {
