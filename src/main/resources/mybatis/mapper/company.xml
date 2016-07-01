@@ -21,4 +21,10 @@
         scale=VALUES(scale)
     </insert>
 
+    <select id="queryAll" resultMap="companyMap">
+        SELECT
+           *
+        FROM  tbl_company_info
+    </select>
+
 </mapper>

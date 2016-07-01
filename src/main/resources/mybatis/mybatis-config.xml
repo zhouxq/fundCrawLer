@@ -3,5 +3,6 @@
 <configuration>
     <mappers>
         <mapper resource="mybatis/mapper/company.xml"/>
+        <mapper resource="mybatis/mapper/fund.xml"/>
     </mappers>
 </configuration>
