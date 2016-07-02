@@ -21,4 +21,14 @@ public class CompanyStore extends BaseStore {
         Integer num = template.insert("company.insertCompany", list);
         logger.info("insert num :{}", num);
     }
+
+    /**
+     * 查询所有基金公司
+     *
+     * @return
+     */
+    public List<Company> queryAll() {
+        List<Company> companyList = template.selectList("company.queryAll");
+        return companyList;
+    }
 }

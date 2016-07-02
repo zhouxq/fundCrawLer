@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fund">
+    <resultMap id="fundMap" type="com.jxnu.fundCrawler.business.model.Fund">
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="handler" column="handler"/>
+        <result property="type" column="type"/>
+        <result property="company_code" column="companyCode"/>
+    </resultMap>
+
+    <insert id="insertFund" parameterType="java.util.List">
+        INSERT tbl_fund_info(code,name,handler,type,company_code,company_name) VALUES
+        <foreach collection="list" separator="," item="fund">
+            (#{fund.code},#{fund.name},#{fund.handler},#{fund.type},#{fund.companyCode},#{fund.companyName})
+        </foreach>
+        ON DUPLICATE KEY UPDATE name=VALUES(name),
+        handler=VALUES(handler),
+        type=VALUES(type),
+        company_code=VALUES(company_code),
+        company_name=VALUES(company_name)
+    </insert>
+
+</mapper>

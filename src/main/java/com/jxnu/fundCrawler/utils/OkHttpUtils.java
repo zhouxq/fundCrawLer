@@ -1,5 +1,6 @@
 package com.jxnu.fundCrawler.utils;
 
+import com.jxnu.fundCrawler.business.model.Fund;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -10,6 +11,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class OkHttpUtils {
@@ -50,11 +54,25 @@ public class OkHttpUtils {
     }
 
     public static void main(String[] args) {
-        String url = "http://fund.eastmoney.com/company/80163340.html";
+        String url = "";
         Document document = OkHttpUtils.parseToDocument(url, "gb2312");
         Elements tbodys = document.select("tbody");
-        for (Element tbody : tbodys) {
-
+        Element element = tbodys.get(6);
+        Elements trs = element.select("tr");
+        List<Fund> fundList = new ArrayList<Fund>();
+        for (int index = 2; index < trs.size(); index++) {
+            Fund fund = new Fund();
+            Element tr = trs.get(index);
+            Elements tds = tr.select("td");
+            String[] values = tds.get(0).text().split(" ");
+            String fundName = values[0];
+            fund.setName(fundName);
+            String fundCode = values[1];
+            fund.setCode(fundCode);
+            String type = tds.get(2).text();
+            fund.setType(type);
+            String handler = tds.get(9).text();
+            fund.setHandler(handler);
         }
     }
 }
