@@ -28,19 +28,27 @@ public class GrabThread {
     private String fundUrl;
     @Value("${tiantian.fundNetWorth}")
     private String fundNetWorthUrl;
+    @Value("${fundNetWorth.switch}")
+    private Integer fundNetWorthSwitch;
+    @Value("${company.switch}")
+    private Integer companySwitch;
     @Value("${fund.switch}")
     private Integer fundSwitch;
 
     @PostConstruct
     public void init() {
         //获取基金公司
-//        CompanyThread companyThread = new CompanyThread(companyUrl, companyStore);
-//        ThreadPool.getInstance().scheduleAtFixedRate(companyThread, 0, 6, TimeUnit.HOURS);
+        if (companySwitch == 1) {
+            CompanyThread companyThread = new CompanyThread(companyUrl, companyStore);
+            ThreadPool.getInstance().scheduleAtFixedRate(companyThread, 0, 6, TimeUnit.HOURS);
+        }
         //获取基金
-//        FundThread fundThread = new FundThread(fundUrl, fundStore, companyStore);
-//        ThreadPool.getInstance().scheduleAtFixedRate(fundThread, 0, 6, TimeUnit.HOURS);
+        if (fundSwitch == 1) {
+            FundThread fundThread = new FundThread(fundUrl, fundStore, companyStore);
+            ThreadPool.getInstance().scheduleAtFixedRate(fundThread, 0, 6, TimeUnit.HOURS);
+        }
         //获取基金
-        FundNetWorthThread fundNetWorthThread = new FundNetWorthThread(fundStore,fundNetWorthStore,fundNetWorthUrl,fundSwitch);
+        FundNetWorthThread fundNetWorthThread = new FundNetWorthThread(fundStore, fundNetWorthStore, fundNetWorthUrl, fundNetWorthSwitch);
         ThreadPool.getInstance().scheduleAtFixedRate(fundNetWorthThread, 0, 6, TimeUnit.HOURS);
     }
 }

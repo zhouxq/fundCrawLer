@@ -127,7 +127,7 @@ public class ResponseUtils {
             element = tbodys.get(7);
         }
         Elements trs = element.select("tr");
-        if (fundList.size() < 3) return fundList;
+        if (trs.size() < 3) return fundList;
         for (int index = 2; index < trs.size(); index++) {
             Fund fund = new Fund();
             fund.setCompanyCode(companyCode);
