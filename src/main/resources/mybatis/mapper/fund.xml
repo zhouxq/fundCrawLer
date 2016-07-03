@@ -21,4 +21,10 @@
         company_name=VALUES(company_name)
     </insert>
 
+    <select id="queryAll" resultMap="fundMap">
+        SELECT
+           *
+        FROM tbl_fund_info
+    </select>
+
 </mapper>

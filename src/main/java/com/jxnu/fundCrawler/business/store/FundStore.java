@@ -24,4 +24,9 @@ public class FundStore extends BaseStore {
         int length = template.insert("fund.insertFund", fundList);
         logger.info("insert fund {}", length);
     }
+
+    public List<Fund> queryAll(){
+        List<Fund> fundList=template.selectList("fund.queryAll");
+        return fundList;
+    }
 }

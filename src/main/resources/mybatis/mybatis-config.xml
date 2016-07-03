@@ -4,5 +4,6 @@
     <mappers>
         <mapper resource="mybatis/mapper/company.xml"/>
         <mapper resource="mybatis/mapper/fund.xml"/>
+        <mapper resource="mybatis/mapper/fundNetWorth.xml"/>
     </mappers>
 </configuration>

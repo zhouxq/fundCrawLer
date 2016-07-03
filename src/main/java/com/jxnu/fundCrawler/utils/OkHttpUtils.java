@@ -1,6 +1,7 @@
 package com.jxnu.fundCrawler.utils;
 
 import com.jxnu.fundCrawler.business.model.Fund;
+import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class OkHttpUtils {
@@ -54,25 +56,14 @@ public class OkHttpUtils {
     }
 
     public static void main(String[] args) {
-        String url = "";
-        Document document = OkHttpUtils.parseToDocument(url, "gb2312");
-        Elements tbodys = document.select("tbody");
-        Element element = tbodys.get(6);
-        Elements trs = element.select("tr");
-        List<Fund> fundList = new ArrayList<Fund>();
-        for (int index = 2; index < trs.size(); index++) {
-            Fund fund = new Fund();
-            Element tr = trs.get(index);
-            Elements tds = tr.select("td");
-            String[] values = tds.get(0).text().split(" ");
-            String fundName = values[0];
-            fund.setName(fundName);
-            String fundCode = values[1];
-            fund.setCode(fundCode);
-            String type = tds.get(2).text();
-            fund.setType(type);
-            String handler = tds.get(9).text();
-            fund.setHandler(handler);
-        }
+        Random random = new Random(1000);
+       /* String url = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=1&rt=" + random.nextInt();
+        Document document=OkHttpUtils.parseToDocument(url,"gb2312");
+        Element element=document.body();
+        String ownText=element.ownText();
+        ownText=ownText.substring(ownText.indexOf("records")+"records".length()+1,ownText.indexOf("pages")-1);*/
+        String url2 = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=781&rt=" + random.nextInt();
+        List<FundNetWorth> fundNetWorthList=ResponseUtils.parseFundNetWorth(url2,"519120");
+        fundNetWorthList=fundNetWorthList;
     }
 }
