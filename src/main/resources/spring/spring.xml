@@ -18,5 +18,22 @@
             </list>
         </property>
     </bean>
+
+    <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newFixedThreadPool">
+        <constructor-arg value="${eventbus.thread}"/>
+        <constructor-arg>
+            <bean class="com.jxnu.fundCrawler.grabThread.FundThreadFactory">
+                <constructor-arg value="eventbus"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean name="eventBus" class="com.google.common.eventbus.AsyncEventBus">
+        <constructor-arg index="0" value="eventBus"/>
+        <constructor-arg index="1" ref="executorService"/>
+    </bean>
+
+    <bean name="kv" class="com.jxnu.fundCrawler.http.codec.KvCodec" />
+
     <import resource="spring-database.xml"/>
 </beans>

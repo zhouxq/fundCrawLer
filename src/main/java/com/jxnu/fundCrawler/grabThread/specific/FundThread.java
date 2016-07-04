@@ -1,21 +1,14 @@
-package com.jxnu.fundCrawler.thread.grab;
+package com.jxnu.fundCrawler.grabThread.specific;
 
 import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
-import com.jxnu.fundCrawler.utils.OkHttpUtils;
 import com.jxnu.fundCrawler.utils.ResponseUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.jsoup.helper.StringUtil;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

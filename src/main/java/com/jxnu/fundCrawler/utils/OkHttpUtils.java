@@ -1,6 +1,5 @@
 package com.jxnu.fundCrawler.utils;
 
-import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -8,12 +7,9 @@ import okhttp3.Response;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

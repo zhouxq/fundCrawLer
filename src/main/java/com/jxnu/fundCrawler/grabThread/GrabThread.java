@@ -1,12 +1,11 @@
-package com.jxnu.fundCrawler.http;
+package com.jxnu.fundCrawler.grabThread;
 
 import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
-import com.jxnu.fundCrawler.thread.ThreadPool;
-import com.jxnu.fundCrawler.thread.grab.CompanyThread;
-import com.jxnu.fundCrawler.thread.grab.FundNetWorthThread;
-import com.jxnu.fundCrawler.thread.grab.FundThread;
+import com.jxnu.fundCrawler.grabThread.specific.CompanyThread;
+import com.jxnu.fundCrawler.grabThread.specific.FundNetWorthThread;
+import com.jxnu.fundCrawler.grabThread.specific.FundThread;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

@@ -108,7 +108,7 @@ public class ResponseUtils {
 
 
     /**
-     * 解决基金
+     * 解析基金
      *
      * @param url
      * @param company
@@ -147,6 +147,5 @@ public class ResponseUtils {
             fundList.add(fund);
         }
         return fundList;
-
     }
 }

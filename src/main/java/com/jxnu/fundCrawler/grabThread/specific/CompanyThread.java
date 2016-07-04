@@ -1,13 +1,9 @@
-package com.jxnu.fundCrawler.thread.grab;
+package com.jxnu.fundCrawler.grabThread.specific;
 
 import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
-import com.jxnu.fundCrawler.utils.OkHttpUtils;
 import com.jxnu.fundCrawler.utils.ResponseUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyThread implements Runnable {

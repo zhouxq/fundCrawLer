@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.thread;
+package com.jxnu.fundCrawler.grabThread;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

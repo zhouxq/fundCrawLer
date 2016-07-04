@@ -4,7 +4,6 @@ package com.jxnu.fundCrawler.business.model;
  * 基金
  *
  * @author shoumiao_yao
- * @date 2016-07-01
  */
 public class Fund {
     private String code;
@@ -61,5 +60,17 @@ public class Fund {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @Override
+    public String toString() {
+        return "Fund{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", handler='" + handler + '\'' +
+                ", type='" + type + '\'' +
+                ", companyCode='" + companyCode + '\'' +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.jxnu.fundCrawler.http;
 
+import com.google.common.eventbus.EventBus;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 @Component
 public class HttpServer {
@@ -29,6 +31,8 @@ public class HttpServer {
     private Integer boosThreadNum;
     @Value("${http.workThreadNum}")
     private Integer workThreadNum;
+    @Resource
+    private EventBus eventBus;
 
     @PostConstruct
     public void init() {
@@ -44,7 +48,7 @@ public class HttpServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             // 这几个都是框架需要，完成HTTP协议的编解码所用
                             ch.pipeline().addLast(new HttpServerCodec());
-                            ch.pipeline().addLast(new HttpHandler());
+                            ch.pipeline().addLast(new HttpHandler(eventBus));
                         }
                     });
             // 开始真正绑定端口进行监听
