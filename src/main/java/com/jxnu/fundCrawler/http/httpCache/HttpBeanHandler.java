@@ -49,7 +49,8 @@ public class HttpBeanHandler implements BeanPostProcessor, ApplicationContextAwa
                 if (annotation.annotationType().equals(RequestMap.class)) {
                     RequestMap requestMap = method.getAnnotation(RequestMap.class);
                     UrlCache.getClassMap().put(requestMap.url(), requestMap.Class());
-                    UrlCache.getEncodeMap().put(requestMap.url(), (HttpCodec) applicationContext.getBean(requestMap.encode()));
+                    HttpCodec httpCodec = (HttpCodec) applicationContext.getBean(requestMap.encode());
+                    UrlCache.getEncodeMap().put(requestMap.url(), httpCodec);
                 }
             }
         }

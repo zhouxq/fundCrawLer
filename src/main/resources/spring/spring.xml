@@ -33,7 +33,8 @@
         <constructor-arg index="1" ref="executorService"/>
     </bean>
 
-    <bean name="kv" class="com.jxnu.fundCrawler.http.codec.KvCodec" />
+    <bean name="kv" class="com.jxnu.fundCrawler.http.codec.KvCodec"/>
+    <bean name="json" class="com.jxnu.fundCrawler.http.codec.JsonCodec"/>
 
     <import resource="spring-database.xml"/>
 </beans>

@@ -4,7 +4,7 @@ import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
-import com.jxnu.fundCrawler.utils.ResponseUtils;
+import com.jxnu.fundCrawler.utils.ParseUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class FundThread implements Runnable {
         List<Company> companyList = companyStore.queryAll();
         for (Company company : companyList) {
             try {
-                List<Fund> fundList = ResponseUtils.parseFund(url, company);
+                List<Fund> fundList = ParseUtils.parseFund(url, company);
                 if (!fundList.isEmpty()) {
                     fundStore.insertFund(fundList);
                 }

@@ -4,7 +4,7 @@ import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
-import com.jxnu.fundCrawler.utils.ResponseUtils;
+import com.jxnu.fundCrawler.utils.ParseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -41,12 +41,12 @@ public class FundNetWorthThread implements Runnable {
                 if (fund == null || StringUtils.isEmpty(code = fund.getCode())) continue;
                 if (fundSwitch == 1) {
                     String countUrl = url.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
-                    count = ResponseUtils.parseFundNetWorthCount(countUrl);
+                    count = ParseUtils.parseFundNetWorthCount(countUrl);
                 } else {
                     count = "1";
                 }
                 String content = url.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
-                List<FundNetWorth> fundNetWorthList = ResponseUtils.parseFundNetWorth(content, code);
+                List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                 if (fundNetWorthList.isEmpty()) continue;
                 fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
             } catch (Exception e) {

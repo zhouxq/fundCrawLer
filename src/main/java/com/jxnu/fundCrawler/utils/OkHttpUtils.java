@@ -59,7 +59,7 @@ public class OkHttpUtils {
         String ownText=element.ownText();
         ownText=ownText.substring(ownText.indexOf("records")+"records".length()+1,ownText.indexOf("pages")-1);*/
         String url2 = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=781&rt=" + random.nextInt();
-        List<FundNetWorth> fundNetWorthList=ResponseUtils.parseFundNetWorth(url2,"519120");
+        List<FundNetWorth> fundNetWorthList= ParseUtils.parseFundNetWorth(url2,"519120");
         fundNetWorthList=fundNetWorthList;
     }
 }
