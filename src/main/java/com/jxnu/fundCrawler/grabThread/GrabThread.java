@@ -27,12 +27,12 @@ public class GrabThread {
     private String fundUrl;
     @Value("${tiantian.fundNetWorth}")
     private String fundNetWorthUrl;
-    @Value("${fundNetWorth.switch}")
-    private Integer fundNetWorthSwitch;
     @Value("${company.switch}")
     private Integer companySwitch;
     @Value("${fund.switch}")
     private Integer fundSwitch;
+    @Value("${fundNetWorth.switch}")
+    private Integer fundNetWorthSwitch;
 
     @PostConstruct
     public void init() {
