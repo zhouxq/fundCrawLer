@@ -21,13 +21,13 @@ public class FundNetWorthThread implements Runnable {
     private FundStore fundStore;
     private FundNetWorthStore fundNetWorthStore;
     private String url;
-    private Integer fundSwitch;
+    private Integer fundNetWorthSwitch;
 
     public FundNetWorthThread(FundStore fundStore, FundNetWorthStore fundNetWorthStore, String url, Integer fundSwitch) {
         this.fundStore = fundStore;
         this.fundNetWorthStore = fundNetWorthStore;
         this.url = url;
-        this.fundSwitch = fundSwitch;
+        this.fundNetWorthSwitch = fundSwitch;
     }
 
     @Override
@@ -39,11 +39,11 @@ public class FundNetWorthThread implements Runnable {
             try {
                 String count;
                 if (fund == null || StringUtils.isEmpty(code = fund.getCode())) continue;
-                if (fundSwitch == 1) {
+                if (fundNetWorthSwitch == 0) {
                     String countUrl = url.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
                     count = ParseUtils.parseFundNetWorthCount(countUrl);
                 } else {
-                    count = "1";
+                    count = fundNetWorthSwitch.toString();
                 }
                 String content = url.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
                 List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
