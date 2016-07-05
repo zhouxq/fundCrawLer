@@ -53,6 +53,5 @@ public class FundNetWorthThread implements Runnable {
                 logger.error("error:{}", ExceptionUtils.getMessage(e));
             }
         }
-
     }
 }
