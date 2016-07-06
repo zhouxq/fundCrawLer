@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.http;
 
 import com.google.common.eventbus.EventBus;
-import com.jxnu.fundCrawler.business.model.HttpPropers;
+import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 import com.jxnu.fundCrawler.http.codec.HttpCodec;
 import com.jxnu.fundCrawler.http.httpCache.UrlCache;
 import io.netty.buffer.ByteBuf;

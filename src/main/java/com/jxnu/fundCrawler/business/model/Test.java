@@ -1,5 +1,7 @@
 package com.jxnu.fundCrawler.business.model;
 
+import com.jxnu.fundCrawler.business.model.http.HttpPropers;
+
 /**
  * @author shoumiao_yao
  * @date 2016-07-05

@@ -1,7 +1,6 @@
 package com.jxnu.fundCrawler.utils;
 
-import com.google.common.eventbus.EventBus;
-import com.jxnu.fundCrawler.business.model.HttpPropers;
+import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
