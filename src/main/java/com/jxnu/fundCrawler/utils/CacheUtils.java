@@ -22,7 +22,7 @@ public class CacheUtils {
      * 缓存
      */
     public static Cache<String, Object> cache = CacheBuilder.newBuilder()
-            .maximumSize(1000)
+            .maximumSize(10000)
             .expireAfterAccess(10, TimeUnit.HOURS)
             .build();
 

@@ -9,6 +9,7 @@
         <result property="company_code" column="companyCode"/>
     </resultMap>
 
+
     <insert id="insertFund" parameterType="java.util.List">
         INSERT tbl_fund_info(code,name,handler,type,company_code,company_name) VALUES
         <foreach collection="list" separator="," item="fund">
@@ -21,10 +22,27 @@
         company_name=VALUES(company_name)
     </insert>
 
+
     <select id="queryAll" resultMap="fundMap">
         SELECT
            *
         FROM tbl_fund_info
     </select>
+
+
+    <select id="queryFundByCompanyCode" parameterType="java.lang.String" resultMap="fundMap">
+        SELECT
+           *
+        FROM  tbl_fund_info
+        WHERE handler=#{companyCode}
+    </select>
+
+    <select id="queryHandlerByCompanyCode" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+           DISTINCT handler
+        FROM tbl_fund_info
+        WHERE company_code=#{companyCode}
+    </select>
+
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.business.model.Fund;
+import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,34 @@ public class FundStore extends BaseStore {
         logger.info("insert fund {}", length);
     }
 
-    public List<Fund> queryAll(){
-        List<Fund> fundList=template.selectList("fund.queryAll");
+    /**
+     * 查询所有的基金
+     *
+     * @return
+     */
+    public List<Fund> queryAll() {
+        List<Fund> fundList = template.selectList("fund.queryAll");
         return fundList;
+    }
+
+    /**
+     * 查询某个公司的基金
+     *
+     * @param companyCode
+     * @return
+     */
+    public List<Fund> queryFundByCompanyCode(String companyCode) {
+        List<Fund> fundList = template.selectList("fund.queryFundByCompanyCode", companyCode);
+        return fundList;
+    }
+
+    /**
+     * 查询基金的经理人
+     * @param companyCode
+     * @return
+     */
+    public List<String> queryHandlerByCompanyCode(String companyCode) {
+        List<String> handlers = template.selectList("fund.queryHandlerByCompanyCode", companyCode);
+        return handlers;
     }
 }

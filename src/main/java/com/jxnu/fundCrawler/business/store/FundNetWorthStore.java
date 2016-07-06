@@ -18,4 +18,15 @@ public class FundNetWorthStore extends BaseStore {
     public void insertFundNetWorth(List<FundNetWorth> fundNetWorthList) {
         int length = template.insert("fundNetWorth.insertfundNetWorth", fundNetWorthList);
     }
+
+    /**
+     * 查询某个基金的所有净值
+     * @param fundCode
+     * @return
+     */
+    public List<FundNetWorth> queryNetWorthByFundCode(String fundCode){
+        List<FundNetWorth> fundNetWorthList=template.selectList("fundNetWorth.queryNetWorthByFundCode",fundCode);
+        return fundNetWorthList;
+    }
+
 }
