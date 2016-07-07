@@ -3,7 +3,10 @@ package com.jxnu.fundCrawler.business.rest;
 import com.google.common.eventbus.Subscribe;
 import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.model.Fund;
+import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.RestModel.ZtreeModel;
+import com.jxnu.fundCrawler.business.model.protocol.FundNetworthReq;
+import com.jxnu.fundCrawler.business.model.protocol.FundNetworthResp;
 import com.jxnu.fundCrawler.business.model.protocol.ZtreeReq;
 import com.jxnu.fundCrawler.business.model.protocol.ZtreeResp;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
@@ -36,6 +39,10 @@ public class ZtreeRest {
     private FundNetWorthStore fundNetWorthStore;
 
 
+    /**
+     * 获取整个基金的ztree树
+     * @param req
+     */
     @Subscribe
     @RequestMap(url = "/rest/ztree", encode = "json", Class = ZtreeReq.class)
     public void ztree(ZtreeReq req) {
@@ -57,7 +64,7 @@ public class ZtreeRest {
             ztreeModel.setOpen(false);
             ztreeModel.setpId("");
             ztreeModelList.add(ztreeModel);
-            List<String> handlers = (List<String>) CacheUtils.get("handler"+code, new Callable() {
+            List<String> handlers = (List<String>) CacheUtils.get("handler" + code, new Callable() {
                 @Override
                 public Object call() throws Exception {
                     return fundStore.queryHandlerByCompanyCode(code);
@@ -72,7 +79,7 @@ public class ZtreeRest {
                 ztreeModel2.setName(hanler);
                 ztreeModel2.setOpen(false);
                 ztreeModelList.add(ztreeModel2);
-                List<Fund> fundList = (List<Fund>) CacheUtils.get("fund"+handler1, new Callable() {
+                List<Fund> fundList = (List<Fund>) CacheUtils.get("fund" + handler1, new Callable() {
                     @Override
                     public Object call() throws Exception {
                         return fundStore.queryFundByCompanyCode(handler1);
@@ -89,6 +96,20 @@ public class ZtreeRest {
             }
         }
         resp.setZtreeModelList(ztreeModelList);
+        ResponseUtils.response(req, resp);
+    }
+
+    /**
+     * 根据基金代码查询基金净值
+     * @param req
+     */
+    @Subscribe
+    @RequestMap(url = "/rest/fundNetworth", encode = "json", Class = FundNetworthReq.class)
+    public void fundNetworth(FundNetworthReq req) {
+        FundNetworthResp resp = new FundNetworthResp();
+        String code = req.getCode();
+        List<FundNetWorth> fundNetWorthList = fundNetWorthStore.queryNetWorthByFundCode(code);
+        resp.setFundNetWorthList(fundNetWorthList);
         ResponseUtils.response(req, resp);
     }
 

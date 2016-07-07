@@ -37,6 +37,11 @@ public class ResponseUtils {
         }
         if (null != response) {
             response.headers().set("Content-Type", "application/json; charset=UTF-8");
+            response.headers().set("Access-Control-Allow-Origin", "*");
+            response.headers().set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+            response.headers().set("Access-Control-Max-Age", "3600");
+            response.headers().set("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
+            response.headers().set("Access-Control-Allow-Credentials", "true");
             if (keepAlive.booleanValue()) {
                 response.headers().set("Content-Length", Integer.valueOf(response.content().readableBytes()));
                 response.headers().set("Connection", "keep-alive");
@@ -47,5 +52,4 @@ public class ResponseUtils {
             }
         }
     }
-
 }
