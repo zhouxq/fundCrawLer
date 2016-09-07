@@ -49,7 +49,7 @@ public class GrabThread {
         //获取基金净值
         if (fundNetWorthSwitch != -1) {
             FundNetWorthThread fundNetWorthThread = new FundNetWorthThread(fundStore, fundNetWorthStore, fundNetWorthUrl, fundNetWorthSwitch);
-            ThreadPool.getInstance().scheduleAtFixedRate(fundNetWorthThread, 0, 6, TimeUnit.HOURS);
+            ThreadPool.getInstance().scheduleAtFixedRate(fundNetWorthThread, 0, 1, TimeUnit.HOURS);
         }
     }
 }
