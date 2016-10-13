@@ -121,10 +121,10 @@ public class ParseUtils {
         Document document = OkHttpUtils.parseToDocument(url2, "gb2312");
         if (document == null) return fundList;
         Elements tbodys = document.select("tbody");
-        Element element = tbodys.get(6);
+        Element element = tbodys.get(7);
         Elements a = element.select("td").first().select("a");
         if (a != null && a.size() > 0) {
-            element = tbodys.get(7);
+            element = tbodys.get(8);
         }
         Elements trs = element.select("tr");
         if (trs.size() < 3) return fundList;

@@ -2,16 +2,19 @@ package com.jxnu.fundCrawler.grabThread.specific;
 
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.Mail;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
+import com.jxnu.fundCrawler.utils.MailUtil;
+import com.jxnu.fundCrawler.utils.NumberUtil;
 import com.jxnu.fundCrawler.utils.ParseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by coder on 2016/7/2.
@@ -35,6 +38,8 @@ public class FundNetWorthThread implements Runnable {
         Random random = new Random(1000);
         List<Fund> fundList = fundStore.queryAll();
         String code;
+        Set<Fund> funds = new HashSet<Fund>();
+        List<Mail> mails = new ArrayList<Mail>();
         for (Fund fund : fundList) {
             try {
                 String count;
@@ -47,11 +52,28 @@ public class FundNetWorthThread implements Runnable {
                 }
                 String content = url.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
                 List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
+                for (FundNetWorth fundNetWorth : fundNetWorthList) {
+                    Float maxNetWorth = fundNetWorthStore.queryPeriodMax(code);
+                    Float netWorth = fundNetWorth.getNetWorth();
+                    if (NumberUtil.ratio(netWorth, maxNetWorth)) {
+                        int counts = fundNetWorthStore.queryMail(fund.getCode());
+                        if (counts == 0) {
+                            funds.add(fund);
+                            Mail mail=new Mail();
+                            mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                            mail.setCode(fund.getCode());
+                            mails.add(mail);
+                        }
+                    }
+                    continue;
+                }
                 if (fundNetWorthList.isEmpty()) continue;
                 fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
             } catch (Exception e) {
                 logger.error("error:{}", ExceptionUtils.getMessage(e));
             }
         }
+        MailUtil.sendmail(funds);
+        fundNetWorthStore.insertMail(mails);
     }
 }

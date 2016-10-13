@@ -22,4 +22,33 @@
         where fund_code=#{fundCode}
     </select>
 
+    <select id="queryPeriodMax" resultType="java.lang.Float" parameterType="java.lang.String">
+        SELECT
+        MAX(a.net_worth)
+        FROM
+        `tbl_fund_net_worth` a
+        where a.fund_code=#{fundCode}
+        and NOW() >= a.time
+        and  a.time>= ADDDATE(NOW(),INTERVAL -60 DAY)
+    </select>
+
+    <insert id="insertMail" parameterType="java.util.List">
+        INSERT tbl_mail(code,time)
+        VALUES
+        <foreach collection="list" separator="," item="mail">
+            (#{mail.code},#{mail.time})
+        </foreach>
+    </insert>
+
+    <select id="queryMail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        COUNT(a.id)
+        FROM
+        `tbl_mail` a
+        where a.code=#{fundCode}
+        and NOW() >= a.time
+        and  a.time>= ADDDATE(NOW(),INTERVAL -8 DAY)
+    </select>
+
+
 </mapper>
