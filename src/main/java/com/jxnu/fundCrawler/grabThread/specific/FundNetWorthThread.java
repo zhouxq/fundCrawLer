@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -59,7 +60,7 @@ public class FundNetWorthThread implements Runnable {
                         int counts = fundNetWorthStore.queryMail(fund.getCode());
                         if (counts == 0) {
                             funds.add(fund);
-                            Mail mail=new Mail();
+                            Mail mail = new Mail();
                             mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                             mail.setCode(fund.getCode());
                             mails.add(mail);
@@ -73,7 +74,11 @@ public class FundNetWorthThread implements Runnable {
                 logger.error("error:{}", ExceptionUtils.getMessage(e));
             }
         }
-        MailUtil.sendmail(funds);
-        fundNetWorthStore.insertMail(mails);
+        if (!CollectionUtils.isEmpty(funds)) {
+            MailUtil.sendmail(funds);
+        }
+        if (!CollectionUtils.isEmpty(mails)) {
+            fundNetWorthStore.insertMail(mails);
+        }
     }
 }
