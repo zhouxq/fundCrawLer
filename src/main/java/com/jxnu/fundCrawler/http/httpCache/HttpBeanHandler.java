@@ -40,11 +40,15 @@ public class HttpBeanHandler implements BeanPostProcessor, ApplicationContextAwa
         Class beanClass = bean.getClass();
         if (!beanClass.isAnnotationPresent(HttpHander.class)) return bean;
         Method[] methods = beanClass.getMethods();
+        int index = 0;
         for (Method method : methods) {
             Annotation[] annotations = method.getDeclaredAnnotations();
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType().equals(Subscribe.class)) {
-                    eventBus.register(bean);
+                    if (index == 0) {
+                        eventBus.register(bean);
+                        index++;
+                    }
                 }
                 if (annotation.annotationType().equals(RequestMap.class)) {
                     RequestMap requestMap = method.getAnnotation(RequestMap.class);
