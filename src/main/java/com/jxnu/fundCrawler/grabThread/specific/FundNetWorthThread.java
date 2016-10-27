@@ -66,6 +66,7 @@ public class FundNetWorthThread implements Runnable {
                             funds.add(fund);
                             mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                             mail.setCode(fund.getCode());
+                            mail.setType(MailFundStatus.DOWN.getIndex());
                             mails.add(mail);
                         }
                     }
@@ -76,7 +77,8 @@ public class FundNetWorthThread implements Runnable {
                         if (counts == 0) {
                             upFunds.add(fund);
                             mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                            mail.setType("1");
+                            mail.setType(MailFundStatus.UP.getIndex());
+                            mail.setType(MailFundStatus.UP.getIndex());
                             mail.setCode(fund.getCode());
                             mails.add(mail);
                         }
