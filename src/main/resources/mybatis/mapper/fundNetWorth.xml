@@ -32,20 +32,30 @@
         and  a.time>= ADDDATE(NOW(),INTERVAL -60 DAY)
     </select>
 
+    <select id="queryPeriodMin" resultType="java.lang.Float" parameterType="java.lang.String">
+        SELECT
+        MIN(a.net_worth)
+        FROM tbl_fund_net_worth a
+        WHERE a.fund_code=#{fundCode}
+        and now() >= a.time
+        and a.time >= ADDDATE(NOW(),INTERVAL -60 DAY)
+    </select>
+
     <insert id="insertMail" parameterType="java.util.List">
-        INSERT tbl_mail(code,time)
+        INSERT tbl_mail(code,time,type)
         VALUES
         <foreach collection="list" separator="," item="mail">
-            (#{mail.code},#{mail.time})
+            (#{mail.code},#{mail.time},#{mail.type})
         </foreach>
     </insert>
 
-    <select id="queryMail" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="queryMail" parameterType="java.lang.String" resultType="java.util.Map">
         SELECT
         COUNT(a.id)
         FROM
         `tbl_mail` a
         where a.code=#{fundCode}
+        and a.type=#{type}
         and NOW() >= a.time
         and  a.time>= ADDDATE(NOW(),INTERVAL -8 DAY)
     </select>

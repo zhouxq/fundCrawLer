@@ -8,6 +8,7 @@ public class Mail {
     private String id;
     private String code;
     private String time;
+    private String type;
 
     public String getId() {
         return id;
@@ -31,5 +32,13 @@ public class Mail {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -3,6 +3,7 @@ package com.jxnu.fundCrawler.grabThread.specific;
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.Mail;
+import com.jxnu.fundCrawler.business.model.MailFundStatus;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.utils.MailUtil;
@@ -41,6 +42,7 @@ public class FundNetWorthThread implements Runnable {
         String code;
         Set<Fund> funds = new HashSet<Fund>();
         List<Mail> mails = new ArrayList<Mail>();
+        Set<Fund> upFunds = new HashSet<Fund>();
         for (Fund fund : fundList) {
             try {
                 String count;
@@ -54,18 +56,32 @@ public class FundNetWorthThread implements Runnable {
                 String content = url.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
                 List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                 for (FundNetWorth fundNetWorth : fundNetWorthList) {
-                    Float maxNetWorth = fundNetWorthStore.queryPeriodMax(code);
                     Float netWorth = fundNetWorth.getNetWorth();
-                    if (NumberUtil.ratio(netWorth, maxNetWorth)) {
-                        int counts = fundNetWorthStore.queryMail(fund.getCode());
+                    Mail mail = new Mail();
+                    //两个月的最大净值
+                    Float maxNetWorth = fundNetWorthStore.queryPeriodMax(code);
+                    if (NumberUtil.maxRatio(netWorth, maxNetWorth)) {
+                        int counts = fundNetWorthStore.queryMail(code, MailFundStatus.DOWN.getIndex());
                         if (counts == 0) {
                             funds.add(fund);
-                            Mail mail = new Mail();
                             mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                             mail.setCode(fund.getCode());
                             mails.add(mail);
                         }
                     }
+                    //两个月最小净值
+                    Float minNetWorth = fundNetWorthStore.queryPeriodMin(code);
+                    if (NumberUtil.minRatio(netWorth, minNetWorth)) {
+                        int counts = fundNetWorthStore.queryMail(code, MailFundStatus.UP.getIndex());
+                        if (counts == 0) {
+                            upFunds.add(fund);
+                            mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                            mail.setType("1");
+                            mail.setCode(fund.getCode());
+                            mails.add(mail);
+                        }
+                    }
+
                     continue;
                 }
                 if (fundNetWorthList.isEmpty()) continue;
@@ -76,6 +92,9 @@ public class FundNetWorthThread implements Runnable {
         }
         if (!CollectionUtils.isEmpty(funds)) {
             MailUtil.sendmail(funds);
+        }
+        if (!CollectionUtils.isEmpty(upFunds)) {
+            MailUtil.sendmail(upFunds);
         }
         if (!CollectionUtils.isEmpty(mails)) {
             fundNetWorthStore.insertMail(mails);

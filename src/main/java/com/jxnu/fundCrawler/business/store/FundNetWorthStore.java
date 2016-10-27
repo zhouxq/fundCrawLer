@@ -4,7 +4,9 @@ import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.Mail;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by coder on 2016/7/2.
@@ -43,20 +45,35 @@ public class FundNetWorthStore extends BaseStore {
     }
 
     /**
+     * 获取两个月内最小值
+     * @param fundCode
+     * @return
+     */
+    public Float queryPeriodMin(String fundCode) {
+        Float minNetWorth = template.selectOne("fundNetWorth.queryPeriodMin", fundCode);
+        return minNetWorth;
+    }
+
+    /**
      * 插入已发生邮件基金
+     *
      * @param mailList
      */
-    public void insertMail(List<Mail> mailList){
-        template.insert("fundNetWorth.insertMail",mailList);
+    public void insertMail(List<Mail> mailList) {
+        template.insert("fundNetWorth.insertMail", mailList);
     }
 
     /**
      * 查询已发生邮件数量
+     *
      * @param fundCode
      * @return
      */
-    public Integer queryMail(String fundCode){
-        return template.selectOne("fundNetWorth.queryMail",fundCode);
+    public Integer queryMail(String fundCode,String type) {
+        Map<String,String> map=new HashMap<String, String>();
+        map.put("fundCode",fundCode);
+        map.put("type",type);
+        return template.selectOne("fundNetWorth.queryMail", map);
     }
 
 }
