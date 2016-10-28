@@ -1,6 +1,7 @@
 package com.jxnu.fundCrawler.utils;
 
 import com.jxnu.fundCrawler.business.model.Fund;
+import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 public class MailUtil {
     private final static Logger logger= LoggerFactory.getLogger(MailUtil.class);
-    public static void sendmail(Set<Fund> funds)  {
+    public static void sendmail(String title,Set<Fund> funds)  {
         try {
             //发送简单邮件
             SimpleEmail email = new SimpleEmail();
@@ -25,12 +26,12 @@ public class MailUtil {
             email.setSSLOnConnect(true);
 
             //需要邮件发送服务器验证,用户名/密码
-            email.setAuthentication("1247793952@qq.com", "***");
+            email.setAuthentication("1247793952@qq.com", "****");
             email.setFrom("1247793952@qq.com");
             email.addTo("15889326057@163.com");
 
             //设置主题的字符集为UTF-8
-            email.setSubject("基金通知");
+            email.setSubject(title);
             email.buildMimeMessage();
             String text="<html><head></head><body>";
             for(Fund fund: funds){
@@ -43,5 +44,4 @@ public class MailUtil {
             logger.error("mail error:{}", ExceptionUtils.getStackTrace(e));
         }
     }
-
 }

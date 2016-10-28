@@ -78,7 +78,6 @@ public class FundNetWorthThread implements Runnable {
                             upFunds.add(fund);
                             mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                             mail.setType(MailFundStatus.UP.getIndex());
-                            mail.setType(MailFundStatus.UP.getIndex());
                             mail.setCode(fund.getCode());
                             mails.add(mail);
                         }
@@ -93,10 +92,10 @@ public class FundNetWorthThread implements Runnable {
             }
         }
         if (!CollectionUtils.isEmpty(funds)) {
-            MailUtil.sendmail(funds);
+            MailUtil.sendmail(MailFundStatus.DOWN.getName(), funds);
         }
         if (!CollectionUtils.isEmpty(upFunds)) {
-            MailUtil.sendmail(upFunds);
+            MailUtil.sendmail(MailFundStatus.UP.getName(), upFunds);
         }
         if (!CollectionUtils.isEmpty(mails)) {
             fundNetWorthStore.insertMail(mails);

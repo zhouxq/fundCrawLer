@@ -5,7 +5,7 @@ package com.jxnu.fundCrawler.business.model;
  * @date 2016-10-27
  */
 public enum MailFundStatus {
-    DOWN("0","下跌"),UP("1","上涨");
+    DOWN("0","基金下跌"),UP("1","基金上涨");
     private String index;
     private String name;
 
