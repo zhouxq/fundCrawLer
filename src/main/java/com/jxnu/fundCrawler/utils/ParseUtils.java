@@ -124,7 +124,7 @@ public class ParseUtils {
         Element element = tbodys.get(7);
         Elements a = element.select("td").first().select("a");
         if (a != null && a.size() > 0) {
-            element = tbodys.get(8);
+            element = tbodys.get(9);
         }
         Elements trs = element.select("tr");
         if (trs.size() < 3) return fundList;
