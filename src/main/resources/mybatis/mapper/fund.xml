@@ -37,6 +37,13 @@
         WHERE handler=#{companyCode}
     </select>
 
+    <select id="findById" parameterType="java.lang.String" resultMap="fundMap">
+        SELECT
+           *
+        FROM  tbl_fund_info
+        WHERE code=#{companyCode}
+    </select>
+
     <select id="queryHandlerByCompanyCode" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT
            DISTINCT handler

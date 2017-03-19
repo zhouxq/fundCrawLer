@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.FundNetWorthMaxMin;
 import com.jxnu.fundCrawler.business.model.RestModel.ZtreeModel;
 import com.jxnu.fundCrawler.business.model.protocol.FundNetworthReq;
 import com.jxnu.fundCrawler.business.model.protocol.FundNetworthResp;
@@ -41,6 +42,7 @@ public class ZtreeRest {
 
     /**
      * 获取整个基金的ztree树
+     *
      * @param req
      */
     @Subscribe
@@ -101,6 +103,7 @@ public class ZtreeRest {
 
     /**
      * 根据基金代码查询基金净值
+     *
      * @param req
      */
     @Subscribe
@@ -110,6 +113,10 @@ public class ZtreeRest {
         String code = req.getCode();
         List<FundNetWorth> fundNetWorthList = fundNetWorthStore.queryNetWorthByFundCode(code);
         resp.setFundNetWorthList(fundNetWorthList);
+        Fund fund = fundStore.findById(code);
+        if (fund != null) {
+            resp.setFundName(fund.getName());
+        }
         ResponseUtils.response(req, resp);
     }
 

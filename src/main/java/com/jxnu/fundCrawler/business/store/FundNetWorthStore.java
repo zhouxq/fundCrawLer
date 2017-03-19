@@ -1,6 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.FundNetWorthMaxMin;
 import com.jxnu.fundCrawler.business.model.Mail;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +47,7 @@ public class FundNetWorthStore extends BaseStore {
 
     /**
      * 获取两个月内最小值
+     *
      * @param fundCode
      * @return
      */
@@ -69,11 +71,21 @@ public class FundNetWorthStore extends BaseStore {
      * @param fundCode
      * @return
      */
-    public Integer queryMail(String fundCode,String type) {
-        Map<String,String> map=new HashMap<String, String>();
-        map.put("fundCode",fundCode);
-        map.put("type",type);
+    public Integer queryMail(String fundCode, String type) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fundCode", fundCode);
+        map.put("type", type);
         return template.selectOne("fundNetWorth.queryMail", map);
+    }
+
+    /**
+     * 查询已发生邮件数量
+     *
+     * @param fundCode
+     * @return
+     */
+    public FundNetWorthMaxMin queryMaxMain(String fundCode) {
+        return template.selectOne("fundNetWorth.selectMinMax", fundCode);
     }
 
 }

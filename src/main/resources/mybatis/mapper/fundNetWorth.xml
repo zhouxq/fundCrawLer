@@ -6,6 +6,11 @@
         <result property="time" column="time"/>
         <result property="netWorth" column="net_worth"/>
     </resultMap>
+    
+    <resultMap id="fundNetworthMaxMinMap" type="com.jxnu.fundCrawler.business.model.FundNetWorthMaxMin">
+        <result property="min" column="min"/>
+        <result property="max" column="max"/>
+    </resultMap>
 
     <insert id="insertfundNetWorth" parameterType="java.util.List">
         INSERT tbl_fund_net_worth(fund_code,time,net_worth) VALUES
@@ -58,5 +63,13 @@
         and a.type=#{type}
         and NOW() >= a.time
         and  a.time>= ADDDATE(NOW(),INTERVAL -70 DAY)
+    </select>
+
+
+    <select id="selectMinMax" parameterType="java.lang.String" resultMap="fundNetworthMaxMinMap">
+        SELECT
+         min(a.net_worth) min,MAX(a.net_worth) max
+        FROM  tbl_fund_net_worth a
+        WHERE fund_code=#{fundCode}
     </select>
 </mapper>

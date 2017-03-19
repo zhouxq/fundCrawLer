@@ -56,4 +56,13 @@ public class FundStore extends BaseStore {
         List<String> handlers = template.selectList("fund.queryHandlerByCompanyCode", companyCode);
         return handlers;
     }
+
+    /**
+     * 根据基金代码获取基金
+     * @param fundCode
+     * @return
+     */
+    public Fund findById(String fundCode){
+        return template.selectOne("fund.findById",fundCode);
+    }
 }
