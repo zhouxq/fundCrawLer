@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.business.model.Fund;
-import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
+import com.jxnu.fundCrawler.business.model.FundIndex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,21 @@ public class FundStore extends BaseStore {
     public void insertFund(List<Fund> fundList) {
         int length = template.insert("fund.insertFund", fundList);
         logger.info("insert fund {}", length);
+    }
+
+    /**
+     * 插入基金指数
+     *
+     * @param fundIndices
+     */
+    public void insertFundIndex(List<FundIndex> fundIndices) {
+        try {
+
+        int length = template.insert("fund.insertFundIndex", fundIndices);
+        logger.info("insert fund {}", length);
+        }catch (Exception e){
+            logger.error("error:{}",e);
+        }
     }
 
     /**

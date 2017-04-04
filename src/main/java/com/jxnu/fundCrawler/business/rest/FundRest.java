@@ -1,9 +1,7 @@
 package com.jxnu.fundCrawler.business.rest;
 
 import com.google.common.eventbus.Subscribe;
-import com.jxnu.fundCrawler.business.model.protocol.FundNetworthReq;
-import com.jxnu.fundCrawler.business.model.protocol.FundReq;
-import com.jxnu.fundCrawler.business.model.protocol.FundResp;
+import com.jxnu.fundCrawler.business.model.protocol.*;
 import com.jxnu.fundCrawler.business.store.AttentionFundStore;
 import com.jxnu.fundCrawler.http.annotation.HttpHander;
 import com.jxnu.fundCrawler.http.annotation.RequestMap;
@@ -32,6 +30,20 @@ public class FundRest {
     public void fundName(FundReq req) {
         FundResp resp = new FundResp();
         resp.setAttentionFundList(attentionFundStore.queryAll());
+        ResponseUtils.response(req, resp);
+    }
+
+    /**
+     * 获取基金的
+     *
+     * @param req
+     */
+    @Subscribe
+    @RequestMap(url = "/rest/makeshare", encode = "json", Class = MakeShareReq.class)
+    public void makeShare(MakeShareReq req) {
+        MakeShareResp resp = new MakeShareResp();
+        resp.setMakeShareList(attentionFundStore.queryFundMakeShare());
+        resp.setMax(attentionFundStore.queryMaxMakeShare());
         ResponseUtils.response(req, resp);
     }
 }

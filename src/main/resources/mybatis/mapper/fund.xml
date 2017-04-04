@@ -51,5 +51,18 @@
         WHERE company_code=#{companyCode}
     </select>
 
+    <insert id="insertFundIndex" parameterType="java.util.List">
+        INSERT tbl_fund_index(code,name,latest_price,change_amout,turnover,volume,yesterday,today,`max`,`min`,`time`,ratio) VALUES
+        <foreach collection="list" separator="," item="fund">
+            (#{fund.code},#{fund.name},#{fund.latestPrice},#{fund.changeAmount},#{fund.turnover},#{fund.volume},#{fund.yesterday},#{fund.today},#{fund.max},#{fund.min},#{fund.time},#{fund.ratio})
+        </foreach>
+        ON DUPLICATE KEY UPDATE name=VALUES(name),
+        yesterday=VALUES(yesterday),
+        today=VALUES(today),
+        max=VALUES(max),
+        time=VALUES(time),
+        min=VALUES(min)
+    </insert>
+
 
 </mapper>

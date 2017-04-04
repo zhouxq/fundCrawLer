@@ -7,6 +7,8 @@ import okhttp3.Response;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,9 +59,17 @@ public class OkHttpUtils {
         Document document=OkHttpUtils.parseToDocument(url,"gb2312");
         Element element=document.body();
         String ownText=element.ownText();
-        ownText=ownText.substring(ownText.indexOf("records")+"records".length()+1,ownText.indexOf("pages")-1);*/
+        ownText=ownText.substring(ownText.indexOf("records")+"records".length()+1,ownText.indexOf("pages")-1);
         String url2 = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=781&rt=" + random.nextInt();
         List<FundNetWorth> fundNetWorthList= ParseUtils.parseFundNetWorth(url2,"519120");
-        fundNetWorthList=fundNetWorthList;
+        fundNetWorthList=fundNetWorthList;*/
+        String url="http://quote.eastmoney.com/center/index.html#zyzs_0_1";
+        Document document=OkHttpUtils.parseToDocument(url,"gb2312");
+        Elements elements=document.select("#zyzs");
+        Element tableElement=elements.get(0);
+        Elements trElements=tableElement.select("tr");
+        for(Element element : trElements){
+            System.out.println(element.text());
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.grabThread.specific.CompanyThread;
+import com.jxnu.fundCrawler.grabThread.specific.FundIndexTread;
 import com.jxnu.fundCrawler.grabThread.specific.FundNetWorthThread;
 import com.jxnu.fundCrawler.grabThread.specific.FundThread;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,8 @@ public class GrabThread {
     private Integer fundSwitch;
     @Value("${fundNetWorth.switch}")
     private Integer fundNetWorthSwitch;
+    @Value("${tiantian.zyzs}")
+    private String fundIndexUrl;
 
     @PostConstruct
     public void init() {
@@ -49,7 +52,10 @@ public class GrabThread {
         //获取基金净值
         if (fundNetWorthSwitch != -1) {
             FundNetWorthThread fundNetWorthThread = new FundNetWorthThread(fundStore, fundNetWorthStore, fundNetWorthUrl, fundNetWorthSwitch);
-            ThreadPool.getInstance().scheduleAtFixedRate(fundNetWorthThread, 10, 60, TimeUnit.MINUTES);
+            ThreadPool.getInstance().scheduleAtFixedRate(fundNetWorthThread, 0, 60, TimeUnit.MINUTES);
         }
+        //获取指数
+        FundIndexTread fundIndexTread=new FundIndexTread(fundIndexUrl,fundStore);
+        ThreadPool.getInstance().scheduleAtFixedRate(fundIndexTread, 0, 10, TimeUnit.MINUTES);
     }
 }

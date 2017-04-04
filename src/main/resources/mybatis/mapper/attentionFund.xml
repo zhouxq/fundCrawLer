@@ -7,9 +7,44 @@
         <result property="fundCode" column="fund_code"/>
     </resultMap>
 
+    <resultMap id="makeShareMap" type="com.jxnu.fundCrawler.business.model.FundMakeShare">
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="total" column="total"/>
+    </resultMap>
+
     <select id="queryAll" resultMap="attentionFundMap">
         SELECT
            *
         FROM tbl_attention_fund
+    </select>
+
+    <select id="queryFundMakeShare" resultMap="makeShareMap">
+       SELECT
+           b.code,
+           c.name,
+           b.total
+       FROM
+        (
+         SELECT
+           a.code,
+           floor(sum(a.make_share)) total
+           FROM  fund.tbl_fund_order a
+           where a.status=1
+           GROUP BY a.code ) b LEFT JOIN  fund.tbl_fund c
+           ON c.code=b.code
+    </select>
+
+    <select id="queryMaxMakeShare" resultType="java.lang.Integer">
+       SELECT
+         max(b.total)
+       FROM (
+         SELECT
+           a.code,
+           floor(sum(a.make_share)) total
+           FROM  fund.tbl_fund_order a
+         where a.status=1
+         GROUP BY a.code
+       ) b
     </select>
 </mapper>
