@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.grabThread;
+package com.jxnu.fundCrawler.business.grabThread;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

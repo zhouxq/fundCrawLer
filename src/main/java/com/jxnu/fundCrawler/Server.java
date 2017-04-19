@@ -16,7 +16,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/spring.xml");
-            countDownLatch.await();
+             countDownLatch.await();
         } catch (Exception e) {
             logger.error("error:{}", ExceptionUtils.getMessage(e));
         }

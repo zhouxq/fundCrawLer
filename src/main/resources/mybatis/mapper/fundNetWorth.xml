@@ -52,6 +52,7 @@
         <foreach collection="list" separator="," item="mail">
             (#{mail.code},#{mail.time},#{mail.type})
         </foreach>
+        ON DUPLICATE KEY UPDATE type=VALUES(type)
     </insert>
 
     <select id="queryMail" parameterType="java.util.Map" resultType="java.lang.Integer">

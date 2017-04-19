@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.grabThread.specific;
+package com.jxnu.fundCrawler.business.grabThread.specific;
 
 import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.model.Fund;
