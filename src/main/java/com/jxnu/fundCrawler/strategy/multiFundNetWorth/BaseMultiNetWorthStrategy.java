@@ -1,9 +1,5 @@
 package com.jxnu.fundCrawler.strategy.multiFundNetWorth;
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
-
-import java.util.List;
-
 /**
  * @author yaphyao
  * @version 2017/11/10
@@ -12,7 +8,7 @@ import java.util.List;
 public abstract class BaseMultiNetWorthStrategy {
     public BaseMultiNetWorthStrategy next;
 
-    public void handler(List<FundNetWorth> fundNetWorthList, Integer switchNum) {
+    public void handler() {
 
     }
 }

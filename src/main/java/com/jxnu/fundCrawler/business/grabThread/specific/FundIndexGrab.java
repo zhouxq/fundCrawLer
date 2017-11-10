@@ -19,7 +19,7 @@ public class FundIndexGrab extends Grab {
     @Value("${tiantian.zyzs}")
     private String fundIndexUrl;
 
-    public void hander(Integer num) {
+    public void handler(Integer num) {
         List<FundIndex> fundIndexList = ParseUtils.parseFundIndex(this.fundIndexUrl);
         store.insertFundIndex(fundIndexList);
     }

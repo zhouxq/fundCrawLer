@@ -35,10 +35,9 @@ public class FundNetWorthGrab extends Grab {
     @Value("${tiantian.fundNetWorth}")
     private String fundNetWorthUrl;
 
-    public void hander(Integer num) {
+    public void handler(Integer num) {
         Random random = new Random(1000);
         List<Fund> fundList = fundStore.queryAll();
-        List<FundNetWorth> allList = new ArrayList<FundNetWorth>();
         String code;
         for (Fund fund : fundList) {
             try {
@@ -56,15 +55,12 @@ public class FundNetWorthGrab extends Grab {
                 fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
                 //单个基金 根据相应的策略去处理
                 fundNetWorthStrategy.handler(fundNetWorthList);
-                allList.addAll(fundNetWorthList);
             } catch (Exception e) {
                 logger.error("error:{}", ExceptionUtils.getStackTrace(e));
             }
         }
 
-        if (!allList.isEmpty()) {
-            //所有基金 根据相应策略去处理
-            multiNetWorthStrategy.handler(allList, num);
-        }
+        //所有基金 根据相应策略去处理
+        multiNetWorthStrategy.handler();
     }
 }

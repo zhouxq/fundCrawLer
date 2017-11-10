@@ -18,7 +18,7 @@ public class CompanyGrab extends Grab {
     @Value("${tiantian.company}")
     private String companyUrl;
 
-    public void hander(Integer num) {
+    public void handler(Integer num) {
         List<Company> companyArrayList = new ArrayList<Company>();
         companyArrayList = ParseUtils.parseCompany(this.companyUrl);
         store.insert(companyArrayList);

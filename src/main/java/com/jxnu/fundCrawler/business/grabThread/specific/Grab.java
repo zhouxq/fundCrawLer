@@ -5,7 +5,7 @@ package com.jxnu.fundCrawler.business.grabThread.specific;
  */
 public abstract class Grab {
 
-    public void hander(Integer num) {
+    public void handler(Integer num) {
 
     }
 }

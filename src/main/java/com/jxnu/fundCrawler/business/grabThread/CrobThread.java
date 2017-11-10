@@ -16,6 +16,6 @@ public class CrobThread implements Runnable {
 
     @Override
     public void run() {
-        this.grab.hander(this.num);
+        this.grab.handler(this.num);
     }
 }
