@@ -13,6 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
@@ -21,22 +24,17 @@ import java.util.*;
 /**
  * Created by coder on 2016/7/2.
  */
-public class FundNetWorthThread implements Runnable {
-    private final static Logger logger = LoggerFactory.getLogger(FundNetWorthThread.class);
+@Component
+public class FundNetWorthGrab {
+    private final static Logger logger = LoggerFactory.getLogger(FundNetWorthGrab.class);
+    @Autowired
     private FundStore fundStore;
+    @Autowired
     private FundNetWorthStore fundNetWorthStore;
-    private String url;
-    private Integer fundNetWorthSwitch;
+    @Value("${tiantian.fundNetWorth}")
+    private String fundNetWorthUrl;
 
-    public FundNetWorthThread(FundStore fundStore, FundNetWorthStore fundNetWorthStore, String url, Integer fundSwitch) {
-        this.fundStore = fundStore;
-        this.fundNetWorthStore = fundNetWorthStore;
-        this.url = url;
-        this.fundNetWorthSwitch = fundSwitch;
-    }
-
-    @Override
-    public void run() {
+    public void parseFundNetWorthList(Integer fundNetWorthSwitch) {
         Random random = new Random(1000);
         List<Fund> fundList = fundStore.queryAll();
         String code;
@@ -48,12 +46,12 @@ public class FundNetWorthThread implements Runnable {
                 String count;
                 if (fund == null || StringUtils.isEmpty(code = fund.getCode())) continue;
                 if (fundNetWorthSwitch == 0) {
-                    String countUrl = url.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
+                    String countUrl = this.fundNetWorthUrl.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
                     count = ParseUtils.parseFundNetWorthCount(countUrl);
                 } else {
                     count = fundNetWorthSwitch.toString();
                 }
-                String content = url.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
+                String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
                 List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                 for (FundNetWorth fundNetWorth : fundNetWorthList) {
                     Float netWorth = fundNetWorth.getNetWorth();

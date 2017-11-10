@@ -8,31 +8,34 @@ import com.jxnu.fundCrawler.utils.ParseUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author shoumiao_yao
  * @date 2016-07-01
  */
-public class FundThread implements Runnable {
-    private Logger logger = LoggerFactory.getLogger(FundThread.class);
-    private String url;
+@Component
+public class FundGrab {
+    private final static Logger logger = LoggerFactory.getLogger(FundGrab.class);
+    @Autowired
     private FundStore fundStore;
+    @Autowired
     private CompanyStore companyStore;
+    @Value("${tiantian.fund}")
+    private String fundUrl;
 
-    public FundThread(String url, FundStore fundStore, CompanyStore companyStore) {
-        this.url = url;
-        this.fundStore = fundStore;
-        this.companyStore = companyStore;
-    }
 
-    @Override
-    public void run() {
+    public List<Fund> parseFundList() {
+        List<Fund> fundList = new ArrayList<Fund>();
         List<Company> companyList = companyStore.queryAll();
         for (Company company : companyList) {
             try {
-                List<Fund> fundList = ParseUtils.parseFund(url, company);
+                fundList = ParseUtils.parseFund(this.fundUrl, company);
                 if (!fundList.isEmpty()) {
                     fundStore.insertFund(fundList);
                 }
@@ -40,5 +43,6 @@ public class FundThread implements Runnable {
                 logger.error("error:{}", ExceptionUtils.getMessage(e));
             }
         }
+        return fundList;
     }
 }
