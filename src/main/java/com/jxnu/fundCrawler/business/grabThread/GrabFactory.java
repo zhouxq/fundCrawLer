@@ -15,7 +15,7 @@ public class GrabFactory {
     private Integer companySwitch;
     @Value("${fund.switch}")
     private Integer fundSwitch;
-    @Value("${fundNetWorth.switch}")
+    @Value("${singleFundNetWorth.switch}")
     private Integer fundNetWorthSwitch;
     @Autowired
     private CompanyGrab companyGrab;

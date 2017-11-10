@@ -20,7 +20,7 @@ public class FundNetWorthStore extends BaseStore {
      * @param fundNetWorthList
      */
     public void insertFundNetWorth(List<FundNetWorth> fundNetWorthList) {
-        int length = template.insert("fundNetWorth.insertfundNetWorth", fundNetWorthList);
+        int length = template.insert("singleFundNetWorth.insertfundNetWorth", fundNetWorthList);
     }
 
     /**
@@ -30,7 +30,7 @@ public class FundNetWorthStore extends BaseStore {
      * @return
      */
     public List<FundNetWorth> queryNetWorthByFundCode(String fundCode) {
-        List<FundNetWorth> fundNetWorthList = template.selectList("fundNetWorth.queryNetWorthByFundCode", fundCode);
+        List<FundNetWorth> fundNetWorthList = template.selectList("singleFundNetWorth.queryNetWorthByFundCode", fundCode);
         return fundNetWorthList;
     }
 
@@ -41,7 +41,7 @@ public class FundNetWorthStore extends BaseStore {
      * @return
      */
     public Float queryPeriodMax(String fundCode) {
-        Float maxNetWorth = template.selectOne("fundNetWorth.queryPeriodMax", fundCode);
+        Float maxNetWorth = template.selectOne("singleFundNetWorth.queryPeriodMax", fundCode);
         return maxNetWorth;
     }
 
@@ -52,7 +52,7 @@ public class FundNetWorthStore extends BaseStore {
      * @return
      */
     public Float queryPeriodMin(String fundCode) {
-        Float minNetWorth = template.selectOne("fundNetWorth.queryPeriodMin", fundCode);
+        Float minNetWorth = template.selectOne("singleFundNetWorth.queryPeriodMin", fundCode);
         return minNetWorth;
     }
 
@@ -62,7 +62,7 @@ public class FundNetWorthStore extends BaseStore {
      * @param mailList
      */
     public void insertMail(List<Mail> mailList) {
-        template.insert("fundNetWorth.insertMail", mailList);
+        template.insert("singleFundNetWorth.insertMail", mailList);
     }
 
     /**
@@ -75,7 +75,7 @@ public class FundNetWorthStore extends BaseStore {
         Map<String, String> map = new HashMap<String, String>();
         map.put("fundCode", fundCode);
         map.put("type", type);
-        return template.selectOne("fundNetWorth.queryMail", map);
+        return template.selectOne("singleFundNetWorth.queryMail", map);
     }
 
     /**
@@ -85,7 +85,7 @@ public class FundNetWorthStore extends BaseStore {
      * @return
      */
     public FundNetWorthMaxMin queryMaxMain(String fundCode) {
-        return template.selectOne("fundNetWorth.selectMinMax", fundCode);
+        return template.selectOne("singleFundNetWorth.selectMinMax", fundCode);
     }
 
 }
