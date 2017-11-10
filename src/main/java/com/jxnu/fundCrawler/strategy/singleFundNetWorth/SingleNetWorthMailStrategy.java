@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yaphyao
@@ -22,34 +24,47 @@ public class SingleNetWorthMailStrategy extends BaseSingleNetWorthStrategy {
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
 
+    public SingleNetWorthMailStrategy() {
+        super.next = null;
+    }
+
     @Override
-    public void handler(FundNetWorth fundNetWorth) {
-        Float netWorth = fundNetWorth.getNetWorth();
-        String code = fundNetWorth.getFundCode();
-        Mail mail = new Mail();
-        //两个月的最大净值
+    public void handler(List<FundNetWorth> fundNetWorthList) {
+        if (fundNetWorthList.isEmpty()) return;
+        String code = fundNetWorthList.get(0).getFundCode();
+        //两个月最大净值
         Float maxNetWorth = fundNetWorthStore.queryPeriodMax(code);
-        if (NumberUtil.maxRatio(netWorth, maxNetWorth)) {
-            int counts = fundNetWorthStore.queryMail(code, MailFundStatus.DOWN.getIndex());
-            if (counts == 0) {
-                mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                mail.setCode(code);
-                mail.setType(MailFundStatus.DOWN.getIndex());
-            }
-        }
         //两个月最小净值
         Float minNetWorth = fundNetWorthStore.queryPeriodMin(code);
-        if (NumberUtil.minRatio(netWorth, minNetWorth)) {
-            int counts = fundNetWorthStore.queryMail(code, MailFundStatus.UP.getIndex());
-            if (counts == 0) {
-                mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                mail.setType(MailFundStatus.UP.getIndex());
-                mail.setCode(code);
+        List<Mail> mailList = new ArrayList<Mail>();
+        for (FundNetWorth fundNetWorth : fundNetWorthList) {
+            Float netWorth = fundNetWorth.getNetWorth();
+            if (NumberUtil.maxRatio(netWorth, maxNetWorth)) {
+                int counts = fundNetWorthStore.queryMail(code, MailFundStatus.DOWN.getIndex());
+                if (counts == 0) {
+                    Mail mail = new Mail();
+                    mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    mail.setCode(code);
+                    mail.setType(MailFundStatus.DOWN.getIndex());
+                    mailList.add(mail);
+                }
+            }
+            if (NumberUtil.minRatio(netWorth, minNetWorth)) {
+                int counts = fundNetWorthStore.queryMail(code, MailFundStatus.UP.getIndex());
+                if (counts == 0) {
+                    Mail mail = new Mail();
+                    mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    mail.setType(MailFundStatus.UP.getIndex());
+                    mail.setCode(code);
+                    mailList.add(mail);
+                }
             }
         }
-        fundNetWorthStore.insertMail(Lists.asList(mail, null));
+        if (!mailList.isEmpty()) {
+            fundNetWorthStore.insertMail(mailList);
+        }
         if (super.next != null) {
-            super.next.handler(fundNetWorth);
+            super.next.handler(fundNetWorthList);
         }
     }
 }

@@ -33,6 +33,7 @@
            where a.status=1
            GROUP BY a.code ) b LEFT JOIN  fund.tbl_fund c
            ON c.code=b.code
+           WHERE b.total>0
     </select>
 
     <select id="queryMaxMakeShare" resultType="java.lang.Integer">

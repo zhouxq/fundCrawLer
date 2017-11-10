@@ -6,23 +6,30 @@
         <result property="time" column="time"/>
         <result property="netWorth" column="net_worth"/>
     </resultMap>
-    
+
     <resultMap id="fundNetworthMaxMinMap" type="com.jxnu.fundCrawler.business.model.FundNetWorthMaxMin">
         <result property="min" column="min"/>
         <result property="max" column="max"/>
     </resultMap>
 
+    <resultMap id="fundRankMap" type="com.jxnu.fundCrawler.business.model.FundRank">
+        <result property="fundCode" column="fund_code"/>
+        <result property="netWorth" column="net_worth"/>
+        <result property="ratio" column="rate"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
     <insert id="insertfundNetWorth" parameterType="java.util.List">
-        INSERT tbl_fund_net_worth(fund_code,time,net_worth) VALUES
+        INSERT tbl_fund_net_worth(fund_code,time,net_worth,rate) VALUES
         <foreach collection="list" separator="," item="fundNetWorth">
-            (#{fundNetWorth.fundCode},#{fundNetWorth.time},#{fundNetWorth.netWorth})
+            (#{fundNetWorth.fundCode},#{fundNetWorth.time},#{fundNetWorth.netWorth},#{fundNetWorth.rate})
         </foreach>
-        ON DUPLICATE KEY UPDATE net_worth=VALUES(net_worth)
+        ON DUPLICATE KEY UPDATE net_worth=VALUES(net_worth),rate=VALUES(rate)
     </insert>
 
     <select id="queryNetWorthByFundCode" parameterType="java.lang.String" resultMap="fundNetWorthMap">
         SELECT
-          *
+        *
         FROM tbl_fund_net_worth
         where fund_code=#{fundCode}
     </select>
@@ -69,8 +76,23 @@
 
     <select id="selectMinMax" parameterType="java.lang.String" resultMap="fundNetworthMaxMinMap">
         SELECT
-         min(a.net_worth) min,MAX(a.net_worth) max
+        min(a.net_worth) min,MAX(a.net_worth) max
         FROM  tbl_fund_net_worth a
         WHERE fund_code=#{fundCode}
     </select>
+
+    <select id="selectFundRank" resultMap="fundRankMap" parameterType="java.lang.String">
+        SELECT * from `tbl_fund_net_worth` a WHERE a.`time`=#{time} AND a.rate IS NOT NULL ORDER BY a.rate ASC LIMIT 30
+    </select>
+
+
+    <insert id="insertFundRank" parameterType="java.util.List">
+        INSERT tbl_fund_rank(fund_code,net_worth,ratio,time)
+        VALUES
+        <foreach collection="list" separator="," item="fundRank">
+            (#{fundRank.fundCode},#{fundRank.netWorth},#{fundRank.ratio},#{fundRank.time})
+        </foreach>
+        ON DUPLICATE KEY UPDATE ratio=VALUES(ratio),net_worth=VALUES(net_worth)
+    </insert>
+
 </mapper>

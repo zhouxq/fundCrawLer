@@ -12,14 +12,12 @@
                         http://www.springframework.org/schema/mvc
                         http://www.springframework.org/schema/mvc/spring-mvc.xsd
                         http://www.springframework.org/schema/aop
-                        http://www.springframework.org/schema/aop/spring-aop.xsd
-                        http://www.springframework.org/schema/task
-                        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <context:component-scan base-package="com.jxnu.fundCrawler.*"/>
+    <context:component-scan base-package="com.jxnu.fundCrawler"/>
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <mvc:annotation-driven/>
-    <context:annotation-config></context:annotation-config>
+    <context:annotation-config/>
 
     <bean id="configProperties"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -51,6 +49,4 @@
 
     <import resource="spring-database.xml"/>
 
-    <task:annotation-driven scheduler="scheduler" mode="proxy"/>
-    <task:scheduler id="scheduler" pool-size="10"/>
 </beans>

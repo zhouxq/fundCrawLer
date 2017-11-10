@@ -13,13 +13,13 @@ import java.util.List;
  * Created by coder on 4/4/17.
  */
 @Component
-public class FundIndexGrab {
+public class FundIndexGrab extends Grab {
     @Autowired
     private FundStore store;
     @Value("${tiantian.zyzs}")
     private String fundIndexUrl;
 
-    public void parseFundIndexList() {
+    public void hander(Integer num) {
         List<FundIndex> fundIndexList = ParseUtils.parseFundIndex(this.fundIndexUrl);
         store.insertFundIndex(fundIndexList);
     }

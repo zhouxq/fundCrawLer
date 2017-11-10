@@ -1,13 +1,17 @@
 package com.jxnu.fundCrawler.business.grabThread;
 
 import com.jxnu.fundCrawler.business.grabThread.specific.CompanyGrab;
+import com.jxnu.fundCrawler.business.grabThread.specific.FundGrab;
 import com.jxnu.fundCrawler.business.grabThread.specific.FundIndexGrab;
 import com.jxnu.fundCrawler.business.grabThread.specific.FundNetWorthGrab;
-import com.jxnu.fundCrawler.business.grabThread.specific.FundGrab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class GrabFactory {
@@ -15,7 +19,7 @@ public class GrabFactory {
     private Integer companySwitch;
     @Value("${fund.switch}")
     private Integer fundSwitch;
-    @Value("${singleFundNetWorth.switch}")
+    @Value("${fundNetWorth.switch}")
     private Integer fundNetWorthSwitch;
     @Autowired
     private CompanyGrab companyGrab;
@@ -26,32 +30,22 @@ public class GrabFactory {
     @Autowired
     private FundIndexGrab fundIndexGrab;
 
-
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 6, fixedDelay = 5000)
-    public void companyCron() {
+    @PostConstruct
+    public void init(){
         if (companySwitch == 1) {
-            companyGrab.parseCompanyList();
+            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(companyGrab,companySwitch),0,6, TimeUnit.HOURS);
         }
-    }
 
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 6, fixedDelay = 5000)
-    public void fundCron() {
         if (fundSwitch == 1) {
-            fundGrab.parseFundList();
+            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundGrab,fundSwitch),0,6, TimeUnit.HOURS);
         }
 
-    }
-
-    @Scheduled(fixedRate = 1000 * 60 * 60, fixedDelay = 5000)
-    public void fundNetWorthCron() {
         if (fundNetWorthSwitch != -1) {
-            fundNetWorthGrab.parseFundNetWorthList(fundNetWorthSwitch);
+            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab,fundNetWorthSwitch),0,6, TimeUnit.HOURS);
         }
 
+        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab,companySwitch),0,2, TimeUnit.HOURS);
+
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 60, fixedDelay = 5000)
-    public void fundIndexCron() {
-        fundIndexGrab.parseFundIndexList();
-    }
 }

@@ -7,6 +7,7 @@ public class FundNetWorth {
     private String fundCode;
     private String time;
     private Float netWorth;
+    private Float rate;
 
     public String getFundCode() {
         return fundCode;
@@ -30,5 +31,13 @@ public class FundNetWorth {
 
     public void setNetWorth(Float netWorth) {
         this.netWorth = netWorth;
+    }
+
+    public Float getRate() {
+        return rate;
+    }
+
+    public void setRate(Float rate) {
+        this.rate = rate;
     }
 }

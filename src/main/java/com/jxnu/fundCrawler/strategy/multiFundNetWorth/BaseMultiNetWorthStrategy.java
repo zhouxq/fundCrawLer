@@ -9,10 +9,10 @@ import java.util.List;
  * @version 2017/11/10
  * @see com.jxnu.fundCrawler.strategy.multiFundNetWorth
  */
-public abstract class MultiNetWorthStrategy {
-    private MultiNetWorthStrategy next;
+public abstract class BaseMultiNetWorthStrategy {
+    public BaseMultiNetWorthStrategy next;
 
-    public void handler(List<FundNetWorth> fundNetWorthList) {
+    public void handler(List<FundNetWorth> fundNetWorthList, Integer switchNum) {
 
     }
 }

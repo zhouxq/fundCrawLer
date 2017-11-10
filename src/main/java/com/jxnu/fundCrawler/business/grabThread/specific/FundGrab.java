@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2016-07-01
  */
 @Component
-public class FundGrab {
+public class FundGrab extends Grab {
     private final static Logger logger = LoggerFactory.getLogger(FundGrab.class);
     @Autowired
     private FundStore fundStore;
@@ -29,13 +29,11 @@ public class FundGrab {
     @Value("${tiantian.fund}")
     private String fundUrl;
 
-
-    public List<Fund> parseFundList() {
-        List<Fund> fundList = new ArrayList<Fund>();
+    public void hander() {
         List<Company> companyList = companyStore.queryAll();
         for (Company company : companyList) {
             try {
-                fundList = ParseUtils.parseFund(this.fundUrl, company);
+                List<Fund> fundList = ParseUtils.parseFund(this.fundUrl, company);
                 if (!fundList.isEmpty()) {
                     fundStore.insertFund(fundList);
                 }
@@ -43,6 +41,5 @@ public class FundGrab {
                 logger.error("error:{}", ExceptionUtils.getMessage(e));
             }
         }
-        return fundList;
     }
 }
