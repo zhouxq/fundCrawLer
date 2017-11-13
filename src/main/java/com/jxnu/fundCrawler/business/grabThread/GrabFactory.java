@@ -41,7 +41,7 @@ public class GrabFactory {
         }
 
 
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 6, TimeUnit.HOURS);
+        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 2, TimeUnit.HOURS);
 
         ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 0, 2, TimeUnit.HOURS);
 
