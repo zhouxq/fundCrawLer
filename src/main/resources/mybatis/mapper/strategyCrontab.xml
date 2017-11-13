@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="strategyCrontab">
+    <resultMap id="strategyCrontabMap" type="com.jxnu.fundCrawler.business.model.strategy.StrategyCrontab">
+        <result property="id" column="id"/>
+        <result property="crontabName" column="crontab_name"/>
+        <result property="fundCode" column="fund_code"/>
+        <result property="fundName" column="fund_name"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="amount" column="amount"/>
+        <result property="buyRate" column="buy_rate"/>
+        <result property="sellRate" column="sell_rate"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
+    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze">
+        <result property="crontabId" column="crontab_id"/>
+        <result property="fundCode" column="fund_code"/>
+        <result property="fundName" column="fund_name"/>
+        <result property="amountSum" column="amount_sum"/>
+        <result property="shareSum" column="share_sum"/>
+        <result property="num" column="num"/>
+    </resultMap>
+
+    <insert id="insertCrontab" parameterType="java.util.List">
+        INSERT tbl_strategy_crontab
+        (
+        crontab_name,
+        fund_code,
+        fund_name,
+        start_time,
+        end_time,
+        amount,
+        buy_rate,
+        sell_rate,
+        create_time,
+        update_time,
+        state
+        ) VALUES
+        <foreach collection="list" separator="," item="crontab">
+            (
+            #{crontab.crontabName},
+            #{crontab.fundCode},
+            #{crontab.fundName},
+            #{crontab.startTime},
+            #{crontab.endTime},
+            #{crontab.amount},
+            #{crontab.buyRate},
+            #{crontab.sellRate},
+            #{crontab.createTime},
+            #{crontab.updateTime},
+            #{crontab.state}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertStrategyPurchase" parameterType="java.util.List">
+        insert tbl_strategy_purchase
+        (
+        crontab_id,
+        fund_code,
+        fund_name,
+        time,
+        net_worth,
+        share,
+        amount,
+        create_time,
+        update_time
+        )VALUES
+        <foreach collection="list" separator="," item="strategyPurchase">
+            (
+            #{strategyPurchase.crontabId},
+            #{strategyPurchase.fundCode},
+            #{strategyPurchase.fundName},
+            #{strategyPurchase.time},
+            #{strategyPurchase.netWorth},
+            #{strategyPurchase.share},
+            #{strategyPurchase.amount},
+            #{strategyPurchase.createTime},
+            #{strategyPurchase.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertStrategyCrontabAnalyze" parameterType="java.util.List">
+        insert tbl_strategy_crontab_analyze
+        (
+        crontab_id ,
+        fund_code ,
+        aver_net_worth ,
+        sell_net_worth ,
+        crontab_amount,
+        crontab_share ,
+        crontab_num ,
+        rate,
+        net_worth
+        ) VALUES
+        <foreach collection="list" separator="," item="strategyCrontabAnalyze">
+            (
+            #{strategyCrontabAnalyze.crontabId},
+            #{strategyCrontabAnalyze.fundCode},
+            #{strategyCrontabAnalyze.averNetWorth},
+            #{strategyCrontabAnalyze.sellNetWorth},
+            #{strategyCrontabAnalyze.crontabAmount},
+            #{strategyCrontabAnalyze.crontabShare},
+            #{strategyCrontabAnalyze.crontabNum},
+            #{strategyCrontabAnalyze.rate},
+            #{strategyCrontabAnalyze.netWorth}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE fund_code=VALUES(fund_code),
+        aver_net_worth=VALUES(aver_net_worth),
+        sell_net_worth=VALUES(sell_net_worth),
+        crontab_amount=VALUES(crontab_amount),
+        crontab_share=VALUES(crontab_share),
+        crontab_num=VALUES(crontab_num),
+        rate=VALUES(rate),
+        net_worth=VALUES(net_worth)
+    </insert>
+
+    <select id="selectMulti" resultMap="strategyCrontabMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM tbl_strategy_crontab
+        <where>
+            <if test="state != null">
+                and state=#{state}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOne" resultMap="strategyCrontabMap" parameterType="java.util.Map">
+        SELECT
+           *
+        FROM  tbl_strategy_crontab
+        limit 0,1
+    </select>
+
+    <select id="selectPurchaseOne" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM tbl_strategy_purchase
+        <where>
+            <if test="time != null">
+                and time = #{time}
+            </if>
+            <if test="crontabId != null ">
+                and crontab_id=#{crontabId}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="java.util.Map">
+        UPDATE tbl_strategy_crontab
+        <set>
+            <if test="state != null">
+                state = #{satet} ,
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime} ,
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime} ,
+            </if>
+            <if test="amount != null">
+                amount = #{amount} ,
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="purchaseAnalyze" resultMap="purchaseAnalyzeMap">
+        SELECT
+           b.crontab_id,
+           b.fund_code,
+           b.fund_name,
+           SUM(b.amount) as amount_sum,
+           SUM(b.share) as share_sum,
+           COUNT(b.id) as num
+        FROM
+           tbl_strategy_purchase b
+        GROUP BY b.crontab_id,b.fund_code,b.fund_name
+    </select>
+
+</mapper>

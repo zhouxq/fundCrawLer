@@ -6,5 +6,6 @@
         <mapper resource="mybatis/mapper/fund.xml"/>
         <mapper resource="mybatis/mapper/fundNetWorth.xml"/>
         <mapper resource="mybatis/mapper/attentionFund.xml"/>
+        <mapper resource="mybatis/mapper/strategyCrontab.xml"/>
     </mappers>
 </configuration>

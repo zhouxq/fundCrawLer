@@ -89,12 +89,17 @@ public class FundNetWorthStore extends BaseStore {
         return template.selectOne("fundNetWorth.selectMinMax", fundCode);
     }
 
-    public List<FundRank> selectFundRank(String time){
-        return  template.selectList("fundNetWorth.selectFundRank",time);
+    public List<FundRank> selectFundRank(String time) {
+        return template.selectList("fundNetWorth.selectFundRank", time);
     }
 
-    public void insertFundRank(List<FundRank> fundRanks){
-        template.insert("fundNetWorth.insertFundRank",fundRanks);
+    public void insertFundRank(List<FundRank> fundRanks) {
+        template.insert("fundNetWorth.insertFundRank", fundRanks);
     }
+
+    public FundNetWorth selectOne(Map map) {
+        return template.selectOne("fundNetWorth.selectOne", map);
+    }
+
 
 }

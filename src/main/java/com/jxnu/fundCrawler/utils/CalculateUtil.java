@@ -18,8 +18,9 @@ public class CalculateUtil {
      * @return
      */
     public static Float multiply(Float amount, Float share) {
-        BigDecimal result = BigDecimal.valueOf(amount).multiply(BigDecimal.valueOf(share));
-        return result.divide(BigDecimal.valueOf(1), 2, BigDecimal.ROUND_HALF_EVEN).floatValue();
+        BigDecimal amountBig = new BigDecimal(String.valueOf(amount));
+        BigDecimal shareBig = new BigDecimal(String.valueOf(share));
+        return amountBig.multiply(shareBig).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
     /**
@@ -30,7 +31,9 @@ public class CalculateUtil {
      * @return
      */
     public static Float divide(Float molecule, Float denominator) {
-        return BigDecimal.valueOf(molecule).divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_EVEN).floatValue();
+        BigDecimal moleculeBig = new BigDecimal(String.valueOf(molecule));
+        BigDecimal denominatorBig = new BigDecimal(String.valueOf(denominator));
+        return moleculeBig.divide(denominatorBig, 2, BigDecimal.ROUND_HALF_EVEN).floatValue();
     }
 
     /**
@@ -45,12 +48,13 @@ public class CalculateUtil {
         for (Float amount : amounts) {
             sum += amount;
         }
-        return BigDecimal.valueOf(sum).divide(BigDecimal.valueOf(1), 2, BigDecimal.ROUND_HALF_EVEN).floatValue();
+        BigDecimal sumBig = new BigDecimal(sum);
+        return sumBig.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
 
     public static void main(String[] args) {
-        System.out.println(multiply(12.34f, 4.55f));
+        System.out.println(multiply(10.0f, 1 - 0.0015f));
         System.out.println(divide(12.34f, 3.44f));
     }
 

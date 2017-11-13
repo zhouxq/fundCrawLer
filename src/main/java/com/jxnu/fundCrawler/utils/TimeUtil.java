@@ -54,31 +54,37 @@ public class TimeUtil {
 
     /**
      * 获取两个时间之间时间(除了节假日和周末)
+     *
      * @param startTime
      * @param endTime
      * @return
      * @throws ParseException
      */
-    public static Set<String> intervalTime(String startTime, String endTime) throws ParseException {
+    public static Set<String> intervalTime(String startTime, String endTime) {
         Set<String> sets = new HashSet<String>();
-        Integer num = intervalDayNum(startTime, endTime);
-        if (num == 0) return sets;
-        for (int index = 0; index < num; index++) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateFormat.parse(startTime));
-            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + index);
-            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ||
-                    calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) continue;
-            String time = dateFormat.format(calendar.getTime());
-            if (timeSet.contains(time)) continue;
-            sets.add(time);
+        try {
+            Integer num = intervalDayNum(startTime, endTime);
+            if (num == 0) return sets;
+            for (int index = 0; index < num; index++) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateFormat.parse(startTime));
+                calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + index);
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ||
+                        calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) continue;
+                String time = dateFormat.format(calendar.getTime());
+                if (timeSet.contains(time)) continue;
+                sets.add(time);
+            }
+            return sets;
+        } catch (ParseException e) {
+            return sets;
         }
-        return sets;
     }
 
 
     /**
      * 两个时间相差天数
+     *
      * @param startTime
      * @param endTime
      * @return

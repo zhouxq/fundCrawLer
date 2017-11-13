@@ -34,6 +34,21 @@
         where fund_code=#{fundCode}
     </select>
 
+    <select id="selectOne" parameterType="java.util.Map" resultMap="fundNetWorthMap">
+        SELECT
+        *
+        FROM tbl_fund_net_worth
+        <where>
+            <if test="fundCode != null">
+                and fund_code=#{fundCode}
+            </if>
+            <if test="time != null">
+                and time=#{time}
+            </if>
+        </where>
+        limit 0,1
+    </select>
+
     <select id="queryPeriodMax" resultType="java.lang.Float" parameterType="java.lang.String">
         SELECT
         MAX(a.net_worth)

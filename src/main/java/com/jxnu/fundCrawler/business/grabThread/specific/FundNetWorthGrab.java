@@ -39,27 +39,28 @@ public class FundNetWorthGrab extends Grab {
         Random random = new Random(1000);
         List<Fund> fundList = fundStore.queryAll();
         String code;
-        for (Fund fund : fundList) {
-            try {
-                String count;
-                if (fund == null || StringUtils.isEmpty(code = fund.getCode())) continue;
-                if (num == 0) {
-                    String countUrl = this.fundNetWorthUrl.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
-                    count = ParseUtils.parseFundNetWorthCount(countUrl);
-                } else {
-                    count = num.toString();
+        if (num != -1) {
+            for (Fund fund : fundList) {
+                try {
+                    String count;
+                    if (fund == null || StringUtils.isEmpty(code = fund.getCode())) continue;
+                    if (num == 0) {
+                        String countUrl = this.fundNetWorthUrl.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
+                        count = ParseUtils.parseFundNetWorthCount(countUrl);
+                    } else {
+                        count = num.toString();
+                    }
+                    String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
+                    List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
+                    if (fundNetWorthList.isEmpty()) continue;
+                    fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
+                    //单个基金 根据相应的策略去处理
+                    fundNetWorthStrategy.handler(fundNetWorthList);
+                } catch (Exception e) {
+                    logger.error("error:{}", ExceptionUtils.getStackTrace(e));
                 }
-                String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
-                List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
-                if (fundNetWorthList.isEmpty()) continue;
-                fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
-                //单个基金 根据相应的策略去处理
-                fundNetWorthStrategy.handler(fundNetWorthList);
-            } catch (Exception e) {
-                logger.error("error:{}", ExceptionUtils.getStackTrace(e));
             }
         }
-
         //所有基金 根据相应策略去处理
         multiNetWorthStrategy.handler();
     }

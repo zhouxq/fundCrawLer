@@ -9,6 +9,7 @@ import com.jxnu.fundCrawler.utils.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +25,8 @@ public class SingleNetWorthMailStrategy extends BaseSingleNetWorthStrategy {
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
 
-    public SingleNetWorthMailStrategy() {
+    @PostConstruct
+    public void init() {
         super.next = null;
     }
 

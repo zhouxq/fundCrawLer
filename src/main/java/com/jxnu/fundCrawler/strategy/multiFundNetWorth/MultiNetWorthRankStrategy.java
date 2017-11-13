@@ -4,12 +4,15 @@ import com.google.common.collect.Lists;
 import com.jxnu.fundCrawler.business.model.FundRank;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.utils.TimeUtil;
+import jdk.nashorn.internal.ir.annotations.Reference;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,24 +30,22 @@ public class MultiNetWorthRankStrategy extends BaseMultiNetWorthStrategy {
     private final static Integer dateNum = 20;
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
+    @Resource(name = "multiNetWorthCorntabStrategy")
+    private BaseMultiNetWorthStrategy corntabStategy;
 
-    public MultiNetWorthRankStrategy() {
-        super.next = null;
+    @PostConstruct
+    public void init() {
+        super.next = corntabStategy;
     }
 
     @Override
-    public void handler(){
+    public void handler() {
         Calendar calendar = Calendar.getInstance();
         String endTime = dateFormat.format(calendar.getTime());
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - dateNum);
-        String startTime = dateFormat.format(startCalendar);
-        TreeSet<String> timeSet = new TreeSet<String>();
-        try {
-            timeSet = new TreeSet<String>(TimeUtil.intervalTime(startTime, endTime));
-        } catch (ParseException e) {
-            logger.error("parse date error:{}", ExceptionUtils.getStackTrace(e));
-        }
+        String startTime = dateFormat.format(startCalendar.getTime());
+        TreeSet<String> timeSet = new TreeSet<String>(TimeUtil.intervalTime(startTime, endTime));
         int index = 0;
         List<FundRank> fundRanks = Lists.newArrayList();
         do {

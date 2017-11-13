@@ -17,7 +17,7 @@ public class ArithmeticUtil {
      * @param fundNetWorths
      * @return
      */
-    public float max(List<Float> fundNetWorths) {
+    public static float max(List<Float> fundNetWorths) {
         if (fundNetWorths == null || fundNetWorths.isEmpty()) return 0f;
         return Collections.max(fundNetWorths);
     }
@@ -28,7 +28,7 @@ public class ArithmeticUtil {
      * @param fundNetWorths
      * @return
      */
-    public float average(List<Float> fundNetWorths) {
+    public static float average(List<Float> fundNetWorths) {
         if (fundNetWorths == null || fundNetWorths.isEmpty()) return 0f;
         int size = fundNetWorths.size();
         float sum = 0f;
@@ -43,7 +43,7 @@ public class ArithmeticUtil {
      * @param amounts
      * @return
      */
-    public float averageNetWorth(List<Float> shares, List<Float> amounts) {
+    public static float averageNetWorth(List<Float> shares, List<Float> amounts) {
         Float sumShare = CalculateUtil.plus(shares);
         Float sumAmount = CalculateUtil.plus(amounts);
         if (sumAmount == null || sumShare == null) return 0f;
