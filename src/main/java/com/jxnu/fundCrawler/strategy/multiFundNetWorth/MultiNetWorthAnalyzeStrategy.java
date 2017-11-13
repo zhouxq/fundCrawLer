@@ -49,7 +49,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
             amount = new BigDecimal(String.valueOf(amount)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
             float share = purchaseAnalyze.getShareSum();
             share = new BigDecimal(String.valueOf(share)).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
-            float averNetWorth = CalculateUtil.divide(amount, share,2);
+            float averNetWorth = CalculateUtil.divide(amount, share, 4);
             strategyCrontabAnalyze.setFundCode(purchaseAnalyze.getFundCode());
             strategyCrontabAnalyze.setCrontabAmount(amount);
             strategyCrontabAnalyze.setCrontabShare(share);
@@ -57,7 +57,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
             strategyCrontabAnalyze.setCrontabNum(purchaseAnalyze.getNum());
             strategyCrontabAnalyze.setCrontabId(purchaseAnalyze.getCrontabId());
             Float nowNetWorth = maxTime(purchaseAnalyze.getFundCode());
-            Float rate = CalculateUtil.divide(nowNetWorth - averNetWorth, averNetWorth,4);
+            Float rate = CalculateUtil.divide(nowNetWorth - averNetWorth, averNetWorth, 4);
             strategyCrontabAnalyze.setNetWorth(nowNetWorth);
             strategyCrontabAnalyze.setRate(rate);
             strategyPurchases.add(strategyCrontabAnalyze);
@@ -72,16 +72,20 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
 
     protected Float maxTime(Integer fundCode) {
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)+1);
         String startTime = dateFormat.format(calendar.getTime());
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 10);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 16);
         String endTime = dateFormat.format(calendar.getTime());
         Set<String> timeSet = TimeUtil.intervalTime(endTime, startTime);
         TreeSet<String> treeSet = new TreeSet<String>(timeSet);
-        String time = treeSet.pollLast();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("time", time);
-        map.put("fundCode", fundCode);
-        FundNetWorth fundNetWorth = fundNetWorthStore.selectOne(map);
+        FundNetWorth fundNetWorth = null;
+        do {
+            String time = treeSet.pollLast();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("time", time);
+            map.put("fundCode", fundCode);
+            fundNetWorth = fundNetWorthStore.selectOne(map);
+        } while (fundNetWorth == null);
         if (fundNetWorth == null) return 0f;
         return fundNetWorth.getNetWorth();
 
