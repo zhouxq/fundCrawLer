@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="strategyCrontabSell">
+    <resultMap id="strategyCrontabSellMap" type="com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabSell">
+        <result property="id" column="id"/>
+        <result property="crontabId" column="crontab_id"/>
+        <result property="time" column="time"/>
+        <result property="share" column="share"/>
+        <result property="netWorth" column="net_worth"/>
+        <result property="amount" column="amount"/>
+        <result property="rate" column="rate"/>
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+
+    <insert id="insertCrontabShell" parameterType="com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabSell">
+        INSERT into tbl_strategy_crontab_sell
+        (
+         crontab_id,
+         time ,
+         share ,
+         net_worth ,
+         amount ,
+         rate ,
+         end_time
+        ) VALUES
+        (
+         #{crontabId},
+         #{time},
+         #{share},
+         #{netWorth},
+         #{amount},
+         #{rate},
+         #{endTime}
+        )
+    </insert>
+
+
+</mapper>

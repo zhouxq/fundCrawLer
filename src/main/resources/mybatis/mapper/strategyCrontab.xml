@@ -178,12 +178,53 @@
            b.crontab_id,
            b.fund_code,
            b.fund_name,
-           SUM(b.amount) as amount_sum,
-           SUM(b.share) as share_sum,
+           round(SUM(b.amount),4) as amount_sum,
+           rount(SUM(b.share),4) as share_sum,
            COUNT(b.id) as num
         FROM
            tbl_strategy_purchase b
+        WHERE b.state = 0
         GROUP BY b.crontab_id,b.fund_code,b.fund_name
     </select>
+
+
+    <select id="crontabSell" resultMap="purchaseAnalyzeMap">
+        SELECT
+            b.crontab_id,
+            b.fund_code,
+            b.fund_name,
+            round(SUM(b.amount),4) as amount_sum,
+            rount(SUM(b.share),4) as share_sum,
+            COUNT(b.id) as num
+        from tbl_strategy_purchase
+        <where>
+            <if test="crontabId != null">
+                and crontab_id = #{crontabId}
+            </if>
+            <if test="endTime != null">
+                and #{endTime} >= time
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+        </where>
+    </select>
+
+
+    <update id="updatePurchase" parameterType="java.util.Map">
+        UPDATE tbl_strategy_purchase
+        SET state = 1
+        <where>
+            <if test="crontabId != null">
+                and crontab_id = #{crontabId}
+            </if>
+            <if test="endTime != null">
+                and #{endTime} >= time
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+        </where>
+    </update>
 
 </mapper>

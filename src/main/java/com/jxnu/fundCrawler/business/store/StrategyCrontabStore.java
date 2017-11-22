@@ -98,4 +98,24 @@ public class StrategyCrontabStore extends BaseStore {
     public List<PurchaseAnalyze> purchaseAnalyze() {
         return template.selectList("strategyCrontab.purchaseAnalyze");
     }
+
+    /**
+     * 统计卖出金额
+     * @param map
+     * @return
+     */
+    public PurchaseAnalyze purchaseSell(Map map) {
+        return template.selectOne("strategyCrontab.crontabSell",map);
+    }
+
+
+    /**
+     * 修改购买状态
+     * @param map
+     * @return
+     */
+    public void updatePurchase(Map map) {
+         template.update("strategyCrontab.updatePurchase",map);
+    }
+
 }
