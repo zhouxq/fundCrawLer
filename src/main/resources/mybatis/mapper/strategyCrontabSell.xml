@@ -12,6 +12,15 @@
         <result property="endTime" column="end_time"/>
     </resultMap>
 
+    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze">
+        <result property="crontabId" column="crontab_id"/>
+        <result property="fundCode" column="fund_code"/>
+        <result property="fundName" column="fund_name"/>
+        <result property="amountSum" column="amount_sum"/>
+        <result property="shareSum" column="share_sum"/>
+        <result property="num" column="num"/>
+    </resultMap>
+
     <insert id="insertCrontabShell" parameterType="com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabSell">
         INSERT into tbl_strategy_crontab_sell
         (
@@ -32,6 +41,32 @@
          #{rate},
          #{endTime}
         )
+    </insert>
+
+    <select id="selectCrontabSellTotal" resultMap="purchaseAnalyzeMap" parameterType="java.lang.String">
+        SELECT
+          crontab_id ,
+          round(sum(amount),4) as  amount_sum,
+          round(sum(share),4) as share_sum
+        FROM  tbl_strategy_crontab_sell
+        where crontab_id = #{crontabId}
+        GROUP BY crontab_id
+        limit 0,1
+    </select>
+
+    <insert id="insertStandardDeviation" parameterType="java.util.List">
+        insert tbl_fund_standard_deviation
+        (
+        fund_code ,
+        standard_deviation
+        ) VALUES
+        <foreach collection="list" separator="," item="standardDeviation">
+            (
+            #{standardDeviation.fundCode},
+            #{standardDeviation.standardDeviation}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE fund_code=VALUES(standard_deviation)
     </insert>
 
 

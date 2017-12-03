@@ -5,6 +5,7 @@ import com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyPurchase;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
+import com.jxnu.fundCrawler.business.store.StrategyCrontabSellStore;
 import com.jxnu.fundCrawler.business.store.StrategyCrontabStore;
 import com.jxnu.fundCrawler.utils.CalculateUtil;
 import com.jxnu.fundCrawler.utils.TimeUtil;
@@ -31,6 +32,8 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
     private StrategyCrontabStore crontabStore;
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
+    @Autowired
+    private StrategyCrontabSellStore crontabSellStore;
 
     @PostConstruct
     public void init() {
@@ -44,12 +47,20 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
         List<StrategyCrontabAnalyze> strategyPurchases = new ArrayList<StrategyCrontabAnalyze>();
         for (PurchaseAnalyze purchaseAnalyze : purchaseAnalyzeList) {
             if (purchaseAnalyze == null) continue;
+            //买入计算
             StrategyCrontabAnalyze strategyCrontabAnalyze = new StrategyCrontabAnalyze();
             float amount = purchaseAnalyze.getAmountSum();
             amount = new BigDecimal(String.valueOf(amount)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
             float share = purchaseAnalyze.getShareSum();
             share = new BigDecimal(String.valueOf(share)).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
+            //卖出计算
+            PurchaseAnalyze sellAnalyze = crontabSellStore.selectCrontabSellTotal(purchaseAnalyze.getCrontabId().toString());
+            if(sellAnalyze != null) {
+                amount = amount - sellAnalyze.getAmountSum();
+                share = share - sellAnalyze.getShareSum();
+            }
             float averNetWorth = CalculateUtil.divide(amount, share, 4);
+            //分析结果
             strategyCrontabAnalyze.setFundCode(purchaseAnalyze.getFundCode());
             strategyCrontabAnalyze.setCrontabAmount(amount);
             strategyCrontabAnalyze.setCrontabShare(share);

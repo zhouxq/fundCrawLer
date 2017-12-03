@@ -7,16 +7,16 @@ package com.jxnu.fundCrawler.utils;
 public class NumberUtil {
 
     public static boolean maxRatio(Float netWorth, Float maxNetWorth) {
-        if(maxNetWorth==null) return false;
+        if (maxNetWorth == null) return false;
         Float ratio = (maxNetWorth - netWorth) / maxNetWorth;
-        if (ratio > 0.08) return true;
+        if (ratio > 0.12) return true;
         return false;
     }
 
     public static boolean minRatio(Float netWorth, Float minNetWorth) {
-        if(minNetWorth==null) return false;
+        if (minNetWorth == null) return false;
         Float ratio = (netWorth - minNetWorth) / minNetWorth;
-        if (ratio > 0.08) return true;
+        if (ratio > 0.12) return true;
         return false;
     }
 }

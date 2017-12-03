@@ -29,7 +29,7 @@ public class FundGrab extends Grab {
     @Value("${tiantian.fund}")
     private String fundUrl;
 
-    public void hander() {
+    public void handler(Integer num) {
         List<Company> companyList = companyStore.queryAll();
         for (Company company : companyList) {
             try {

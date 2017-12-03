@@ -194,9 +194,9 @@
             b.fund_code,
             b.fund_name,
             round(SUM(b.amount),4) as amount_sum,
-            rount(SUM(b.share),4) as share_sum,
+            round(SUM(b.share),4) as share_sum,
             COUNT(b.id) as num
-        from tbl_strategy_purchase
+        from tbl_strategy_purchase b
         <where>
             <if test="crontabId != null">
                 and crontab_id = #{crontabId}

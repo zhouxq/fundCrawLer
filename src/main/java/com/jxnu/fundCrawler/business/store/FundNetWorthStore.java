@@ -67,6 +67,24 @@ public class FundNetWorthStore extends BaseStore {
     }
 
     /**
+     * 每天基金下降分析
+     *
+     * @param mailList
+     */
+    public void insertDayFundAnalyze(List<Mail> mailList) {
+        //插入当天达到下降比例的基金
+        template.insert("fundNetWorth.insertDayFundAnalyze", mailList);
+    }
+
+    /**
+     * 清空当前基金分析情况
+     */
+    public void truncateDayFundAnalyze() {
+        //插入当天达到下降比例的基金
+        template.insert("fundNetWorth.truncateDayFundAnalyze");
+    }
+
+    /**
      * 查询已发生邮件数量
      *
      * @param fundCode
@@ -101,5 +119,16 @@ public class FundNetWorthStore extends BaseStore {
         return template.selectOne("fundNetWorth.selectOne", map);
     }
 
+
+    /**
+     * 查询某个基金的所有净值
+     *
+     * @param fundCode
+     * @return
+     */
+    public List<Float> queryWorthByFundCode(String fundCode) {
+        List<Float> worths = template.selectList("fundNetWorth.queryWorthByFundCode", fundCode);
+        return worths;
+    }
 
 }

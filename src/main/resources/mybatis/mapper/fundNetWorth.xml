@@ -77,6 +77,19 @@
         ON DUPLICATE KEY UPDATE type=VALUES(type)
     </insert>
 
+    <update id="truncateDayFundAnalyze">
+        truncate tbl_day_fund_analyze
+    </update>
+
+    <insert id="insertDayFundAnalyze" parameterType="java.util.List">
+        INSERT tbl_day_fund_analyze(code,time,type)
+        VALUES
+        <foreach collection="list" separator="," item="mail">
+            (#{mail.code},#{mail.time},#{mail.type})
+        </foreach>
+        ON DUPLICATE KEY UPDATE type=VALUES(type)
+    </insert>
+
     <select id="queryMail" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT
         COUNT(a.id)
@@ -109,5 +122,14 @@
         </foreach>
         ON DUPLICATE KEY UPDATE ratio=VALUES(ratio),net_worth=VALUES(net_worth)
     </insert>
+
+    <select id="queryWorthByFundCode" parameterType="java.lang.String" resultType="java.lang.Float">
+        SELECT
+        net_worth
+        FROM tbl_fund_net_worth
+        where fund_code=#{fundCode}
+        and time >= date_add(now(), interval -120 day)
+        and now() >= time
+    </select>
 
 </mapper>

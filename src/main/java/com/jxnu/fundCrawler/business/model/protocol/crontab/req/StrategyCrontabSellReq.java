@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.business.model.protocol.crontab;
+package com.jxnu.fundCrawler.business.model.protocol.crontab.req;
 
 import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 

@@ -40,8 +40,9 @@ public class MultiNetWorthRankStrategy extends BaseMultiNetWorthStrategy {
 
     @Override
     public void handler() {
+        //每天净值下降排行榜
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)+1);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
         String endTime = dateFormat.format(calendar.getTime());
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - dateNum);

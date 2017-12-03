@@ -1,11 +1,11 @@
-package com.jxnu.fundCrawler.business.model.protocol.crontab;
+package com.jxnu.fundCrawler.business.model.protocol.crontab.req;
 
 import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 
 /**
  * Created by coder on 2017/11/11.
  */
-public class StrategyCrontabReq extends HttpPropers {
+public class StrategyCrontabModifyReq extends HttpPropers {
     private Integer crontabId;
     private String crontabName;
     private Integer fundCode;

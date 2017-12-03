@@ -4,6 +4,7 @@ import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
+import com.jxnu.fundCrawler.strategy.BeforeHandlerFundNetWorth.BeforeHandlerNetWorthStrategy;
 import com.jxnu.fundCrawler.strategy.multiFundNetWorth.BaseMultiNetWorthStrategy;
 import com.jxnu.fundCrawler.strategy.singleFundNetWorth.BaseSingleNetWorthStrategy;
 import com.jxnu.fundCrawler.utils.ParseUtils;
@@ -24,6 +25,8 @@ import java.util.*;
 @Component
 public class FundNetWorthGrab extends Grab {
     private final static Logger logger = LoggerFactory.getLogger(FundNetWorthGrab.class);
+    @Value("${tiantian.fundNetWorth}")
+    private String fundNetWorthUrl;
     @Autowired
     private FundStore fundStore;
     @Autowired
@@ -32,14 +35,16 @@ public class FundNetWorthGrab extends Grab {
     private BaseSingleNetWorthStrategy fundNetWorthStrategy;
     @Resource(name = "multiNetWorthRankStrategy")
     private BaseMultiNetWorthStrategy multiNetWorthStrategy;
-    @Value("${tiantian.fundNetWorth}")
-    private String fundNetWorthUrl;
+    @Resource(name = "rankBeforeHandlerStrategy")
+    private BeforeHandlerNetWorthStrategy beforeHandlerNetWorthStrategy;
 
     public void handler(Integer num) {
         Random random = new Random(1000);
         List<Fund> fundList = fundStore.queryAll();
         String code;
         if (num != -1) {
+            //基金净值前 策略执行
+            beforeHandlerNetWorthStrategy.handler();
             for (Fund fund : fundList) {
                 try {
                     String count;
@@ -54,14 +59,14 @@ public class FundNetWorthGrab extends Grab {
                     List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                     if (fundNetWorthList.isEmpty()) continue;
                     fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
-                    //单个基金 根据相应的策略去处理
+                    //当个基金净值 策略执行
                     fundNetWorthStrategy.handler(fundNetWorthList);
                 } catch (Exception e) {
                     logger.error("error:{}", ExceptionUtils.getStackTrace(e));
                 }
             }
         }
-        //所有基金 根据相应策略去处理
+        //所有基金净值 策略执行
         multiNetWorthStrategy.handler();
     }
 }

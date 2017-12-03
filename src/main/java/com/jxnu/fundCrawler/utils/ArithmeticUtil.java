@@ -1,10 +1,15 @@
 package com.jxnu.fundCrawler.utils;
 
+import com.google.common.collect.Lists;
+
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * 算法工具
+ *
  * @author yaphyao
  * @version 2017/11/7
  * @see com.jxnu.fundCrawler.utils
@@ -39,6 +44,8 @@ public class ArithmeticUtil {
     }
 
     /**
+     * 平均净值
+     *
      * @param shares
      * @param amounts
      * @return
@@ -48,6 +55,45 @@ public class ArithmeticUtil {
         Float sumAmount = CalculateUtil.plus(amounts);
         if (sumAmount == null || sumShare == null) return 0f;
         return BigDecimal.valueOf(sumAmount).divide(BigDecimal.valueOf(sumShare), 2, BigDecimal.ROUND_HALF_EVEN).floatValue();
+    }
+
+
+    /**
+     * 方差
+     *
+     * @param amounts
+     * @return
+     */
+    public static Float variance(List<Float> amounts) {
+        if (amounts == null || amounts.isEmpty()) return 0f;
+        //平均值
+        Float aver = average(amounts);
+        //平均值之差和
+        Float averSum = 0f;
+        for (Float amount : amounts) {
+            Float averBetween = amount - aver;
+            averSum += averBetween * averBetween;
+        }
+        return CalculateUtil.divide(averSum, Float.parseFloat(String.valueOf(amounts.size())), 8);
+    }
+
+    /**
+     * 标准差
+     *
+     * @param amounts
+     * @return
+     */
+    public static Float standardDeviation(List<Float> amounts) {
+        Float variance = variance(amounts);
+        Double standard = Math.sqrt(Double.parseDouble(variance.toString()));
+        return standard.floatValue();
+    }
+
+    public static void main(String[] args) {
+        List<Float> amount = Arrays.asList(2.11f, 2.13f, 1.14f, 1.15f, 3.16f, 3.17f);
+        Float variance = variance(amount);
+        Float standardDeviation = standardDeviation(amount);
+        standardDeviation = standardDeviation;
     }
 
 
