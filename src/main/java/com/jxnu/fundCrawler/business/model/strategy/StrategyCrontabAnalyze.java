@@ -13,6 +13,7 @@ public class StrategyCrontabAnalyze {
     private Integer crontabNum;
     private float rate;
     private float netWorth;
+    private String fundName;
 
     public float getNetWorth() {
         return netWorth;
@@ -84,5 +85,13 @@ public class StrategyCrontabAnalyze {
 
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    public String getFundName() {
+        return fundName;
+    }
+
+    public void setFundName(String fundName) {
+        this.fundName = fundName;
     }
 }

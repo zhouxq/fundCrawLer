@@ -60,7 +60,7 @@ public class ParseUtils {
             String netWorth;
             String rate;
             if (StringUtils.isNotEmpty(time = values[0])) {
-                time=time.replaceAll("\\*","");
+                time = time.replaceAll("\\*", "");
                 fundNetWorth.setTime(time);
             } else {
                 continue;
@@ -192,6 +192,33 @@ public class ParseUtils {
             fundIndices.add(fundIndex);
         }
         return fundIndices;
+    }
+
+    /**
+     * 解析分红
+     * @param url
+     * @return
+     */
+    public static List<String> parseFundShareOut(String url) {
+        List<String> shareOuts = new ArrayList<String>();
+        Document document = OkHttpUtils.parseToDocument(url, "utf-8");
+        Element element = document.getElementById("Div2");
+        Elements tableElements = element.getElementsByTag("table");
+        if (tableElements == null || tableElements.size() < 2) return shareOuts;
+        Element shareOut = tableElements.get(1);
+        if (shareOut == null) return shareOuts;
+        Elements trs = shareOut.getElementsByTag("tr");
+        if (trs == null || trs.isEmpty()) return shareOuts;
+        for (Element tr : trs) {
+            if (tr == null) continue;
+            String shareTime = tr.getElementsByTag("td").get(0).text();
+            shareOuts.add(shareTime);
+        }
+        return shareOuts;
+    }
+
+    public static void main(String[] args) {
+        parseFundShareOut("http://fund.eastmoney.com/398061.html?spm=001.1.swh");
     }
 
 }

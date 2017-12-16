@@ -2,6 +2,7 @@ package com.jxnu.fundCrawler.business.grabThread.specific;
 
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.FundShareOut;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.strategy.BeforeHandlerFundNetWorth.BeforeHandlerNetWorthStrategy;
@@ -27,6 +28,8 @@ public class FundNetWorthGrab extends Grab {
     private final static Logger logger = LoggerFactory.getLogger(FundNetWorthGrab.class);
     @Value("${tiantian.fundNetWorth}")
     private String fundNetWorthUrl;
+    @Value("${tiantian.fundUrl}")
+    private String fundUrl;
     @Autowired
     private FundStore fundStore;
     @Autowired
@@ -59,6 +62,7 @@ public class FundNetWorthGrab extends Grab {
                     List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                     if (fundNetWorthList.isEmpty()) continue;
                     fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
+                    insetShareOuts(code);
                     //当个基金净值 策略执行
                     fundNetWorthStrategy.handler(fundNetWorthList);
                 } catch (Exception e) {
@@ -68,5 +72,19 @@ public class FundNetWorthGrab extends Grab {
         }
         //所有基金净值 策略执行
         multiNetWorthStrategy.handler();
+    }
+
+    private void insetShareOuts(String code){
+        List<FundShareOut> fundShareOuts=new ArrayList<FundShareOut>();
+        List<String> shareOuts= ParseUtils.parseFundShareOut(fundUrl.replace("#",code));
+        if(shareOuts==null || shareOuts.isEmpty()) return;
+        for(String shareOut : shareOuts){
+            FundShareOut share=new FundShareOut();
+            share.setFundCode(code);
+            share.setTime(shareOut);
+            fundShareOuts.add(share);
+        }
+        if(shareOuts.isEmpty()) return;
+        fundNetWorthStore.insertfundShareOut(fundShareOuts);
     }
 }

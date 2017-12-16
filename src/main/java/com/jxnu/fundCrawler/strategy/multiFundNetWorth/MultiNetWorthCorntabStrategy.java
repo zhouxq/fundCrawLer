@@ -75,7 +75,7 @@ public class MultiNetWorthCorntabStrategy extends BaseMultiNetWorthStrategy {
                 purchase.setTime(time);
                 purchase.setFundName(crontab.getFundName());
                 purchase.setNetWorth(fundNetWorth.getNetWorth());
-                purchase.setShare(CalculateUtil.divide(amout, fundNetWorth.getNetWorth(),4));
+                purchase.setShare(CalculateUtil.divide(amout, fundNetWorth.getNetWorth(),2));
                 purchases.add(purchase);
             }
             if (!purchases.isEmpty()) {

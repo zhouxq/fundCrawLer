@@ -1,9 +1,6 @@
 package com.jxnu.fundCrawler.business.store;
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
-import com.jxnu.fundCrawler.business.model.FundNetWorthMaxMin;
-import com.jxnu.fundCrawler.business.model.FundRank;
-import com.jxnu.fundCrawler.business.model.Mail;
+import com.jxnu.fundCrawler.business.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -129,6 +126,25 @@ public class FundNetWorthStore extends BaseStore {
     public List<Float> queryWorthByFundCode(String fundCode) {
         List<Float> worths = template.selectList("fundNetWorth.queryWorthByFundCode", fundCode);
         return worths;
+    }
+
+    /**
+     * 插入分红记录
+     *
+     * @param shareOuts
+     */
+    public void insertfundShareOut(List<FundShareOut> shareOuts) {
+        template.insert("fundNetWorth.insertfundShareOut", shareOuts);
+    }
+
+    /**
+     * 计算分红次数
+     *
+     * @param code
+     * @return
+     */
+    public Integer queryShareOutByFundCode(String code) {
+        return template.selectOne("fundNetWorth.queryShareOutByFundCode", code);
     }
 
 }

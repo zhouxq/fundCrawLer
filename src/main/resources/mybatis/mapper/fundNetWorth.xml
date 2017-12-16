@@ -27,6 +27,14 @@
         ON DUPLICATE KEY UPDATE net_worth=VALUES(net_worth),rate=VALUES(rate)
     </insert>
 
+    <insert id="insertfundShareOut" parameterType="java.util.List">
+        INSERT tbl_fund_share_out(fund_code,time,create_time,update_time) VALUES
+        <foreach collection="list" separator="," item="fundShareOut">
+            (#{fundShareOut.fundCode},#{fundShareOut.time},now(),now())
+        </foreach>
+        ON DUPLICATE KEY UPDATE create_time=VALUES(create_time),update_time=VALUES(update_time)
+    </insert>
+
     <select id="queryNetWorthByFundCode" parameterType="java.lang.String" resultMap="fundNetWorthMap">
         SELECT
         *
@@ -127,6 +135,15 @@
         SELECT
         net_worth
         FROM tbl_fund_net_worth
+        where fund_code=#{fundCode}
+        and time >= date_add(now(), interval -120 day)
+        and now() >= time
+    </select>
+
+    <select id="queryShareOutByFundCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM tbl_fund_share_out
         where fund_code=#{fundCode}
         and time >= date_add(now(), interval -120 day)
         and now() >= time

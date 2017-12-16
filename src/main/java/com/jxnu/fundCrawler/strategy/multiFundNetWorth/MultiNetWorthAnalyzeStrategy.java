@@ -53,12 +53,6 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
             amount = new BigDecimal(String.valueOf(amount)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
             float share = purchaseAnalyze.getShareSum();
             share = new BigDecimal(String.valueOf(share)).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
-            //卖出计算
-            PurchaseAnalyze sellAnalyze = crontabSellStore.selectCrontabSellTotal(purchaseAnalyze.getCrontabId().toString());
-            if(sellAnalyze != null) {
-                amount = amount - sellAnalyze.getAmountSum();
-                share = share - sellAnalyze.getShareSum();
-            }
             float averNetWorth = CalculateUtil.divide(amount, share, 4);
             //分析结果
             strategyCrontabAnalyze.setFundCode(purchaseAnalyze.getFundCode());
@@ -71,6 +65,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
             Float rate = CalculateUtil.divide(nowNetWorth - averNetWorth, averNetWorth, 4);
             strategyCrontabAnalyze.setNetWorth(nowNetWorth);
             strategyCrontabAnalyze.setRate(rate);
+            strategyCrontabAnalyze.setFundName(purchaseAnalyze.getFundName());
             strategyPurchases.add(strategyCrontabAnalyze);
         }
         if (!strategyPurchases.isEmpty()) {

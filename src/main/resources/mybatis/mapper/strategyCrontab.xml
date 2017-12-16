@@ -96,7 +96,8 @@
         crontab_share ,
         crontab_num ,
         rate,
-        net_worth
+        net_worth,
+        fund_name
         ) VALUES
         <foreach collection="list" separator="," item="strategyCrontabAnalyze">
             (
@@ -108,7 +109,8 @@
             #{strategyCrontabAnalyze.crontabShare},
             #{strategyCrontabAnalyze.crontabNum},
             #{strategyCrontabAnalyze.rate},
-            #{strategyCrontabAnalyze.netWorth}
+            #{strategyCrontabAnalyze.netWorth},
+            #{strategyCrontabAnalyze.fundName}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE fund_code=VALUES(fund_code),
@@ -118,6 +120,7 @@
         crontab_share=VALUES(crontab_share),
         crontab_num=VALUES(crontab_num),
         rate=VALUES(rate),
+        fund_name=VALUES(fund_name),
         net_worth=VALUES(net_worth)
     </insert>
 
@@ -178,15 +181,14 @@
            b.crontab_id,
            b.fund_code,
            b.fund_name,
-           round(SUM(b.amount),4) as amount_sum,
-           rount(SUM(b.share),4) as share_sum,
+           round(SUM(b.amount),2) as amount_sum,
+           round(SUM(b.share),2) as share_sum,
            COUNT(b.id) as num
         FROM
            tbl_strategy_purchase b
         WHERE b.state = 0
         GROUP BY b.crontab_id,b.fund_code,b.fund_name
     </select>
-
 
     <select id="crontabSell" resultMap="purchaseAnalyzeMap">
         SELECT
