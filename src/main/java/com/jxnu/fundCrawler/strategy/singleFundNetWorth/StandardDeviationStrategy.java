@@ -38,7 +38,7 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         Fund fund = fundStore.findById(fundCode);
         if (fund.getName().contains("债") || fund.getName().contains("券")) return;
         Integer count = netWorthStore.queryShareOutByFundCode(fundCode);
-        if (count > 1) return;
+        if (count > 0) return;
         List<Float> netWorths = netWorthStore.queryWorthByFundCode(fundCode);
         if (netWorths == null || netWorths.isEmpty()) return;
         FundNetWorth fundNetWorth=netWorthStore.queryLastWorthByFundCode(fundCode);
