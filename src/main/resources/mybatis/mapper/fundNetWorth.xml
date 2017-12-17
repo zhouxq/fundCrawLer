@@ -89,6 +89,10 @@
         truncate tbl_day_fund_analyze
     </update>
 
+    <update id="truncateDayRank">
+        truncate tbl_fund_rank
+    </update>
+
     <insert id="insertDayFundAnalyze" parameterType="java.util.List">
         INSERT tbl_day_fund_analyze(code,time,type)
         VALUES

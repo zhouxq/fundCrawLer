@@ -79,6 +79,7 @@ public class FundNetWorthStore extends BaseStore {
     public void truncateDayFundAnalyze() {
         //插入当天达到下降比例的基金
         template.insert("fundNetWorth.truncateDayFundAnalyze");
+        template.insert("fundNetWorth.truncateDayRank");
     }
 
     /**
