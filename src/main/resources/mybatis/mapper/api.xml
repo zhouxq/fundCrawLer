@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="api">
+    <resultMap id="fundRankMap" type="com.jxnu.fundCrawler.business.model.FundRank">
+        <result property="id" column="id"/>
+        <result property="fundCode" column="fund_code"/>
+        <result property="netWorth" column="net_worth"/>
+        <result property="ratio" column="ratio"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+    <select id="queryFundRank" resultMap="fundRankMap" >
+        SELECT
+        *
+        FROM tbl_fund_rank
+        ORDER BY time desc
+    </select>
+</mapper>

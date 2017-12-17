@@ -4,16 +4,18 @@ package com.jxnu.fundCrawler.business.model;
  * Created by coder on 2017/10/29.
  */
 public class FundRank {
-    private Integer fundCode;
+    private Integer id;
+    private String fundCode;
     private Float netWorth;
     private Float ratio;
     private String time;
 
-    public Integer getFundCode() {
+
+    public String getFundCode() {
         return fundCode;
     }
 
-    public void setFundCode(Integer fundCode) {
+    public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
     }
 
@@ -41,10 +43,19 @@ public class FundRank {
         this.time = time;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "FundRank{" +
-                "fundCode=" + fundCode +
+                "id=" + id +
+                ", fundCode=" + fundCode +
                 ", netWorth=" + netWorth +
                 ", ratio=" + ratio +
                 ", time='" + time + '\'' +

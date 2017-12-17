@@ -50,7 +50,8 @@ public class StrategyCrontabRest {
         crontab.setCreateTime(new Date());
         crontab.setUpdateTime(new Date());
         crontab.setState(1);
-        Fund fund = fundStore.findById(crontabReq.getFundCode().toString());
+        crontab.setFundCode(Integer.parseInt(crontabReq.getFundCode()));
+        Fund fund = fundStore.findById(crontabReq.getFundCode());
         if (fund != null) {
             crontab.setFundName(fund.getName());
         }

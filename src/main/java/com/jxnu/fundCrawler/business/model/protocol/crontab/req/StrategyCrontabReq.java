@@ -8,7 +8,7 @@ import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 public class StrategyCrontabReq extends HttpPropers {
     private Integer crontabId;
     private String crontabName;
-    private Integer fundCode;
+    private String fundCode;
     private String fundName;
     private String startTime;
     private String endTime;
@@ -33,11 +33,11 @@ public class StrategyCrontabReq extends HttpPropers {
         this.crontabName = crontabName;
     }
 
-    public Integer getFundCode() {
+    public String getFundCode() {
         return fundCode;
     }
 
-    public void setFundCode(Integer fundCode) {
+    public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
     }
 
