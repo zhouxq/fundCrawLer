@@ -149,4 +149,13 @@
         and now() >= time
     </select>
 
+    <select id="queryLastWorthByFundCode" parameterType="java.lang.String" resultMap="fundNetWorthMap">
+        SELECT
+        *
+        FROM tbl_fund_net_worth
+        where fund_code=#{fundCode}
+        ORDER BY time DESC
+        limit 0,1
+    </select>
+
 </mapper>

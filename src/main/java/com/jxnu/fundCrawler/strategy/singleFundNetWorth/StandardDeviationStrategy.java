@@ -41,6 +41,8 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         if (count > 1) return;
         List<Float> netWorths = netWorthStore.queryWorthByFundCode(fundCode);
         if (netWorths == null || netWorths.isEmpty()) return;
+        FundNetWorth fundNetWorth=netWorthStore.queryLastWorthByFundCode(fundCode);
+        Integer state=1;
         Float average = ArithmeticUtil.average(netWorths);
         Float max = Collections.max(netWorths);
         Float min = Collections.min(netWorths);
@@ -49,6 +51,11 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         Float standardDeviation = ArithmeticUtil.standardDeviation(netWorths);
         List<StandardDeviation> deviations = new ArrayList<StandardDeviation>();
         StandardDeviation deviation = new StandardDeviation();
+        if(fundNetWorth !=null){
+            if(fundNetWorth.getNetWorth()<average){
+                state=-1;
+            }
+        }
         deviation.setMaxRate(maxRate);
         deviation.setMinRate(minRate);
         deviation.setMin(min);
@@ -56,6 +63,7 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         deviation.setFundCode(fundCode);
         deviation.setAverage(average);
         deviation.setStandardDeviation(standardDeviation);
+        deviation.setState(state);
         deviations.add(deviation);
         if (deviations.isEmpty()) return;
         crontabSellStore.insertStandardDeviation(deviations);

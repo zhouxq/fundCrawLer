@@ -147,4 +147,14 @@ public class FundNetWorthStore extends BaseStore {
         return template.selectOne("fundNetWorth.queryShareOutByFundCode", code);
     }
 
+    /**
+     * 获取最新的净值
+     *
+     * @param code
+     * @return
+     */
+    public FundNetWorth queryLastWorthByFundCode(String code) {
+        return template.selectOne("fundNetWorth.queryLastWorthByFundCode", code);
+    }
+
 }

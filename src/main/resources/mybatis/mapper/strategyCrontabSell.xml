@@ -58,12 +58,22 @@
         insert tbl_fund_standard_deviation
         (
         fund_code ,
-        standard_deviation
+        standard_deviation,
+        max,
+        min,
+        max_rate,
+        min_rate,
+        state
         ) VALUES
         <foreach collection="list" separator="," item="standardDeviation">
             (
             #{standardDeviation.fundCode},
-            #{standardDeviation.standardDeviation}
+            #{standardDeviation.standardDeviation},
+            #{standardDeviation.max},
+            #{standardDeviation.min},
+            #{standardDeviation.maxRate},
+            #{standardDeviation.minRate},
+            #{standardDeviation.state}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE fund_code=VALUES(standard_deviation)

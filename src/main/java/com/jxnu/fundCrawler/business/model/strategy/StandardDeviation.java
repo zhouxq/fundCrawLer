@@ -8,6 +8,7 @@ public class StandardDeviation {
     private Float min;
     private Float maxRate;
     private Float minRate;
+    private Integer state;
 
     public Float getAverage() {
         return average;
@@ -63,5 +64,13 @@ public class StandardDeviation {
 
     public void setStandardDeviation(Float standardDeviation) {
         this.standardDeviation = standardDeviation;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
