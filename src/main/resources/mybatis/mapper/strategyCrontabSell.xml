@@ -59,6 +59,7 @@
         (
         fund_code ,
         standard_deviation,
+        average,
         max,
         min,
         max_rate,
@@ -69,6 +70,7 @@
             (
             #{standardDeviation.fundCode},
             #{standardDeviation.standardDeviation},
+            #{standardDeviation.average},
             #{standardDeviation.max},
             #{standardDeviation.min},
             #{standardDeviation.maxRate},
@@ -77,6 +79,7 @@
             )
         </foreach>
         ON DUPLICATE KEY UPDATE standard_deviation=VALUES(standard_deviation),
+        average=VALUES(average),
         max=VALUES(max),
         min=VALUES(min),
         max_rate=VALUES(max_rate),
