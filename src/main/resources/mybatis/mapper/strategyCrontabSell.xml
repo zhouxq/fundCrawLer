@@ -76,7 +76,12 @@
             #{standardDeviation.state}
             )
         </foreach>
-        ON DUPLICATE KEY UPDATE fund_code=VALUES(standard_deviation)
+        ON DUPLICATE KEY UPDATE standard_deviation=VALUES(standard_deviation),
+        max=VALUES(max),
+        min=VALUES(min),
+        max_rate=VALUES(max_rate),
+        min_rate=VALUES(min_rate),
+        state=VALUES(state)
     </insert>
 
 
