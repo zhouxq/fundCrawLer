@@ -4,8 +4,11 @@ package com.jxnu.fundCrawler.business.rest;
 import com.google.common.eventbus.Subscribe;
 import com.jxnu.fundCrawler.business.model.FundRank;
 import com.jxnu.fundCrawler.business.model.Test;
+import com.jxnu.fundCrawler.business.model.protocol.crontab.req.CrontabAnalyseListReq;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.FundAnalyseFrankListReq;
+import com.jxnu.fundCrawler.business.model.protocol.crontab.resp.CrontabAnalyseListResp;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.resp.FundAnalyseFrankListResp;
+import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
 import com.jxnu.fundCrawler.business.store.ApiStore;
 import com.jxnu.fundCrawler.http.annotation.HttpHander;
 import com.jxnu.fundCrawler.http.annotation.RequestMap;
@@ -40,17 +43,27 @@ public class FundAnalyseRest {
             Integer length = fundCode.length();
             if (length == 5) {
                 newFundCode = "0" + fundCode;
-            } else if (length==4){
-                newFundCode = "00"+fundCode;
-            }else if(length == 3){
-                newFundCode = "000"+fundCode;
-            }else if(length == 2){
-                newFundCode = "00"+fundCode;
+            } else if (length == 4) {
+                newFundCode = "00" + fundCode;
+            } else if (length == 3) {
+                newFundCode = "000" + fundCode;
+            } else if (length == 2) {
+                newFundCode = "00" + fundCode;
             }
             newRank.setFundCode(newFundCode);
             newRankList.add(newRank);
         }
         resp.setRanks(newRankList);
         ResponseUtils.response(frankListReq, resp);
+    }
+
+
+    @Subscribe
+    @RequestMap(url = "/crontab/analyse/list", encode = "kv", Class = CrontabAnalyseListReq.class)
+    public void crontabAnalyse(CrontabAnalyseListReq analyseListReq) {
+        CrontabAnalyseListResp resp = new CrontabAnalyseListResp();
+        List<StrategyCrontabAnalyze> analyzes = apiStore.queryCrontabAnalyzeList();
+        resp.setResp(analyzes);
+        ResponseUtils.response(analyseListReq, resp);
     }
 }

@@ -1,6 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.business.model.FundRank;
+import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -22,5 +23,14 @@ public class ApiStore extends BaseStore {
      */
     public List<FundRank> queryRankList() {
         return template.selectList("api.queryFundRank");
+    }
+
+    /**
+     * 获取定投分析
+     *
+     * @return
+     */
+    public List<StrategyCrontabAnalyze> queryCrontabAnalyzeList() {
+        return template.selectList("api.queryCrontabAnalyzeList");
     }
 }
