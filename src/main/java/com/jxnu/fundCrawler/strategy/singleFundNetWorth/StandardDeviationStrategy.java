@@ -54,8 +54,8 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         Float average = ArithmeticUtil.average(netWorths);
         Float max = Collections.max(netWorths);
         Float min = Collections.min(netWorths);
-        Float maxAverRate = CalculateUtil.divide(max - average, average, 4);
-        Float minAverRate = CalculateUtil.divide(average - min, average, 4);
+        Float maxAverRate = CalculateUtil.divide(max - average, max, 4);
+        Float minAverRate = CalculateUtil.divide(average - min, min, 4);
         Float standardDeviation = ArithmeticUtil.standardDeviation(netWorths);
         List<StandardDeviation> deviations = new ArrayList<StandardDeviation>();
         StandardDeviation deviation = new StandardDeviation();
