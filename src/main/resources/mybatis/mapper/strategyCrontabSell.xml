@@ -62,6 +62,8 @@
         average,
         max,
         min,
+        max_aver_rate,
+        min_aver_rate,
         max_rate,
         min_rate,
         state
@@ -73,6 +75,8 @@
             #{standardDeviation.average},
             #{standardDeviation.max},
             #{standardDeviation.min},
+            #{standardDeviation.maxAverRate},
+            #{standardDeviation.minAverRate},
             #{standardDeviation.maxRate},
             #{standardDeviation.minRate},
             #{standardDeviation.state}

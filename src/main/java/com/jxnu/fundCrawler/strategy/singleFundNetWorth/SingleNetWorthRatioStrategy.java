@@ -21,6 +21,7 @@ import java.util.List;
  * @version 2017/11/10
  * @see com.jxnu.fundCrawler.strategy
  */
+@Deprecated
 @Component(value = "fundNetWorthMailStrategy")
 public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
     @Autowired

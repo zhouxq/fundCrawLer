@@ -34,7 +34,7 @@ public class FundNetWorthGrab extends Grab {
     private FundStore fundStore;
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
-    @Resource(name = "fundNetWorthMailStrategy")
+    @Resource(name = "standardDeviationStrategy")
     private BaseSingleNetWorthStrategy fundNetWorthStrategy;
     @Resource(name = "multiNetWorthRankStrategy")
     private BaseMultiNetWorthStrategy multiNetWorthStrategy;

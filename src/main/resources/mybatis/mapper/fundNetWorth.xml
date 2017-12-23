@@ -64,7 +64,7 @@
         `tbl_fund_net_worth` a
         where a.fund_code=#{fundCode}
         and NOW() >= a.time
-        and  a.time>= ADDDATE(NOW(),INTERVAL -60 DAY)
+        and  a.time>= ADDDATE(NOW(),INTERVAL -120 DAY)
     </select>
 
     <select id="queryPeriodMin" resultType="java.lang.Float" parameterType="java.lang.String">
@@ -73,7 +73,7 @@
         FROM tbl_fund_net_worth a
         WHERE a.fund_code=#{fundCode}
         and now() >= a.time
-        and a.time >= ADDDATE(NOW(),INTERVAL -60 DAY)
+        and a.time >= ADDDATE(NOW(),INTERVAL -120 DAY)
     </select>
 
     <insert id="insertMail" parameterType="java.util.List">

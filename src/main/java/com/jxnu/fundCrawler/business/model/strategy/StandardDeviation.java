@@ -6,6 +6,8 @@ public class StandardDeviation {
     private Float average;
     private Float max;
     private Float min;
+    private Float maxAverRate;
+    private Float minAverRate;
     private Float maxRate;
     private Float minRate;
     private Integer state;
@@ -34,20 +36,21 @@ public class StandardDeviation {
         this.min = min;
     }
 
-    public Float getMaxRate() {
-        return maxRate;
+
+    public Float getMaxAverRate() {
+        return maxAverRate;
     }
 
-    public void setMaxRate(Float maxRate) {
-        this.maxRate = maxRate;
+    public void setMaxAverRate(Float maxAverRate) {
+        this.maxAverRate = maxAverRate;
     }
 
-    public Float getMinRate() {
-        return minRate;
+    public Float getMinAverRate() {
+        return minAverRate;
     }
 
-    public void setMinRate(Float minRate) {
-        this.minRate = minRate;
+    public void setMinAverRate(Float minAverRate) {
+        this.minAverRate = minAverRate;
     }
 
     public String getFundCode() {
@@ -72,5 +75,21 @@ public class StandardDeviation {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Float getMaxRate() {
+        return maxRate;
+    }
+
+    public void setMaxRate(Float maxRate) {
+        this.maxRate = maxRate;
+    }
+
+    public Float getMinRate() {
+        return minRate;
+    }
+
+    public void setMinRate(Float minRate) {
+        this.minRate = minRate;
     }
 }
