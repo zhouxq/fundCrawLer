@@ -2,7 +2,7 @@ package com.jxnu.fundCrawler.business.rest;
 
 import com.google.common.eventbus.Subscribe;
 import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.protocol.FundResp;
+import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundResp;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.StrategyCrontabListReq;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.StrategyCrontabModifyReq;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.StrategyCrontabReq;
@@ -21,7 +21,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by coder on 2017/11/11.

@@ -4,7 +4,7 @@ package com.jxnu.fundCrawler.business.model;
  * Created by coder on 4/4/17.
  */
 public class FundIndex {
-    private Integer code;              //代码
+    private String code;              //代码
     private String time;               //时间
     private String name;               //名称
     private Float latestPrice;         //最新价
@@ -33,11 +33,11 @@ public class FundIndex {
         this.time = time;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

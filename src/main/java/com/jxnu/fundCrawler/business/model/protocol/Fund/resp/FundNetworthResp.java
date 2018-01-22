@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.business.model.protocol;
+package com.jxnu.fundCrawler.business.model.protocol.Fund.resp;
 
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 

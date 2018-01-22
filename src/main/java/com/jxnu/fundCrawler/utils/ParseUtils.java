@@ -6,17 +6,14 @@ import com.jxnu.fundCrawler.business.model.FundIndex;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Created by coder on 2016/7/2.
@@ -102,8 +99,8 @@ public class ParseUtils {
             Company company = new Company();
             String[] values = response.split(",");
             String code = values[0].trim();
-            if (StringUtils.isEmpty(code) || !NumberUtils.isNumber(code)) return companyList;
-            company.setCode(Integer.parseInt(code));
+            if (StringUtils.isBlank(code)) return companyList;
+            company.setCode(code);
             String name = values[1].trim();
             if (StringUtils.isEmpty(name)) return companyList;
             company.setName(name);
@@ -177,7 +174,7 @@ public class ParseUtils {
             if (reponseData.length() < 4) continue;
             String[] fundValues = reponseData.split(",");
             FundIndex fundIndex = new FundIndex();
-            fundIndex.setCode(Integer.valueOf(fundValues[1]));
+            fundIndex.setCode(fundValues[1]);
             fundIndex.setName(fundValues[2]);
             fundIndex.setLatestPrice(Float.valueOf(fundValues[3]));
             fundIndex.setChangeAmount(Float.valueOf(fundValues[4]));
@@ -196,6 +193,7 @@ public class ParseUtils {
 
     /**
      * 解析分红
+     *
      * @param url
      * @return
      */

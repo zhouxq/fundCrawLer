@@ -1,11 +1,13 @@
-package com.jxnu.fundCrawler.business.model.protocol;
+package com.jxnu.fundCrawler.business.model.protocol.Fund.req;
 
 import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 
 /**
- * Created by coder on 2/04/17.
+ * @author yaphyao
+ * @version 2018/1/22
+ * @see com.jxnu.fundCrawler.business.model.protocol.Fund.req
  */
-public class MakeShareReq extends HttpPropers {
+public class FundSubjectReq extends HttpPropers {
     private String code;
 
     public String getCode() {

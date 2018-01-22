@@ -4,15 +4,15 @@ package com.jxnu.fundCrawler.business.model;
  * Created by coder on 2/04/17.
  */
 public class FundMakeShare {
-    private Integer code;
+    private String code;
     private String name;
     private Integer total;
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

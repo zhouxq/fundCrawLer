@@ -13,9 +13,20 @@
         <result property="total" column="total"/>
     </resultMap>
 
-    <select id="queryAll" resultMap="attentionFundMap">
+    <select id="queryAll" resultMap="attentionFundMap" parameterType="java.util.Map">
         SELECT
-           *
+        *
+        FROM tbl_attention_fund
+        <where>
+            <if test="subject != null and subject !=''">
+                subject = #{subject}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectFundSubject" resultType="java.util.List">
+        SELECT
+        DISTINCT subject
         FROM tbl_attention_fund
     </select>
 

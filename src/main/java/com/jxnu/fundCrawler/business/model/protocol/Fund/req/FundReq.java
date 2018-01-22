@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.business.model.protocol;
+package com.jxnu.fundCrawler.business.model.protocol.Fund.req;
 
 import com.jxnu.fundCrawler.business.model.http.HttpPropers;
 
@@ -7,6 +7,7 @@ import com.jxnu.fundCrawler.business.model.http.HttpPropers;
  */
 public class FundReq extends HttpPropers {
     private String code;
+    private String subject = "";
 
     public String getCode() {
         return code;
@@ -14,5 +15,13 @@ public class FundReq extends HttpPropers {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

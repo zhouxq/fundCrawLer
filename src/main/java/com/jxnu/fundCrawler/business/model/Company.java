@@ -1,18 +1,18 @@
 package com.jxnu.fundCrawler.business.model;
 
 public class Company {
-    private Integer code;         //公司代码
+    private String code;         //公司代码
     private String name;          //公司名称
     private String createTime;      //公司创建时间
     private Integer fundNum;      //旗下基金数量
     private String handler;       //总经理
     private Double scale;         //规模
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
