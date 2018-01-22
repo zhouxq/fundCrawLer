@@ -90,7 +90,7 @@ public class ArithmeticUtil {
     }
 
     public static void main(String[] args) {
-        List<Float> amount = Arrays.asList(2.11f, 2.13f, 1.14f, 1.15f, 3.16f, 3.17f);
+        List<Float> amount = Arrays.asList(95.0f,85.0f,75.0f,65.0f,55.0f,45.0f);
         Float variance = variance(amount);
         Float standardDeviation = standardDeviation(amount);
         standardDeviation = standardDeviation;
