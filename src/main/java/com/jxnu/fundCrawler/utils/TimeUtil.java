@@ -96,7 +96,9 @@ public class TimeUtil {
             startCalendar.setTime(dateFormat.parse(startTime));
             Calendar endCalendar = Calendar.getInstance();
             endCalendar.setTime(dateFormat.parse(endTime));
-            num = endCalendar.get(Calendar.DAY_OF_YEAR) - startCalendar.get(Calendar.DAY_OF_YEAR);
+            Long endTimeLong = endCalendar.getTime().getTime();
+            Long startTimeLong = startCalendar.getTime().getTime();
+            return (int) ((endTimeLong - startTimeLong))/86400000;
         } catch (Exception e) {
             logger.error("intervalTime error:()", ExceptionUtils.getStackTrace(e));
         }

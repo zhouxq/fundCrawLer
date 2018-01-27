@@ -181,8 +181,8 @@
            b.crontab_id,
            b.fund_code,
            b.fund_name,
-           round(SUM(b.amount),2) as amount_sum,
-           round(SUM(b.share),2) as share_sum,
+           SUM(b.amount) as amount_sum,
+           SUM(b.share) as share_sum,
            COUNT(b.id) as num
         FROM
            tbl_strategy_purchase b
@@ -195,8 +195,8 @@
             b.crontab_id,
             b.fund_code,
             b.fund_name,
-            round(SUM(b.amount),4) as amount_sum,
-            round(SUM(b.share),4) as share_sum,
+            SUM(b.amount) as amount_sum,
+            SUM(b.share) as share_sum,
             COUNT(b.id) as num
         from tbl_strategy_purchase b
         <where>

@@ -46,8 +46,8 @@
     <select id="selectCrontabSellTotal" resultMap="purchaseAnalyzeMap" parameterType="java.lang.String">
         SELECT
           crontab_id ,
-          round(sum(amount),2) as  amount_sum,
-          round(sum(share),2) as share_sum
+          sum(amount) as  amount_sum,
+          sum(share) as share_sum
         FROM  tbl_strategy_crontab_sell
         where crontab_id = #{crontabId}
         GROUP BY crontab_id
