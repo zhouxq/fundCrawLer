@@ -42,6 +42,16 @@ public class AttentionFundStore extends BaseStore {
     }
 
     /**
+     * 查询主题下的基金
+     *
+     * @return
+     */
+    public List<String> selectSubjectFund(String subject) {
+        List<String> attentionFunds = template.selectList("attentionFund.selectSubjectFund", subject);
+        return attentionFunds;
+    }
+
+    /**
      * 获得赚取的基金份额
      *
      * @return

@@ -24,10 +24,17 @@
         </where>
     </select>
 
-    <select id="selectFundSubject" resultType="java.util.List">
+    <select id="selectFundSubject" resultType="java.lang.String">
         SELECT
         DISTINCT subject
         FROM tbl_attention_fund
+    </select>
+
+    <select id="selectSubjectFund" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT
+        DISTINCT fund_code
+        FROM tbl_attention_fund
+        where subject=#{subject}
     </select>
 
     <select id="queryFundMakeShare" resultMap="makeShareMap">

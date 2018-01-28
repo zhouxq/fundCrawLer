@@ -1,21 +1,30 @@
 package com.jxnu.fundCrawler.business.rest;
 
 import com.google.common.eventbus.Subscribe;
+import com.jxnu.fundCrawler.business.model.AttentionFund;
+import com.jxnu.fundCrawler.business.model.Fund;
+import com.jxnu.fundCrawler.business.model.MailFundStatus;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundReq;
+import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundSubjectFundReq;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundSubjectReq;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.MakeShareReq;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundResp;
+import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundSubjectFundResp;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundSubjectResp;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.MakeShareResp;
 import com.jxnu.fundCrawler.business.store.ApiStore;
 import com.jxnu.fundCrawler.business.store.AttentionFundStore;
+import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.http.annotation.HttpHander;
 import com.jxnu.fundCrawler.http.annotation.RequestMap;
 import com.jxnu.fundCrawler.utils.ResponseUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by coder on 2017-03-19.
@@ -26,7 +35,7 @@ public class FundRest {
     @Resource
     private AttentionFundStore attentionFundStore;
     @Autowired
-    private ApiStore apiStore;
+    private FundStore fundStore;
 
 
     /**
@@ -67,6 +76,22 @@ public class FundRest {
     public void subject(FundSubjectReq req) {
         FundSubjectResp resp = new FundSubjectResp();
         resp.setSubjects(attentionFundStore.selectAttentionFundSubject());
+        ResponseUtils.response(req, resp);
+    }
+
+    @Subscribe
+    @RequestMap(url = "/rest/subject/fund", encode = "json", Class = FundSubjectFundReq.class)
+    public void subjectFund(FundSubjectFundReq req) {
+        FundSubjectFundResp resp = new FundSubjectFundResp();
+        List<String> fundCodes = attentionFundStore.selectSubjectFund(req.getCode());
+        List<Fund> funds = new ArrayList<Fund>();
+        for (String fundCode : fundCodes) {
+            if (StringUtils.isBlank(fundCode)) {
+                Fund fund = fundStore.findById(fundCode);
+                funds.add(fund);
+            }
+        }
+        resp.setFunds(funds);
         ResponseUtils.response(req, resp);
     }
 }
