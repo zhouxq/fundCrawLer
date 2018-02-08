@@ -1,7 +1,8 @@
 # 基金爬虫说明文档
 ### 数据库表 fund_crawler
 * 基金公司表
- ```CREATE TABLE tbl_company_info (
+ ```
+ CREATE TABLE tbl_company_info (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   code int(20) DEFAULT NULL,
   name varchar(200) DEFAULT NULL,
@@ -17,7 +18,8 @@
 ```
 
 * 基金信息表
-```CREATE TABLE tbl_fund_info (
+```
+CREATE TABLE tbl_fund_info (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   name varchar(200) DEFAULT NULL,
   code varchar(20) DEFAULT NULL,
@@ -32,7 +34,8 @@
 ```
 
 * 基金净值表
-```CREATE TABLE tbl_fund_net_worth (
+```
+CREATE TABLE tbl_fund_net_worth (
   id int(11) NOT NULL AUTO_INCREMENT,
   fund_code int(11) DEFAULT NULL,
   time varchar(20) DEFAULT NULL,
@@ -45,7 +48,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=1014703 DEFAULT CHARSET=utf8mb4;
 ```
 * 上证 深证指数表
-```CREATE TABLE  tbl_fund_index  (
+```
+CREATE TABLE tbl_fund_index  (
    id  int(11) NOT NULL AUTO_INCREMENT,
    code  int(11) DEFAULT NULL,
    name  varchar(200) DEFAULT NULL,
@@ -64,7 +68,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 ```
 * 基金排名表
- ```CREATE TABLE  tbl_fund_rank  (
+ ```
+ CREATE TABLE  tbl_fund_rank  (
    id  int(11) NOT NULL AUTO_INCREMENT,
    fund_code  int(11) NOT NULL,
    net_worth  float DEFAULT NULL,
@@ -75,7 +80,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 * 基金分红表
-```CREATE TABLE  tbl_fund_share_out  (
+```
+CREATE TABLE  tbl_fund_share_out  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
    fund_code  varchar(11) DEFAULT NULL COMMENT '基金代码',
    time  varchar(11) DEFAULT NULL COMMENT '分红时间',
@@ -86,7 +92,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=1744 DEFAULT CHARSET=utf8mb4;
 ```
 * 关注基金表
-```CREATE TABLE  tbl_attention_fund  (
+```
+CREATE TABLE  tbl_attention_fund  (
    id  int(11) NOT NULL AUTO_INCREMENT,
    fund_name  varchar(200) DEFAULT NULL,
    fund_code  int(11) DEFAULT NULL,
@@ -96,7 +103,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 ```
 * 基金分析表
-```CREATE TABLE  tbl_day_fund_analyze  (
+```
+CREATE TABLE  tbl_day_fund_analyze  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
    code  varchar(20) DEFAULT NULL,
    time  varchar(20) DEFAULT NULL,
@@ -106,7 +114,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 * 基金标准差表
-```CREATE TABLE  tbl_fund_standard_deviation  (
+```
+CREATE TABLE  tbl_fund_standard_deviation  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
    fund_code  varchar(11) DEFAULT NULL COMMENT '基金代码',
    standard_deviation  float DEFAULT NULL COMMENT '标准差',
@@ -123,7 +132,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=651 DEFAULT CHARSET=utf8mb4;
 ```
 * 邮箱表
-```CREATE TABLE  tbl_mail  (
+```
+CREATE TABLE  tbl_mail  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
    code  varchar(20) DEFAULT NULL,
    time  varchar(20) DEFAULT NULL,
@@ -133,7 +143,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 * 基金定投表
-```CREATE TABLE  tbl_strategy_crontab  (
+```
+CREATE TABLE  tbl_strategy_crontab  (
    id  int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
    crontab_name  varchar(256) DEFAULT NULL COMMENT '定投名称',
    fund_code  int(11) DEFAULT NULL COMMENT '基金',
@@ -150,7 +161,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 ```
 * 定投分析表
-```CREATE TABLE  tbl_strategy_crontab_analyze  (
+```
+CREATE TABLE  tbl_strategy_crontab_analyze  (
    crontab_id  int(11) NOT NULL AUTO_INCREMENT COMMENT '定投任务id',
    fund_code  int(11) DEFAULT NULL COMMENT '基金代码',
    aver_net_worth  float DEFAULT NULL COMMENT '平均净值',
@@ -166,7 +178,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 * 定投卖出表
-```CREATE TABLE  tbl_strategy_crontab_sell  (
+```
+CREATE TABLE  tbl_strategy_crontab_sell  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
    crontab_id  int(11) unsigned NOT NULL COMMENT '定时任务id',
    time  varchar(11) NOT NULL DEFAULT '' COMMENT '卖出时间',
@@ -179,7 +192,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 * 定投购买记录表
-```CREATE TABLE  tbl_strategy_purchase  (
+```
+CREATE TABLE  tbl_strategy_purchase  (
    id  int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
    crontab_id  int(11) DEFAULT NULL COMMENT '策略id',
    fund_code  int(11) DEFAULT NULL COMMENT '基金代码',
