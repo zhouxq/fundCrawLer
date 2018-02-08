@@ -5,7 +5,8 @@
 2. company.switch配置项 （-1:不爬基金公司。0: 爬）
 3. fund.switch配置项 （-1:不爬基金信息 0: 爬）
 4. fundNetWorth.switch配置项 （-1:不爬基金净值信息 0: 爬基金所有的净值  数字:爬最近几天数据）
-### com.jxnu.fundCrawler.Server 启动
+### 启动
+com.jxnu.fundCrawler.Server
 ### 数据库表 fund_crawler
 * 基金公司表
  ```
