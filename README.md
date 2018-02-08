@@ -7,6 +7,11 @@
 4. fundNetWorth.switch配置项 （-1:不爬基金净值信息 0: 爬基金所有的净值  数字:爬最近几天数据）
 #### 启动
 com.jxnu.fundCrawler.Server
+### 爬虫线程
+- com.jxnu.fundCrawler.business.grabThread.specific.CompanyGrab 基金公司爬虫线程
+- com.jxnu.fundCrawler.business.grabThread.specific.FundGrab 基金爬虫线程
+- com.jxnu.fundCrawler.business.grabThread.specific.FundIndexGrab 大盘指数爬虫线程
+- com.jxnu.fundCrawler.business.grabThread.specific.FundNetWorthGrab 基金净值爬虫线程
 ### 数据库表 fund_crawler
 * 基金公司表
  ```
