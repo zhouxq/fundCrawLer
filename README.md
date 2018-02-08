@@ -13,7 +13,7 @@
   CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY code (code) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4; ```
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;
 * 基金信息表
 ``` CREATE TABLE tbl_fund_info (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@
   update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY code (code) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=4823 DEFAULT CHARSET=utf8mb4; ```
+) ENGINE=InnoDB AUTO_INCREMENT=4823 DEFAULT CHARSET=utf8mb4;
 * 基金净值表
 ``` CREATE TABLE tbl_fund_net_worth (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -38,7 +38,7 @@
   UNIQUE KEY fund_code_time (fund_code,time),
   KEY time (time),
   KEY func_code (fund_code)
-) ENGINE=InnoDB AUTO_INCREMENT=1014703 DEFAULT CHARSET=utf8mb4; ```
+) ENGINE=InnoDB AUTO_INCREMENT=1014703 DEFAULT CHARSET=utf8mb4;
 * 上证 深证指数表
 ``` CREATE TABLE  tbl_fund_index  (
    id  int(11) NOT NULL AUTO_INCREMENT,
@@ -56,7 +56,7 @@
    ratio  float(4,2) DEFAULT NULL,
   PRIMARY KEY ( id ),
   UNIQUE KEY  uindex  ( code , latest_price , change_amout , turnover , time , ratio )
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;```
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 * 基金排名表
  ``` CREATE TABLE  tbl_fund_rank  (
    id  int(11) NOT NULL AUTO_INCREMENT,
