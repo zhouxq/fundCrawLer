@@ -1,6 +1,6 @@
 # 基金爬虫说明文档
-##使用方式
-###config.properties
+## 使用方式
+### config.properties
 1. 配置书库地址 账号及密码
 2. company.switch配置项 （-1:不爬基金公司。0: 爬）
 3. fund.switch配置项 （-1:不爬基金信息 0: 爬）
