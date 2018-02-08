@@ -14,7 +14,7 @@ com.jxnu.fundCrawler.Server
 - com.jxnu.fundCrawler.business.grabThread.specific.FundNetWorthGrab 基金净值爬虫线程
 ### 策略
 1. 每天净值爬虫   执行相应的策略链表 com.jxnu.fundCrawler.strategy.singleFundNetWorth.BaseSingleNetWorthStrategy
-2. 净值执行前和后 执行相应的策略链表 com.jxnu.fundCrawler.strategy.multiFundNetWorth.BaseMultiNetWorthStrategy
+2. 净值爬虫执行前和后 执行相应的策略链表 com.jxnu.fundCrawler.strategy.multiFundNetWorth.BaseMultiNetWorthStrategy
 ### 数据库表 fund_crawler
 * 基金公司表
  ```
