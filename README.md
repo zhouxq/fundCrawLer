@@ -1,7 +1,7 @@
 # 基金爬虫说明文档
 ### 数据库表 fund_crawler
 * 基金公司表
- ``CREATE TABLE tbl_company_info (
+ ``` CREATE TABLE tbl_company_info (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   code int(20) DEFAULT NULL,
   name varchar(200) DEFAULT NULL,
@@ -13,7 +13,7 @@
   CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY code (code) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;``
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4; ```
 * 基金信息表
 `CREATE TABLE tbl_fund_info (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
