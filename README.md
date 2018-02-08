@@ -13,7 +13,8 @@
   CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY code (code) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;
+```
 
 * 基金信息表
 ```CREATE TABLE tbl_fund_info (
@@ -27,7 +28,8 @@
   update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY code (code) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=4823 DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB AUTO_INCREMENT=4823 DEFAULT CHARSET=utf8mb4;
+```
 
 * 基金净值表
 ```CREATE TABLE tbl_fund_net_worth (
@@ -40,7 +42,8 @@
   UNIQUE KEY fund_code_time (fund_code,time),
   KEY time (time),
   KEY func_code (fund_code)
-) ENGINE=InnoDB AUTO_INCREMENT=1014703 DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB AUTO_INCREMENT=1014703 DEFAULT CHARSET=utf8mb4;
+```
 * 上证 深证指数表
 ```CREATE TABLE  tbl_fund_index  (
    id  int(11) NOT NULL AUTO_INCREMENT,
@@ -58,7 +61,8 @@
    ratio  float(4,2) DEFAULT NULL,
   PRIMARY KEY ( id ),
   UNIQUE KEY  uindex  ( code , latest_price , change_amout , turnover , time , ratio )
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;```
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+```
 * 基金排名表
  ```CREATE TABLE  tbl_fund_rank  (
    id  int(11) NOT NULL AUTO_INCREMENT,
@@ -68,7 +72,8 @@
    time  varchar(10) NOT NULL,
   PRIMARY KEY ( id ),
   UNIQUE KEY  fund_code_name  ( fund_code , time )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 * 基金分红表
 ```CREATE TABLE  tbl_fund_share_out  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -78,7 +83,8 @@
    update_time  timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY ( id ),
   UNIQUE KEY  fund_code_time  ( time , fund_code )
-) ENGINE=InnoDB AUTO_INCREMENT=1744 DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB AUTO_INCREMENT=1744 DEFAULT CHARSET=utf8mb4;
+```
 * 关注基金表
 ```CREATE TABLE  tbl_attention_fund  (
    id  int(11) NOT NULL AUTO_INCREMENT,
@@ -87,7 +93,8 @@
    subject  varchar(256) DEFAULT NULL,
   PRIMARY KEY ( id ),
   UNIQUE KEY  fund_code  ( fund_code )
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;```
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+```
 * 基金分析表
 ```CREATE TABLE  tbl_day_fund_analyze  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -96,7 +103,8 @@
    type  varchar(1) DEFAULT '1',
   PRIMARY KEY ( id ),
   UNIQUE KEY  idx_tbl_mail_code_time_type  ( code , time , type )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 * 基金标准差表
 ```CREATE TABLE  tbl_fund_standard_deviation  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -112,7 +120,8 @@
    max_rate  float DEFAULT NULL COMMENT '最大值比例',
   PRIMARY KEY ( id ),
   UNIQUE KEY  fundCOde  ( fund_code )
-) ENGINE=InnoDB AUTO_INCREMENT=651 DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB AUTO_INCREMENT=651 DEFAULT CHARSET=utf8mb4;
+```
 * 邮箱表
 ```CREATE TABLE  tbl_mail  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -121,7 +130,8 @@
    type  varchar(1) DEFAULT '1',
   PRIMARY KEY ( id ),
   UNIQUE KEY  idx_tbl_mail_code_time_type  ( code , time , type )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 * 基金定投表
 ```CREATE TABLE  tbl_strategy_crontab  (
    id  int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -137,7 +147,8 @@
    update_time  timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
    state  int(1) DEFAULT NULL COMMENT '定投状态',
   PRIMARY KEY ( id )
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;```
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+```
 * 定投分析表
 ```CREATE TABLE  tbl_strategy_crontab_analyze  (
    crontab_id  int(11) NOT NULL AUTO_INCREMENT COMMENT '定投任务id',
@@ -152,7 +163,8 @@
    net_worth  float DEFAULT NULL COMMENT '最新净值',
   PRIMARY KEY ( crontab_id ),
   UNIQUE KEY  unx_crontab  ( crontab_id )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;```
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
 * 定投卖出表
 ```CREATE TABLE  tbl_strategy_crontab_sell  (
    id  int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -164,7 +176,8 @@
    rate  float NOT NULL COMMENT '收益比例',
    end_time  varchar(10) NOT NULL DEFAULT '' COMMENT '卖出截止时间',
   PRIMARY KEY ( id )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;```
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 * 定投购买记录表
 ```CREATE TABLE  tbl_strategy_purchase  (
    id  int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -180,4 +193,5 @@
    state  int(1) NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY ( id ),
   KEY  idx_crontab  ( crontab_id )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;```
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
