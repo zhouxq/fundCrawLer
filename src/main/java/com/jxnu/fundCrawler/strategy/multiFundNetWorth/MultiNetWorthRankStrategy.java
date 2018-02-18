@@ -2,10 +2,8 @@ package com.jxnu.fundCrawler.strategy.multiFundNetWorth;
 
 import com.google.common.collect.Lists;
 import com.jxnu.fundCrawler.business.model.FundRank;
-import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
+import com.jxnu.fundCrawler.business.store.FundRankStore;
 import com.jxnu.fundCrawler.utils.TimeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +21,9 @@ import java.util.TreeSet;
 @Component("multiNetWorthRankStrategy")
 public class MultiNetWorthRankStrategy extends BaseMultiNetWorthStrategy {
     private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private final static Logger logger = LoggerFactory.getLogger(MultiNetWorthRankStrategy.class);
     private final static Integer dateNum = 20;
     @Autowired
-    private FundNetWorthStore fundNetWorthStore;
+    private FundRankStore fundRankStore;
     @Resource(name = "multiNetWorthCorntabStrategy")
     private BaseMultiNetWorthStrategy corntabStategy;
 
@@ -49,10 +46,10 @@ public class MultiNetWorthRankStrategy extends BaseMultiNetWorthStrategy {
         List<FundRank> fundRanks = Lists.newArrayList();
         do {
             String time = timeSet.pollLast();
-            fundRanks.addAll(fundNetWorthStore.selectFundRank(time));
+            fundRanks.addAll(fundRankStore.selectMulti(time));
             index++;
         } while (index < dateNum);
-        fundNetWorthStore.insertFundRank(fundRanks);
+        fundRankStore.insert(fundRanks);
         if (super.next != null) {
             super.next.handler();
         }

@@ -9,7 +9,7 @@
         <result property="handler" column="handler"/>
     </resultMap>
 
-    <insert id="insertCompany" parameterType="java.util.List">
+    <insert id="insert" parameterType="java.util.List">
         INSERT tbl_company_info(code,name,create_time,fund_num,handler,scale) VALUES
         <foreach collection="list" separator="," item="company">
             (#{company.code},#{company.name},#{company.createTime},#{company.fundNum},#{company.handler},#{company.scale})
@@ -21,7 +21,7 @@
         scale=VALUES(scale)
     </insert>
 
-    <select id="queryAll" resultMap="companyMap">
+    <select id="selectMulti" resultMap="companyMap">
         SELECT
            *
         FROM  tbl_company_info

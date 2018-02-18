@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -52,7 +53,7 @@ public class ZtreeRest {
         List<Company> companyList = (List<Company>) CacheUtils.get("company", new Callable() {
             @Override
             public Object call() throws Exception {
-                return companyStore.queryAll();
+                return companyStore.selectMulti(new HashMap());
             }
         });
         for (Company company : companyList) {
@@ -83,7 +84,7 @@ public class ZtreeRest {
                 List<Fund> fundList = (List<Fund>) CacheUtils.get("fund" + handler1, new Callable() {
                     @Override
                     public Object call() throws Exception {
-                        return fundStore.queryFundByCompanyCode(handler1);
+                        return fundStore.selectMulti(handler1);
                     }
                 });
                 for (Fund fund : fundList) {
@@ -110,9 +111,9 @@ public class ZtreeRest {
     public void fundNetworth(FundNetworthReq req) {
         FundNetworthResp resp = new FundNetworthResp();
         String code = req.getCode();
-        List<FundNetWorth> fundNetWorthList = fundNetWorthStore.queryNetWorthByFundCode(code);
+        List<FundNetWorth> fundNetWorthList = fundNetWorthStore.selectMulti(code);
         resp.setFundNetWorthList(fundNetWorthList);
-        Fund fund = fundStore.findById(code);
+        Fund fund = fundStore.selectOne(code);
         if (fund != null) {
             resp.setFundName(fund.getName());
         }

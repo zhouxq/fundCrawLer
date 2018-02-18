@@ -1,6 +1,7 @@
 package com.jxnu.fundCrawler.business.grabThread.specific;
 
 import com.jxnu.fundCrawler.business.model.FundIndex;
+import com.jxnu.fundCrawler.business.store.FundIndexStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.utils.ParseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import java.util.List;
 public class FundIndexGrab extends Grab {
     @Autowired
     private FundStore store;
+    @Autowired
+    private FundIndexStore indexStore;
     @Value("${tiantian.zyzs}")
     private String fundIndexUrl;
 
     public void handler(Integer num) {
         List<FundIndex> fundIndexList = ParseUtils.parseFundIndex(this.fundIndexUrl);
-        store.insertFundIndex(fundIndexList);
+        indexStore.insert(fundIndexList);
     }
 }

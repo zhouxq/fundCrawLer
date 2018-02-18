@@ -5,6 +5,7 @@ import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontab;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyPurchase;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.StrategyCrontabStore;
+import com.jxnu.fundCrawler.business.store.StrategyPurchaseStore;
 import com.jxnu.fundCrawler.utils.CalculateUtil;
 import com.jxnu.fundCrawler.utils.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,8 @@ public class MultiNetWorthCorntabStrategy extends BaseMultiNetWorthStrategy {
     private StrategyCrontabStore strategyCrontabStore;
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
+    @Autowired
+    private StrategyPurchaseStore purchaseStore;
     @Resource(name = "multiNetWorthAnalyzeStrategy")
     private BaseMultiNetWorthStrategy multiNetWorthStrategy;
     private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -56,14 +59,9 @@ public class MultiNetWorthCorntabStrategy extends BaseMultiNetWorthStrategy {
             for (String time : timeSet) {
                 if (StringUtils.isBlank(time)) continue;
                 map.clear();
-                map.put("crontabId", crontab.getId());
-                map.put("time", time);
-                Integer count = strategyCrontabStore.selectPurchaseOne(map);
+                Integer count = purchaseStore.selectCount(crontab.getId(), time);
                 if (count != null && count > 0) continue;
-                map.clear();
-                map.put("time", time);
-                map.put("fundCode", fundCode);
-                FundNetWorth fundNetWorth = fundNetWorthStore.selectOne(map);
+                FundNetWorth fundNetWorth = fundNetWorthStore.selectOne(String.valueOf(fundCode), time);
                 if (fundNetWorth == null) continue;
                 float amout = CalculateUtil.multiply(crontab.getAmount(), 1 - crontab.getBuyRate());
                 StrategyPurchase purchase = new StrategyPurchase();
@@ -75,11 +73,11 @@ public class MultiNetWorthCorntabStrategy extends BaseMultiNetWorthStrategy {
                 purchase.setTime(time);
                 purchase.setFundName(crontab.getFundName());
                 purchase.setNetWorth(fundNetWorth.getNetWorth());
-                purchase.setShare(CalculateUtil.divide(amout, fundNetWorth.getNetWorth(),2));
+                purchase.setShare(CalculateUtil.divide(amout, fundNetWorth.getNetWorth(), 2));
                 purchases.add(purchase);
             }
             if (!purchases.isEmpty()) {
-                strategyCrontabStore.insertStrategyPurchase(purchases);
+                purchaseStore.insert(purchases);
             }
         }
 
@@ -90,7 +88,7 @@ public class MultiNetWorthCorntabStrategy extends BaseMultiNetWorthStrategy {
 
     public String now() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)+1);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
         return dateFormat.format(calendar.getTime());
     }
 }

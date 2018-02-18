@@ -4,7 +4,9 @@ package com.jxnu.fundCrawler.strategy.singleFundNetWorth;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.Mail;
 import com.jxnu.fundCrawler.business.model.MailFundStatus;
+import com.jxnu.fundCrawler.business.store.FundAnalyzeStore;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
+import com.jxnu.fundCrawler.business.store.MailStore;
 import com.jxnu.fundCrawler.utils.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,10 @@ import java.util.List;
 public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
+    @Autowired
+    private MailStore mailStore;
+    @Autowired
+    private FundAnalyzeStore fundAnalyzeStore;
     @Resource(name = "standardDeviationStrategy")
     private BaseSingleNetWorthStrategy singleNetWorthStrategy;
 
@@ -46,7 +52,7 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
         for (FundNetWorth fundNetWorth : fundNetWorthList) {
             Float netWorth = fundNetWorth.getNetWorth();
             if (NumberUtil.maxRatio(netWorth, maxNetWorth)) {
-                int counts = fundNetWorthStore.queryMail(code, MailFundStatus.DOWN.getIndex());
+                int counts = mailStore.queryMail(code, MailFundStatus.DOWN.getIndex());
                 if (counts == 0) {
                     Mail mail = new Mail();
                     mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -56,7 +62,7 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
                 }
             }
             if (NumberUtil.minRatio(netWorth, minNetWorth)) {
-                int counts = fundNetWorthStore.queryMail(code, MailFundStatus.UP.getIndex());
+                int counts = mailStore.queryMail(code, MailFundStatus.UP.getIndex());
                 if (counts == 0) {
                     Mail mail = new Mail();
                     mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -67,8 +73,8 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
             }
         }
         if (!mailList.isEmpty()) {
-            fundNetWorthStore.insertMail(mailList);
-            fundNetWorthStore.insertDayFundAnalyze(mailList);
+            mailStore.insert(mailList);
+            fundAnalyzeStore.insert(mailList);
         }
 
         if (super.next != null) {

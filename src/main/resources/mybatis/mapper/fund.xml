@@ -9,8 +9,7 @@
         <result property="company_code" column="companyCode"/>
     </resultMap>
 
-
-    <insert id="insertFund" parameterType="java.util.List">
+    <insert id="insert" parameterType="java.util.List">
         INSERT tbl_fund_info(code,name,handler,type,company_code,company_name) VALUES
         <foreach collection="list" separator="," item="fund">
             (#{fund.code},#{fund.name},#{fund.handler},#{fund.type},#{fund.companyCode},#{fund.companyName})
@@ -22,26 +21,28 @@
         company_name=VALUES(company_name)
     </insert>
 
-
-    <select id="queryAll" resultMap="fundMap">
+    <select id="selectMulti" resultMap="fundMap" parameterType="java.util.Map">
         SELECT
-           *
+        *
         FROM tbl_fund_info
+        <where>
+            <if test="handler != null and handler != ''">
+                handler=#{handler}
+            </if>
+        </where>
+        ORDER BY code DESC
     </select>
 
-
-    <select id="queryFundByCompanyCode" parameterType="java.lang.String" resultMap="fundMap">
+    <select id="selectOne" resultMap="fundMap" parameterType="java.util.Map">
         SELECT
-           *
-        FROM  tbl_fund_info
-        WHERE handler=#{companyCode}
-    </select>
-
-    <select id="findById" parameterType="java.lang.String" resultMap="fundMap">
-        SELECT
-           *
-        FROM  tbl_fund_info
-        WHERE code=#{companyCode}
+        *
+        FROM tbl_fund_info
+        <where>
+            <if test="code != null and code != ''">
+                code=#{code}
+            </if>
+        </where>
+        limit 0,1 code DESC
     </select>
 
     <select id="queryHandlerByCompanyCode" parameterType="java.lang.String" resultType="java.lang.String">
@@ -50,19 +51,5 @@
         FROM tbl_fund_info
         WHERE company_code=#{companyCode}
     </select>
-
-    <insert id="insertFundIndex" parameterType="java.util.List">
-        INSERT tbl_fund_index(code,name,latest_price,change_amout,turnover,volume,yesterday,today,`max`,`min`,`time`,ratio) VALUES
-        <foreach collection="list" separator="," item="fund">
-            (#{fund.code},#{fund.name},#{fund.latestPrice},#{fund.changeAmount},#{fund.turnover},#{fund.volume},#{fund.yesterday},#{fund.today},#{fund.max},#{fund.min},#{fund.time},#{fund.ratio})
-        </foreach>
-        ON DUPLICATE KEY UPDATE name=VALUES(name),
-        yesterday=VALUES(yesterday),
-        today=VALUES(today),
-        max=VALUES(max),
-        time=VALUES(time),
-        min=VALUES(min)
-    </insert>
-
 
 </mapper>

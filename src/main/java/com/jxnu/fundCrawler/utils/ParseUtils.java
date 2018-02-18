@@ -46,6 +46,7 @@ public class ParseUtils {
         Document document = OkHttpUtils.parseToDocument(url, "utf-8");
         Elements elements = document.select("tbody");
         Element tbody = elements.first();
+        if (tbody == null) return fundNetWorthList;
         Elements trs = tbody.select("tr");
         for (Element tr : trs) {
             FundNetWorth fundNetWorth = new FundNetWorth();
@@ -200,7 +201,9 @@ public class ParseUtils {
     public static List<String> parseFundShareOut(String url) {
         List<String> shareOuts = new ArrayList<String>();
         Document document = OkHttpUtils.parseToDocument(url, "utf-8");
+        if (document == null) return shareOuts;
         Element element = document.getElementById("Div2");
+        if (element == null) return shareOuts;
         Elements tableElements = element.getElementsByTag("table");
         if (tableElements == null || tableElements.size() < 2) return shareOuts;
         Element shareOut = tableElements.get(1);

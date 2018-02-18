@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mail">
+    <insert id="insert" parameterType="java.util.List">
+        INSERT tbl_mail(code,time,type)
+        VALUES
+        <foreach collection="list" separator="," item="mail">
+            (#{mail.code},#{mail.time},#{mail.type})
+        </foreach>
+        ON DUPLICATE KEY UPDATE type=VALUES(type)
+    </insert>
+
+    <select id="queryMail" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        COUNT(a.id)
+        FROM
+        `tbl_mail` a
+        where a.code=#{fundCode}
+        and a.type=#{type}
+        and NOW() >= a.time
+        and  a.time>= ADDDATE(NOW(),INTERVAL -70 DAY)
+    </select>
+
+
+</mapper>

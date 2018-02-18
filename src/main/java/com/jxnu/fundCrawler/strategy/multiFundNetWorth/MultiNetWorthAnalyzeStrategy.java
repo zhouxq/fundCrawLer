@@ -3,10 +3,9 @@ package com.jxnu.fundCrawler.strategy.multiFundNetWorth;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
-import com.jxnu.fundCrawler.business.model.strategy.StrategyPurchase;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
-import com.jxnu.fundCrawler.business.store.StrategyCrontabSellStore;
-import com.jxnu.fundCrawler.business.store.StrategyCrontabStore;
+import com.jxnu.fundCrawler.business.store.StrategyCrontabAnalyzeStore;
+import com.jxnu.fundCrawler.business.store.StrategyPurchaseStore;
 import com.jxnu.fundCrawler.utils.CalculateUtil;
 import com.jxnu.fundCrawler.utils.TimeUtil;
 import org.slf4j.Logger;
@@ -29,11 +28,11 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
     private final static Logger logger = LoggerFactory.getLogger(MultiNetWorthAnalyzeStrategy.class);
     private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
-    private StrategyCrontabStore crontabStore;
-    @Autowired
     private FundNetWorthStore fundNetWorthStore;
     @Autowired
-    private StrategyCrontabSellStore crontabSellStore;
+    private StrategyPurchaseStore purchaseStore;
+    @Autowired
+    private StrategyCrontabAnalyzeStore analyzeStore;
 
     @PostConstruct
     public void init() {
@@ -42,7 +41,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
 
     @Override
     public void handler() {
-        List<PurchaseAnalyze> purchaseAnalyzeList = crontabStore.purchaseAnalyze();
+        List<PurchaseAnalyze> purchaseAnalyzeList = purchaseStore.purchaseAnalyze();
         if (purchaseAnalyzeList == null || purchaseAnalyzeList.isEmpty()) return;
         List<StrategyCrontabAnalyze> strategyPurchases = new ArrayList<StrategyCrontabAnalyze>();
         for (PurchaseAnalyze purchaseAnalyze : purchaseAnalyzeList) {
@@ -69,7 +68,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
             strategyPurchases.add(strategyCrontabAnalyze);
         }
         if (!strategyPurchases.isEmpty()) {
-            crontabStore.insertStrategyCrontabAnalyze(strategyPurchases);
+            analyzeStore.insert(strategyPurchases);
         }
         if (super.next != null) {
             super.handler();
@@ -78,7 +77,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
 
     protected Float maxTime(Integer fundCode) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)+1);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
         String startTime = dateFormat.format(calendar.getTime());
         calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 16);
         String endTime = dateFormat.format(calendar.getTime());
@@ -87,10 +86,7 @@ public class MultiNetWorthAnalyzeStrategy extends BaseMultiNetWorthStrategy {
         FundNetWorth fundNetWorth = null;
         do {
             String time = treeSet.pollLast();
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("time", time);
-            map.put("fundCode", fundCode);
-            fundNetWorth = fundNetWorthStore.selectOne(map);
+            fundNetWorth = fundNetWorthStore.selectOne(String.valueOf(fundCode), time);
         } while (fundNetWorth == null);
         if (fundNetWorth == null) return 0f;
         return fundNetWorth.getNetWorth();

@@ -1,7 +1,8 @@
 package com.jxnu.fundCrawler.strategy.BeforeHandlerFundNetWorth;
 
 
-import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
+import com.jxnu.fundCrawler.business.store.FundAnalyzeStore;
+import com.jxnu.fundCrawler.business.store.FundRankStore;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,9 @@ import javax.annotation.PostConstruct;
 public class RankBeforeHandlerStrategy extends BeforeHandlerNetWorthStrategy {
     private final static Logger logger = LoggerFactory.getLogger(RankBeforeHandlerStrategy.class);
     @Autowired
-    private FundNetWorthStore netWorthStore;
+    private FundAnalyzeStore fundAnalyzeStore;
+    @Autowired
+    private FundRankStore rankStore;
 
     @PostConstruct
     public void init() {
@@ -25,7 +28,8 @@ public class RankBeforeHandlerStrategy extends BeforeHandlerNetWorthStrategy {
     public void handler() {
         //清空当前的基金下降比例的基金
         try {
-            netWorthStore.truncateDayFundAnalyze();
+            fundAnalyzeStore.truncateDayFundAnalyze();
+            rankStore.truncateDayRank();
             if (super.next != null) {
                 super.next.handler();
             }

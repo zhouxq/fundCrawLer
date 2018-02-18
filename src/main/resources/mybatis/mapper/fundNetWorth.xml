@@ -7,19 +7,7 @@
         <result property="netWorth" column="net_worth"/>
     </resultMap>
 
-    <resultMap id="fundNetworthMaxMinMap" type="com.jxnu.fundCrawler.business.model.FundNetWorthMaxMin">
-        <result property="min" column="min"/>
-        <result property="max" column="max"/>
-    </resultMap>
-
-    <resultMap id="fundRankMap" type="com.jxnu.fundCrawler.business.model.FundRank">
-        <result property="fundCode" column="fund_code"/>
-        <result property="netWorth" column="net_worth"/>
-        <result property="ratio" column="rate"/>
-        <result property="time" column="time"/>
-    </resultMap>
-
-    <insert id="insertfundNetWorth" parameterType="java.util.List">
+    <insert id="insert" parameterType="java.util.List">
         INSERT tbl_fund_net_worth(fund_code,time,net_worth,rate) VALUES
         <foreach collection="list" separator="," item="fundNetWorth">
             (#{fundNetWorth.fundCode},#{fundNetWorth.time},#{fundNetWorth.netWorth},#{fundNetWorth.rate})
@@ -27,20 +15,6 @@
         ON DUPLICATE KEY UPDATE net_worth=VALUES(net_worth),rate=VALUES(rate)
     </insert>
 
-    <insert id="insertfundShareOut" parameterType="java.util.List">
-        INSERT tbl_fund_share_out(fund_code,time,create_time,update_time) VALUES
-        <foreach collection="list" separator="," item="fundShareOut">
-            (#{fundShareOut.fundCode},#{fundShareOut.time},now(),now())
-        </foreach>
-        ON DUPLICATE KEY UPDATE create_time=VALUES(create_time),update_time=VALUES(update_time)
-    </insert>
-
-    <select id="queryNetWorthByFundCode" parameterType="java.lang.String" resultMap="fundNetWorthMap">
-        SELECT
-        *
-        FROM tbl_fund_net_worth
-        where fund_code=#{fundCode}
-    </select>
 
     <select id="selectOne" parameterType="java.util.Map" resultMap="fundNetWorthMap">
         SELECT
@@ -54,8 +28,22 @@
                 and time=#{time}
             </if>
         </where>
+        ORDER BY time DESC
         limit 0,1
     </select>
+
+
+    <select id="selectMulti" parameterType="java.util.Map" resultMap="fundNetWorthMap">
+        SELECT
+        *
+        FROM tbl_fund_net_worth
+        <where>
+            <if test="fundCode !=null and fundCode !=''">
+                and fund_code=#{fundCode}
+            </if>
+        </where>
+    </select>
+
 
     <select id="queryPeriodMax" resultType="java.lang.Float" parameterType="java.lang.String">
         SELECT
@@ -76,64 +64,6 @@
         and a.time >= ADDDATE(NOW(),INTERVAL -120 DAY)
     </select>
 
-    <insert id="insertMail" parameterType="java.util.List">
-        INSERT tbl_mail(code,time,type)
-        VALUES
-        <foreach collection="list" separator="," item="mail">
-            (#{mail.code},#{mail.time},#{mail.type})
-        </foreach>
-        ON DUPLICATE KEY UPDATE type=VALUES(type)
-    </insert>
-
-    <update id="truncateDayFundAnalyze">
-        truncate tbl_day_fund_analyze
-    </update>
-
-    <update id="truncateDayRank">
-        truncate tbl_fund_rank
-    </update>
-
-    <insert id="insertDayFundAnalyze" parameterType="java.util.List">
-        INSERT tbl_day_fund_analyze(code,time,type)
-        VALUES
-        <foreach collection="list" separator="," item="mail">
-            (#{mail.code},#{mail.time},#{mail.type})
-        </foreach>
-        ON DUPLICATE KEY UPDATE type=VALUES(type)
-    </insert>
-
-    <select id="queryMail" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT
-        COUNT(a.id)
-        FROM
-        `tbl_mail` a
-        where a.code=#{fundCode}
-        and a.type=#{type}
-        and NOW() >= a.time
-        and  a.time>= ADDDATE(NOW(),INTERVAL -70 DAY)
-    </select>
-
-
-    <select id="selectMinMax" parameterType="java.lang.String" resultMap="fundNetworthMaxMinMap">
-        SELECT
-        min(a.net_worth) min,MAX(a.net_worth) max
-        FROM  tbl_fund_net_worth a
-        WHERE fund_code=#{fundCode}
-    </select>
-
-    <select id="selectFundRank" resultMap="fundRankMap" parameterType="java.lang.String">
-        SELECT * from `tbl_fund_net_worth` a WHERE a.`time`=#{time} AND a.rate IS NOT NULL ORDER BY a.rate ASC LIMIT 30
-    </select>
-
-
-    <insert id="insertFundRank" parameterType="java.util.List">
-        INSERT tbl_fund_rank(fund_code,net_worth,ratio,time)
-        VALUES
-        <foreach collection="list" separator="," item="fundRank">
-            (#{fundRank.fundCode},#{fundRank.netWorth},#{fundRank.ratio},#{fundRank.time})
-        </foreach>
-        ON DUPLICATE KEY UPDATE ratio=VALUES(ratio),net_worth=VALUES(net_worth)
-    </insert>
 
     <select id="queryWorthByFundCode" parameterType="java.lang.String" resultType="java.lang.Float">
         SELECT
@@ -142,24 +72,6 @@
         where fund_code=#{fundCode}
         and time >= date_add(now(), interval -120 day)
         and now() >= time
-    </select>
-
-    <select id="queryShareOutByFundCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT
-        count(id)
-        FROM tbl_fund_share_out
-        where fund_code=#{fundCode}
-        and time >= date_add(now(), interval -120 day)
-        and now() >= time
-    </select>
-
-    <select id="queryLastWorthByFundCode" parameterType="java.lang.String" resultMap="fundNetWorthMap">
-        SELECT
-        *
-        FROM tbl_fund_net_worth
-        where fund_code=#{fundCode}
-        ORDER BY time DESC
-        limit 0,1
     </select>
 
 </mapper>

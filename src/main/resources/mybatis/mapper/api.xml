@@ -23,6 +23,21 @@
         <result property="num" column="num"/>
     </resultMap>
 
+    <resultMap id="fundIndexMap" type="com.jxnu.fundCrawler.business.model.FundIndex">
+        <result property="code" column="code"/>
+        <result property="time" column="time"/>
+        <result property="name" column="name"/>
+        <result property="latest_price" column="latestPrice"/>
+        <result property="change_amount" column="changeAmount"/>
+        <result property="ratio" column="ratio"/>
+        <result property="turnover" column="turnover"/>
+        <result property="volume" column="volume"/>
+        <result property="yesterday" column="yesterday"/>
+        <result property="today" column="today"/>
+        <result property="max" column="max"/>
+        <result property="min" column="min"/>
+    </resultMap>
+
     <select id="queryFundRank" resultMap="fundRankMap" >
         SELECT
         *
@@ -35,5 +50,17 @@
         *
         FROM tbl_strategy_crontab_analyze
         ORDER BY  crontab_id ASC
+    </select>
+
+    <select id="queryFundIndexList" resultMap="fundIndexMap" parameterType="java.util.Map">
+        select * from tbl_fund_index
+        <where>
+            <if test="time != null and time != ''">
+                and time =#{time}
+            </if>
+            <if test="code != null">
+                and code =#{code}
+            </if>
+        </where>
     </select>
 </mapper>

@@ -1,9 +1,7 @@
 package com.jxnu.fundCrawler.business.rest;
 
 import com.google.common.eventbus.Subscribe;
-import com.jxnu.fundCrawler.business.model.AttentionFund;
 import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.MailFundStatus;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundReq;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundSubjectFundReq;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundSubjectReq;
@@ -12,7 +10,6 @@ import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundResp;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundSubjectFundResp;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundSubjectResp;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.MakeShareResp;
-import com.jxnu.fundCrawler.business.store.ApiStore;
 import com.jxnu.fundCrawler.business.store.AttentionFundStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.http.annotation.HttpHander;
@@ -47,7 +44,7 @@ public class FundRest {
     @RequestMap(url = "/rest/fundList", encode = "json", Class = FundReq.class)
     public void fundName(FundReq req) {
         FundResp resp = new FundResp();
-        resp.setAttentionFundList(attentionFundStore.queryAll(req.getSubject()));
+        resp.setAttentionFundList(attentionFundStore.selectMulti(req.getSubject()));
         ResponseUtils.response(req, resp);
     }
 
@@ -87,7 +84,7 @@ public class FundRest {
         List<Fund> funds = new ArrayList<Fund>();
         for (String fundCode : fundCodes) {
             if (StringUtils.isBlank(fundCode)) {
-                Fund fund = fundStore.findById(fundCode);
+                Fund fund = fundStore.selectOne(fundCode);
                 funds.add(fund);
             }
         }

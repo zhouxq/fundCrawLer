@@ -1,69 +1,24 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.google.common.collect.Maps;
-import com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontab;
-import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
-import com.jxnu.fundCrawler.business.model.strategy.StrategyPurchase;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
  * Created by coder on 2017/11/11.
  */
 @Component
-public class StrategyCrontabStore extends BaseStore {
-    private Logger logger = LoggerFactory.getLogger(StrategyCrontabStore.class);
+public class StrategyCrontabStore extends BaseStore<StrategyCrontab> {
 
-    /**
-     * 插入定投任务
-     *
-     * @param strategyCrontabList
-     */
-    public void insert(List<StrategyCrontab> strategyCrontabList) {
-        Integer num = template.insert("strategyCrontab.insertCrontab", strategyCrontabList);
-        logger.info("insert num :{}", num);
+    @PostConstruct
+    public void init() {
+        super.storeName = "strategyCrontab";
     }
 
-    /**
-     * 插入定投任务
-     *
-     * @param strategyCrontabList
-     */
-    public void insertStrategyPurchase(List<StrategyPurchase> strategyCrontabList) {
-        Integer num = template.insert("strategyCrontab.insertStrategyPurchase", strategyCrontabList);
-        logger.info("insert num :{}", num);
-    }
-
-    public void insertStrategyCrontabAnalyze(List<StrategyCrontabAnalyze> strategyPurchases) {
-        Integer num = template.insert("strategyCrontab.insertStrategyCrontabAnalyze", strategyPurchases);
-        logger.info("insert num :{}", num);
-    }
-
-    /**
-     * 查询多个定投任务
-     *
-     * @param map
-     * @return
-     */
-    public List<StrategyCrontab> selectMulti(Map map) {
-        return template.selectList("strategyCrontab.selectMulti", map);
-    }
-
-    /**
-     * 查询单个定任务
-     *
-     * @param map
-     * @return
-     */
-    public StrategyCrontab selectOne(Map map) {
-        return template.selectOne("strategyCrontab.selectOne", map);
-    }
 
     /**
      * 修改定投任务
@@ -88,34 +43,7 @@ public class StrategyCrontabStore extends BaseStore {
         if (crontab.getAmount() != null) {
             map.put("amount", crontab.getAmount());
         }
-        template.update("strategyCrontab.update", map);
-    }
-
-    public Integer selectPurchaseOne(Map map) {
-        return template.selectOne("strategyCrontab.selectPurchaseOne", map);
-    }
-
-    public List<PurchaseAnalyze> purchaseAnalyze() {
-        return template.selectList("strategyCrontab.purchaseAnalyze");
-    }
-
-    /**
-     * 统计卖出金额
-     * @param map
-     * @return
-     */
-    public PurchaseAnalyze purchaseSell(Map map) {
-        return template.selectOne("strategyCrontab.crontabSell",map);
-    }
-
-
-    /**
-     * 修改购买状态
-     * @param map
-     * @return
-     */
-    public void updatePurchase(Map map) {
-         template.update("strategyCrontab.updatePurchase",map);
+        super.update(map);
     }
 
 }

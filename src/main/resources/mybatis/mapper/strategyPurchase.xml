@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="strategyPurchase">
+
+    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze">
+        <result property="crontabId" column="crontab_id"/>
+        <result property="fundCode" column="fund_code"/>
+        <result property="fundName" column="fund_name"/>
+        <result property="amountSum" column="amount_sum"/>
+        <result property="shareSum" column="share_sum"/>
+        <result property="num" column="num"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="java.util.List">
+        insert tbl_strategy_purchase
+        (
+        crontab_id,
+        fund_code,
+        fund_name,
+        time,
+        net_worth,
+        share,
+        amount,
+        create_time,
+        update_time
+        )VALUES
+        <foreach collection="list" separator="," item="strategyPurchase">
+            (
+            #{strategyPurchase.crontabId},
+            #{strategyPurchase.fundCode},
+            #{strategyPurchase.fundName},
+            #{strategyPurchase.time},
+            #{strategyPurchase.netWorth},
+            #{strategyPurchase.share},
+            #{strategyPurchase.amount},
+            #{strategyPurchase.createTime},
+            #{strategyPurchase.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM tbl_strategy_purchase
+        <where>
+            <if test="time != null">
+                and time = #{time}
+            </if>
+            <if test="crontabId != null ">
+                and crontab_id=#{crontabId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="purchaseAnalyze" resultMap="purchaseAnalyzeMap">
+        SELECT
+        b.crontab_id,
+        b.fund_code,
+        b.fund_name,
+        SUM(b.amount) as amount_sum,
+        SUM(b.share) as share_sum,
+        COUNT(b.id) as num
+        FROM
+        tbl_strategy_purchase b
+        WHERE b.state = 0
+        GROUP BY b.crontab_id,b.fund_code,b.fund_name
+    </select>
+</mapper>

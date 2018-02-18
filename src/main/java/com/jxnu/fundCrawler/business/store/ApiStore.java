@@ -1,5 +1,6 @@
 package com.jxnu.fundCrawler.business.store;
 
+import com.jxnu.fundCrawler.business.model.FundIndex;
 import com.jxnu.fundCrawler.business.model.FundRank;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author shoumiao_yao
@@ -31,6 +33,16 @@ public class ApiStore extends BaseStore {
      * @return
      */
     public List<StrategyCrontabAnalyze> queryCrontabAnalyzeList() {
+        return template.selectList("api.queryCrontabAnalyzeList");
+    }
+
+    /**
+     * 获取大盘指数
+     *
+     * @param map
+     * @return
+     */
+    public List<FundIndex> queryFundIndexList(Map map) {
         return template.selectList("api.queryCrontabAnalyzeList");
     }
 }

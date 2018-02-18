@@ -1,69 +1,38 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.FundIndex;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author shoumiao_yao
  * @date 2016-07-01
  */
 @Component
-public class FundStore extends BaseStore {
-    private Logger logger = LoggerFactory.getLogger(FundStore.class);
+public class FundStore extends BaseStore<Fund> {
 
-    /**
-     * 插入基金
-     *
-     * @param fundList
-     */
-    public void insertFund(List<Fund> fundList) {
-        int length = template.insert("fund.insertFund", fundList);
-        logger.info("insert fund {}", length);
+    @PostConstruct
+    public void init() {
+        super.storeName = "fund";
     }
 
-    /**
-     * 插入基金指数
-     *
-     * @param fundIndices
-     */
-    public void insertFundIndex(List<FundIndex> fundIndices) {
-        try {
-
-        int length = template.insert("fund.insertFundIndex", fundIndices);
-        logger.info("insert fund {}", length);
-        }catch (Exception e){
-            logger.error("error:{}",e);
+    public List<Fund> selectMulti(String handler) {
+        Map map = new HashMap();
+        if (StringUtils.isNotBlank(handler)) {
+            map.put("handler", handler);
         }
+        return super.selectMulti(map);
     }
 
-    /**
-     * 查询所有的基金
-     *
-     * @return
-     */
-    public List<Fund> queryAll() {
-        List<Fund> fundList = template.selectList("fund.queryAll");
-        return fundList;
-    }
-
-    /**
-     * 查询某个公司的基金
-     *
-     * @param companyCode
-     * @return
-     */
-    public List<Fund> queryFundByCompanyCode(String companyCode) {
-        List<Fund> fundList = template.selectList("fund.queryFundByCompanyCode", companyCode);
-        return fundList;
-    }
 
     /**
      * 查询基金的经理人
+     *
      * @param companyCode
      * @return
      */
@@ -74,10 +43,13 @@ public class FundStore extends BaseStore {
 
     /**
      * 根据基金代码获取基金
+     *
      * @param fundCode
      * @return
      */
-    public Fund findById(String fundCode){
-        return template.selectOne("fund.findById",fundCode);
+    public Fund selectOne(String fundCode) {
+        Map map = new HashMap();
+        map.put("code", fundCode);
+        return super.selectOne(map);
     }
 }

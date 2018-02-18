@@ -3,8 +3,6 @@ package com.jxnu.fundCrawler.business.store;
 import com.jxnu.fundCrawler.business.model.AttentionFund;
 import com.jxnu.fundCrawler.business.model.FundMakeShare;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,20 +13,13 @@ import java.util.Map;
  * Created by coder on 2017-03-19.
  */
 @Component
-public class AttentionFundStore extends BaseStore {
+public class AttentionFundStore extends BaseStore<AttentionFund> {
 
-    private Logger logger = LoggerFactory.getLogger(AttentionFundStore.class);
 
-    /**
-     * 查询所有的基金
-     *
-     * @return
-     */
-    public List<AttentionFund> queryAll(String subject) {
+    public List<AttentionFund> selectMulti(String subject) {
         Map map = new HashMap();
         if (StringUtils.isNotBlank(subject)) map.put("subject", subject);
-        List<AttentionFund> attentionFunds = template.selectList("attentionFund.queryAll", map);
-        return attentionFunds;
+        return super.selectMulti(map);
     }
 
     /**

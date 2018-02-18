@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fundShareOut">
+    <insert id="insert" parameterType="java.util.List">
+        INSERT tbl_fund_share_out(fund_code,time,create_time,update_time) VALUES
+        <foreach collection="list" separator="," item="fundShareOut">
+            (#{fundShareOut.fundCode},#{fundShareOut.time},now(),now())
+        </foreach>
+        ON DUPLICATE KEY UPDATE create_time=VALUES(create_time),update_time=VALUES(update_time)
+    </insert>
+
+    <select id="queryShareOutByFundCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        count(id)
+        FROM tbl_fund_share_out
+        where fund_code=#{fundCode}
+        and time >= date_add(now(), interval -120 day)
+        and now() >= time
+    </select>
+
+</mapper>

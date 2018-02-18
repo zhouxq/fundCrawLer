@@ -1,5 +1,6 @@
 package com.jxnu.fundCrawler.business.rest;
 
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundResp;
@@ -54,7 +55,7 @@ public class StrategyCrontabRest {
         crontab.setUpdateTime(new Date());
         crontab.setState(1);
         crontab.setFundCode(Integer.parseInt(crontabReq.getFundCode()));
-        Fund fund = fundStore.findById(crontabReq.getFundCode());
+        Fund fund = fundStore.selectOne(crontabReq.getFundCode());
         if (fund != null) {
             crontab.setFundName(fund.getName());
         }
@@ -100,7 +101,7 @@ public class StrategyCrontabRest {
         crontabSell.setEndTime(crontabSellReq.getEndTime());
         crontabSell.setNetWorth(crontabSellReq.getNetWorth());
         crontabSell.setShare(share);
-        crontabSellStore.insertStrategyCrontabSell(crontabSell);
+        crontabSellStore.insert(Lists.newArrayList(crontabSell));
         FundResp resp = new FundResp();
         ResponseUtils.response(crontabSellReq, resp);
     }

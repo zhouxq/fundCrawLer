@@ -13,7 +13,7 @@
         <result property="total" column="total"/>
     </resultMap>
 
-    <select id="queryAll" resultMap="attentionFundMap" parameterType="java.util.Map">
+    <select id="selectMulti" resultMap="attentionFundMap" parameterType="java.util.Map">
         SELECT
         *
         FROM tbl_attention_fund

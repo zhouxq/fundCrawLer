@@ -1,6 +1,5 @@
 package com.jxnu.fundCrawler.utils;
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -12,13 +11,17 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 public class OkHttpUtils {
     private final static Logger logger = LoggerFactory.getLogger(OkHttpUtils.class);
-    private final static OkHttpClient client = new OkHttpClient.Builder().build();
+    private final static OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .build();
 
     //解析指定的url,指定的编码 为jsoup的document对象
     public static Document parseToDocument(String url, String encode) {
@@ -63,12 +66,12 @@ public class OkHttpUtils {
         String url2 = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=781&rt=" + random.nextInt();
         List<FundNetWorth> fundNetWorthList= ParseUtils.parseFundNetWorth(url2,"519120");
         fundNetWorthList=fundNetWorthList;*/
-        String url="http://quote.eastmoney.com/center/index.html#zyzs_0_1";
-        Document document=OkHttpUtils.parseToDocument(url,"gb2312");
-        Elements elements=document.select("#zyzs");
-        Element tableElement=elements.get(0);
-        Elements trElements=tableElement.select("tr");
-        for(Element element : trElements){
+        String url = "http://quote.eastmoney.com/center/index.html#zyzs_0_1";
+        Document document = OkHttpUtils.parseToDocument(url, "gb2312");
+        Elements elements = document.select("#zyzs");
+        Element tableElement = elements.get(0);
+        Elements trElements = tableElement.select("tr");
+        for (Element element : trElements) {
             System.out.println(element.text());
         }
     }

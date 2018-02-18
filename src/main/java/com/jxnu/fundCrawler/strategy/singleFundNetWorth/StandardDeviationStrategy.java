@@ -5,6 +5,7 @@ import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.strategy.StandardDeviation;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
+import com.jxnu.fundCrawler.business.store.FundShareOutStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.business.store.StrategyCrontabSellStore;
 import com.jxnu.fundCrawler.utils.ArithmeticUtil;
@@ -25,6 +26,8 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
     private StrategyCrontabSellStore crontabSellStore;
     @Autowired
     private FundStore fundStore;
+    @Autowired
+    private FundShareOutStore fundShareOutStore;
 
     @PostConstruct
     public void init() {
@@ -35,14 +38,14 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
     public void handler(List<FundNetWorth> fundNetWorthList) {
         if (fundNetWorthList.isEmpty()) return;
         String fundCode = fundNetWorthList.get(0).getFundCode();
-        Fund fund = fundStore.findById(fundCode);
+        Fund fund = fundStore.selectOne(fundCode);
         if (fund.getName().contains("债") || fund.getName().contains("券")) return;
-        Integer count = netWorthStore.queryShareOutByFundCode(fundCode);
+        Integer count = fundShareOutStore.queryShareOutByFundCode(fundCode);
         if (count > 0) return;
         List<Float> netWorths = netWorthStore.queryWorthByFundCode(fundCode);
         if (netWorths == null || netWorths.isEmpty()) return;
         //最近净值
-        FundNetWorth fundNetWorth = netWorthStore.queryLastWorthByFundCode(fundCode);
+        FundNetWorth fundNetWorth = netWorthStore.selectOne(fundCode, null);
         Float lastFundNetWorth = fundNetWorth.getNetWorth();
         //两个月最大净值
         Float maxNetWorth = netWorthStore.queryPeriodMax(fundCode);

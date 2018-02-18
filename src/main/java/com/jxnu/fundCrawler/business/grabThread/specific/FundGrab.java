@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -30,12 +30,12 @@ public class FundGrab extends Grab {
     private String fundUrl;
 
     public void handler(Integer num) {
-        List<Company> companyList = companyStore.queryAll();
+        List<Company> companyList = companyStore.selectMulti(new HashMap());
         for (Company company : companyList) {
             try {
                 List<Fund> fundList = ParseUtils.parseFund(this.fundUrl, company);
                 if (!fundList.isEmpty()) {
-                    fundStore.insertFund(fundList);
+                    fundStore.insert(fundList);
                 }
             } catch (Exception e) {
                 logger.error("error:{}", ExceptionUtils.getMessage(e));

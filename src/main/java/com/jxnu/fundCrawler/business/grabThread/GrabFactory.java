@@ -6,8 +6,6 @@ import com.jxnu.fundCrawler.business.grabThread.specific.FundIndexGrab;
 import com.jxnu.fundCrawler.business.grabThread.specific.FundNetWorthGrab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -41,7 +39,7 @@ public class GrabFactory {
         }
 
 
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 2, TimeUnit.HOURS);
+        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 24, TimeUnit.HOURS);
 
         ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 0, 2, TimeUnit.HOURS);
 

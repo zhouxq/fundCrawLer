@@ -1,34 +1,21 @@
 package com.jxnu.fundCrawler.business.store;
 
 
-import com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StandardDeviation;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabSell;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Map;
 
 @Component
-public class StrategyCrontabSellStore extends BaseStore {
+public class StrategyCrontabSellStore extends BaseStore<StrategyCrontabSell> {
 
-    /**
-     * 增加定时任务卖出
-     *
-     * @param strategyCrontabSell
-     */
-    public void insertStrategyCrontabSell(StrategyCrontabSell strategyCrontabSell) {
-        super.template.insert("strategyCrontabSell.insertCrontabShell", strategyCrontabSell);
+    @PostConstruct
+    public void init() {
+        super.storeName = "strategyCrontabSell";
     }
 
-    /**
-     * 统计定时任务卖出金额
-     *
-     * @return
-     */
-    public PurchaseAnalyze selectCrontabSellTotal(String crontabId) {
-        return super.template.selectOne("strategyCrontabSell.selectCrontabSellTotal", crontabId);
-    }
 
 
     /**

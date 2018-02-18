@@ -4,6 +4,7 @@ import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.FundShareOut;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
+import com.jxnu.fundCrawler.business.store.FundShareOutStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.strategy.BeforeHandlerFundNetWorth.BeforeHandlerNetWorthStrategy;
 import com.jxnu.fundCrawler.strategy.multiFundNetWorth.BaseMultiNetWorthStrategy;
@@ -18,7 +19,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by coder on 2016/7/2.
@@ -34,6 +37,8 @@ public class FundNetWorthGrab extends Grab {
     private FundStore fundStore;
     @Autowired
     private FundNetWorthStore fundNetWorthStore;
+    @Autowired
+    private FundShareOutStore fundShareOutStore;
     @Resource(name = "standardDeviationStrategy")
     private BaseSingleNetWorthStrategy fundNetWorthStrategy;
     @Resource(name = "multiNetWorthRankStrategy")
@@ -43,7 +48,7 @@ public class FundNetWorthGrab extends Grab {
 
     public void handler(Integer num) {
         Random random = new Random(1000);
-        List<Fund> fundList = fundStore.queryAll();
+        List<Fund> fundList = fundStore.selectMulti("");
         String code;
         if (num != -1) {
             //基金净值前 策略执行
@@ -61,7 +66,7 @@ public class FundNetWorthGrab extends Grab {
                     String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
                     List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                     if (fundNetWorthList.isEmpty()) continue;
-                    fundNetWorthStore.insertFundNetWorth(fundNetWorthList);
+                    fundNetWorthStore.insert(fundNetWorthList);
                     insetShareOuts(code);
                     //当个基金净值 策略执行
                     fundNetWorthStrategy.handler(fundNetWorthList);
@@ -85,6 +90,6 @@ public class FundNetWorthGrab extends Grab {
             fundShareOuts.add(share);
         }
         if(shareOuts.isEmpty()) return;
-        fundNetWorthStore.insertfundShareOut(fundShareOuts);
+        fundShareOutStore.insert(fundShareOuts);
     }
 }
