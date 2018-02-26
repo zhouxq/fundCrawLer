@@ -1,9 +1,9 @@
 package com.jxnu.fundCrawler.utils;
 
-import com.jxnu.fundCrawler.business.model.Company;
-import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.FundIndex;
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.jxnu.fundCrawler.business.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.nodes.Document;
@@ -218,8 +218,77 @@ public class ParseUtils {
         return shareOuts;
     }
 
+    /**
+     * 基金重仓股票
+     *
+     * @param url
+     * @param fundCode
+     * @return
+     */
+    public static List<FundStock> parseStock(String url, String fundCode, String time, String sylUrl, String stockUrl) {
+        List<FundStock> stocks = new ArrayList<FundStock>();
+        Document document = OkHttpUtils.parseToDocument(url, "utf-8");
+        Elements elements = document.getElementsByTag("tbody");
+        if (elements.isEmpty()) return stocks;
+        for (Element element : elements) {
+            Elements trElements = element.getElementsByTag("tr");
+            for (Element trElement : trElements) {
+                Elements tdElements = trElement.getElementsByTag("td");
+                if (tdElements.isEmpty() || tdElements.size() < 3) continue;
+                FundStock stock = new FundStock();
+                Element stockCodeElement = tdElements.get(1);
+                if (stockCodeElement == null) continue;
+                //股票代码
+                String stockCode = stockCodeElement.text();
+                stock.setStockCode(stockCode);
+                //市盈率
+                String sylCode = stockCode;
+                String newStockUrl = stockUrl;
+                if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
+                    sylCode += 2;
+                    newStockUrl = stockUrl.replace("#", "sz" + stockCode);
+                } else {
+                    sylCode += 1;
+                    newStockUrl = stockUrl.replace("#", "sh" + stockCode);
+                }
+                String newSylUrl = sylUrl.replace("#", sylCode).replace("$", String.valueOf(new Date().getTime()));
+                stock.setPe(ParseUtils.parseEastMoney(newSylUrl));
+                //股票名称
+                Element stockNameElement = tdElements.get(2);
+                stock.setStockName(stockNameElement.text());
+                stock.setFundCode(fundCode);
+                stock.setTime(time);
+                stock.setStockUrl(newStockUrl);
+                stocks.add(stock);
+            }
+        }
+        return stocks;
+    }
+
+
+    /**
+     * 获取股票的市盈率
+     *
+     * @param url
+     * @return
+     */
+    public static String parseEastMoney(String url) {
+        Document document = OkHttpUtils.parseToDocument(url, "utf-8");
+        if (document == null) return "";
+        String text = document.text();
+        if (StringUtils.isBlank(text) || text.length() < 2) return "";
+        text = text.substring("callback".length() + 1, text.length());
+        text = text.substring(0, text.length() - 1);
+        JSONObject jsonObject = (JSONObject) JSON.parse(text);
+        if (jsonObject == null) return "";
+        JSONArray jsonArray = jsonObject.getJSONArray("Value");
+        if (jsonArray == null || jsonArray.isEmpty() || jsonArray.size() < 38) return "";
+        String eastMoney = jsonArray.getString(38);
+        return eastMoney;
+    }
+
     public static void main(String[] args) {
-        parseFundShareOut("http://fund.eastmoney.com/398061.html?spm=001.1.swh");
+        parseEastMoney("http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id=0000022&token=2&cb=1&_=1519176444433");
     }
 
 }

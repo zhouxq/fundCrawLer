@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author yaphyao
@@ -99,16 +97,34 @@ public class TimeUtil {
             Long endTimeLong = endCalendar.getTime().getTime();
             Long startTimeLong = startCalendar.getTime().getTime();
 
-            return (int) ((endTimeLong - startTimeLong)/86400000);
+            return (int) ((endTimeLong - startTimeLong) / 86400000);
         } catch (Exception e) {
             logger.error("intervalTime error:()", ExceptionUtils.getStackTrace(e));
         }
         return num;
     }
 
+    /**
+     * 过去几年列表
+     *
+     * @param num
+     * @return
+     */
+    public static List<String> latestYear(int num) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        List<String> years = new ArrayList<String>();
+        do {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - num);
+            years.add(dateFormat.format(calendar.getTime()));
+            num -= 1;
+        } while (num >= 0);
+        return years;
+    }
+
 
     public static void main(String[] args) throws ParseException {
-        System.out.println(intervalDayNum("2017-11-07", "2018-11-08"));
+        System.out.println(latestYear(3));
         System.out.println(intervalTime("2017-10-09", "2017-11-08"));
     }
 }

@@ -1,21 +1,16 @@
 package com.jxnu.fundCrawler.strategy.singleFundNetWorth;
 
 
-import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.model.FundNetWorth;
-import com.jxnu.fundCrawler.business.model.strategy.StandardDeviation;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundShareOutStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.business.store.StrategyCrontabSellStore;
-import com.jxnu.fundCrawler.utils.ArithmeticUtil;
-import com.jxnu.fundCrawler.utils.CalculateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Collections;
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service("standardDeviationStrategy")
@@ -28,15 +23,17 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
     private FundStore fundStore;
     @Autowired
     private FundShareOutStore fundShareOutStore;
+    @Resource(name = "stockStrategy")
+    private BaseSingleNetWorthStrategy stockStrategy;
 
     @PostConstruct
     public void init() {
-        super.next = null;
+        super.next = stockStrategy;
     }
 
     @Override
     public void handler(List<FundNetWorth> fundNetWorthList) {
-        if (fundNetWorthList.isEmpty()) return;
+        /*if (fundNetWorthList.isEmpty()) return;
         String fundCode = fundNetWorthList.get(0).getFundCode();
         Fund fund = fundStore.selectOne(fundCode);
         if (fund.getName().contains("债") || fund.getName().contains("券")) return;
@@ -79,9 +76,9 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         deviation.setState(state);
         deviations.add(deviation);
         if (deviations.isEmpty()) return;
-        crontabSellStore.insertStandardDeviation(deviations);
+        crontabSellStore.insertStandardDeviation(deviations);*/
         if (super.next != null) {
-            super.handler(fundNetWorthList);
+            super.next.handler(fundNetWorthList);
         }
     }
 }

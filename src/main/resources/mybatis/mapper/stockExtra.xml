@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stockExtra">
+    <resultMap id="stockExtraMap" type="com.jxnu.fundCrawler.business.model.StockExtra">
+        <result property="stockCode" column="stock_ode"/>
+        <result property="stockName" column="stock_name"/>
+        <result property="stockUrl" column="stock_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="pe" column="pe"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="java.util.List">
+        INSERT tbl_stock_extra(stock_code,stock_name,create_time,pe,stock_url) VALUES
+        <foreach collection="list" separator="," item="stockExtra">
+            (#{stockExtra.stockCode},#{stockExtra.stockName},now(),#{stockExtra.pe},#{stockExtra.stockUrl})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        stock_name=VALUES(stock_name),
+        pe=VALUES(pe),
+        stock_url=VALUES(stock_url),
+        create_time=VALUES(create_time)
+    </insert>
+
+
+</mapper>
