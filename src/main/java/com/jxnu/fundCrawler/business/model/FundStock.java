@@ -6,6 +6,7 @@ public class FundStock {
     private String fundCode;
     private String time;
     private String pe;
+    private String pb;
     private String stockUrl;
 
     public String getStockCode() {
@@ -54,5 +55,13 @@ public class FundStock {
 
     public void setStockUrl(String stockUrl) {
         this.stockUrl = stockUrl;
+    }
+
+    public String getPb() {
+        return pb;
+    }
+
+    public void setPb(String pb) {
+        this.pb = pb;
     }
 }

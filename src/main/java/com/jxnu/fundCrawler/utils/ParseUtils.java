@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jxnu.fundCrawler.business.model.*;
+import com.jxnu.fundCrawler.business.model.RestModel.StockIndicator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.nodes.Document;
@@ -252,7 +253,11 @@ public class ParseUtils {
                     newStockUrl = stockUrl.replace("#", "sh" + stockCode);
                 }
                 String newSylUrl = sylUrl.replace("#", sylCode).replace("$", String.valueOf(new Date().getTime()));
-                stock.setPe(ParseUtils.parseEastMoney(newSylUrl));
+                StockIndicator stockIndicator = ParseUtils.parseEastMoney(newSylUrl);
+                if (stockIndicator != null) {
+                    stock.setPe(stockIndicator.getPe());
+                    stock.setPb(stockIndicator.getPb());
+                }
                 //股票名称
                 Element stockNameElement = tdElements.get(2);
                 stock.setStockName(stockNameElement.text());
@@ -272,23 +277,25 @@ public class ParseUtils {
      * @param url
      * @return
      */
-    public static String parseEastMoney(String url) {
+    public static StockIndicator parseEastMoney(String url) {
+        StockIndicator stockIndicator = new StockIndicator();
         Document document = OkHttpUtils.parseToDocument(url, "utf-8");
-        if (document == null) return "";
+        if (document == null) return null;
         String text = document.text();
-        if (StringUtils.isBlank(text) || text.length() < 2) return "";
+        if (StringUtils.isBlank(text) || text.length() < 2) return null;
         text = text.substring("callback".length() + 1, text.length());
         text = text.substring(0, text.length() - 1);
         JSONObject jsonObject = (JSONObject) JSON.parse(text);
-        if (jsonObject == null) return "";
+        if (jsonObject == null) return null;
         JSONArray jsonArray = jsonObject.getJSONArray("Value");
-        if (jsonArray == null || jsonArray.isEmpty() || jsonArray.size() < 38) return "";
-        String eastMoney = jsonArray.getString(38);
-        return eastMoney;
+        if (jsonArray == null || jsonArray.isEmpty() || jsonArray.size() < 38) return null;
+        stockIndicator.setPe(jsonArray.getString(38));
+        stockIndicator.setPb(jsonArray.getString(43));
+        return stockIndicator;
     }
 
     public static void main(String[] args) {
-        parseEastMoney("http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id=0000022&token=2&cb=1&_=1519176444433");
+        parseEastMoney("http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id=0000022&token=2&cb1&_=1519176444433");
     }
 
 }

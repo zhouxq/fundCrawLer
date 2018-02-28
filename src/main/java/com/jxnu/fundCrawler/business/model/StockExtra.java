@@ -6,9 +6,17 @@ public class StockExtra {
     private String stockCode;
     private String stockName;
     private String pe;
+    private String pb;
     private String stockUrl;
     private Date createTime;
 
+    public String getPb() {
+        return pb;
+    }
+
+    public void setPb(String pb) {
+        this.pb = pb;
+    }
 
     public String getStockCode() {
         return stockCode;
@@ -48,5 +56,17 @@ public class StockExtra {
 
     public void setPe(String pe) {
         this.pe = pe;
+    }
+
+    @Override
+    public String toString() {
+        return "StockExtra{" +
+                "stockCode='" + stockCode + '\'' +
+                ", stockName='" + stockName + '\'' +
+                ", pe='" + pe + '\'' +
+                ", pb='" + pb + '\'' +
+                ", stockUrl='" + stockUrl + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }
