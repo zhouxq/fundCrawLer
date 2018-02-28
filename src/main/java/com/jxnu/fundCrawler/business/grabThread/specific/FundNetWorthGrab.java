@@ -52,7 +52,7 @@ public class FundNetWorthGrab extends Grab {
         String code;
         if (num != -1) {
             //基金净值前 策略执行
-            //beforeHandlerNetWorthStrategy.handler();
+            beforeHandlerNetWorthStrategy.handler();
             for (Fund fund : fundList) {
                 try {
                     String count;
@@ -66,8 +66,8 @@ public class FundNetWorthGrab extends Grab {
                     String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
                     List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
                     if (fundNetWorthList.isEmpty()) continue;
-                    //fundNetWorthStore.insert(fundNetWorthList);
-                    //insetShareOuts(code);
+                    fundNetWorthStore.insert(fundNetWorthList);
+                    insetShareOuts(code);
                     //当个基金净值 策略执行
                     fundNetWorthStrategy.handler(fundNetWorthList);
                 } catch (Exception e) {
@@ -76,7 +76,7 @@ public class FundNetWorthGrab extends Grab {
             }
         }
         //所有基金净值 策略执行
-        //multiNetWorthStrategy.handler();
+        multiNetWorthStrategy.handler();
     }
 
     private void insetShareOuts(String code){

@@ -26,7 +26,7 @@ public class OkHttpUtils {
     //解析指定的url,指定的编码 为jsoup的document对象
     public static Document parseToDocument(String url, String encode) {
         try {
-            Request request = new Request.Builder().url(url).build();
+            Request request = constructeRequst(url);
             Response response = client.newCall(request).execute();
             int status = response.code();
             logger.info("http response status:{}", status);
@@ -43,7 +43,7 @@ public class OkHttpUtils {
     //解析指定url,返回的数据
     public static String parseToString(String url) {
         try {
-            Request request = new Request.Builder().url(url).build();
+            Request request = constructeRequst(url);
             Response response = client.newCall(request).execute();
             int status = response.code();
             logger.info("http response status:{}", status);
@@ -55,6 +55,24 @@ public class OkHttpUtils {
             return null;
         }
     }
+
+    /**
+     * 构造http请求
+     *
+     * @param url
+     * @return
+     */
+    private static Request constructeRequst(String url) {
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Accept", "*/*")
+                .header("Accept-Encoding", "gzip, deflate")
+                .header("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2")
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0")
+                .build();
+        return request;
+    }
+
 
     public static void main(String[] args) {
         Random random = new Random(1000);
