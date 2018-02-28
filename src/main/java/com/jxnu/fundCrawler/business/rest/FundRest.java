@@ -83,7 +83,15 @@ public class FundRest {
         List<String> fundCodes = attentionFundStore.selectSubjectFund(req.getCode());
         List<Fund> funds = new ArrayList<Fund>();
         for (String fundCode : fundCodes) {
-            if (StringUtils.isBlank(fundCode)) {
+            if (StringUtils.isNotBlank(fundCode)) {
+                if (fundCode.length() == 5)
+                    fundCode = "0" + fundCode;
+                else if (fundCode.length() == 4)
+                    fundCode = "00" + fundCode;
+                else if (fundCode.length() == 3)
+                    fundCode = "000" + fundCode;
+                else if (fundCode.length() == 2)
+                    fundCode = "0000" + fundCode;
                 Fund fund = fundStore.selectOne(fundCode);
                 funds.add(fund);
             }

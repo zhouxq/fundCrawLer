@@ -42,7 +42,8 @@
                 code=#{code}
             </if>
         </where>
-        limit 0,1 code DESC
+        ORDER by code DESC
+        limit 0,1
     </select>
 
     <select id="queryHandlerByCompanyCode" parameterType="java.lang.String" resultType="java.lang.String">
