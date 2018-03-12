@@ -1,8 +1,5 @@
 package com.jxnu.fundCrawler.utils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.jxnu.fundCrawler.business.model.*;
 import com.jxnu.fundCrawler.business.model.RestModel.StockIndicator;
 import org.apache.commons.lang3.StringUtils;
@@ -278,24 +275,112 @@ public class ParseUtils {
      * @return
      */
     public static StockIndicator parseEastMoney(String url) {
+        String totalMarketValue = "";
+        String netWorth = "";
+        String netProfit = "";
+        String grossProfitMargin = "";
+        String netInterestRate = "";
+        String pe = "";
+        String pb = "";
+        String roe = "";
+        String subject = "";
         StockIndicator stockIndicator = new StockIndicator();
-        Document document = OkHttpUtils.parseToDocument(url, "utf-8");
-        if (document == null) return null;
-        String text = document.text();
-        if (StringUtils.isBlank(text) || text.length() < 2) return null;
-        text = text.substring("callback".length() + 1, text.length());
-        text = text.substring(0, text.length() - 1);
-        JSONObject jsonObject = (JSONObject) JSON.parse(text);
-        if (jsonObject == null) return null;
-        JSONArray jsonArray = jsonObject.getJSONArray("Value");
-        if (jsonArray == null || jsonArray.isEmpty() || jsonArray.size() < 38) return null;
-        stockIndicator.setPe(jsonArray.getString(38));
-        stockIndicator.setPb(jsonArray.getString(43));
+        Document document = OkHttpUtils.parseToDocument(url, "gb2312");
+        Elements elements = document.getElementsByClass("cwzb");
+        if (elements == null || elements.isEmpty()) return null;
+        Element element = elements.get(0);
+        Elements tableElements = element.getElementsByTag("tbody");
+        if (tableElements == null || tableElements.isEmpty()) return null;
+        Elements trElements = tableElements.get(0).getElementsByTag("tr");
+        if (trElements == null || trElements.isEmpty()) return null;
+        int index = 1;
+        for (Element trElement : trElements) {
+            if (trElement == null) continue;
+            Elements tdElements = trElement.getElementsByTag("td");
+            if (tdElements == null || tdElements.isEmpty()) continue;
+            for (int k = 0; k < tdElements.size(); k++) {
+                Element tdElement = tdElements.get(k);
+                if (tdElement == null) continue;
+                String text = tdElement.text();
+                if (index == 1) {
+                    switch (k) {
+                        case 1:
+                            totalMarketValue = text;
+                            break;
+                        case 2:
+                            netWorth = text;
+                            break;
+                        case 3:
+                            netProfit = text;
+                            break;
+                        case 4:
+                            pe = text;
+                            break;
+                        case 5:
+                            pb = text;
+                            break;
+                        case 6:
+                            grossProfitMargin = text;
+                            break;
+                        case 7:
+                            netInterestRate = text;
+                            break;
+                        case 8:
+                            roe = text;
+                            break;
+                    }
+                } else if (index == 2) {
+                    if (k == 0) {
+                        subject = text;
+                    }
+
+                } else if (index == 3) {
+                    text = text.substring(0, text.indexOf("|") + 1);
+                    switch (k) {
+                        case 1:
+                            totalMarketValue = text + totalMarketValue;
+                            break;
+                        case 2:
+                            netWorth = text + netWorth;
+                            break;
+                        case 3:
+                            netProfit = text + netProfit;
+                            break;
+                        case 4:
+                            pe = text + pe;
+                            break;
+                        case 5:
+                            pb = text + pb;
+                            break;
+                        case 6:
+                            grossProfitMargin = text + grossProfitMargin;
+                            break;
+                        case 7:
+                            netInterestRate = text + netInterestRate;
+                            break;
+                        case 8:
+                            roe = text + roe;
+                            break;
+                    }
+                }
+            }
+            index++;
+        }
+        stockIndicator.setPb(pb);
+        stockIndicator.setPe(pe);
+        stockIndicator.setNetWorth(netWorth);
+        stockIndicator.setSubject(subject);
+        stockIndicator.setGrossProfitMargin(grossProfitMargin);
+        stockIndicator.setNetInterestRate(netInterestRate);
+        stockIndicator.setNetProfit(netProfit);
+        stockIndicator.setTotalMarketValue(totalMarketValue);
+        stockIndicator.setRoe(roe);
         return stockIndicator;
     }
 
     public static void main(String[] args) {
-        parseEastMoney("http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id=0000022&token=2&cb1&_=1519176444433");
+        parseEastMoney("http://quote.eastmoney.com/sz002466.html");
     }
+
 
 }
