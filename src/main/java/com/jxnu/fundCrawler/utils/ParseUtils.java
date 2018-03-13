@@ -7,6 +7,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.BeanUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -238,7 +239,6 @@ public class ParseUtils {
                 if (stockCodeElement == null) continue;
                 //股票代码
                 String stockCode = stockCodeElement.text();
-                stock.setStockCode(stockCode);
                 //市盈率
                 String sylCode = stockCode;
                 String newStockUrl = stockUrl;
@@ -251,12 +251,10 @@ public class ParseUtils {
                 }
                 String newSylUrl = sylUrl.replace("#", sylCode).replace("$", String.valueOf(new Date().getTime()));
                 StockIndicator stockIndicator = ParseUtils.parseEastMoney(newSylUrl);
-                if (stockIndicator != null) {
-                    stock.setPe(stockIndicator.getPe());
-                    stock.setPb(stockIndicator.getPb());
-                }
+                if (stockIndicator != null) BeanUtils.copyProperties(stockIndicator, stock);
                 //股票名称
                 Element stockNameElement = tdElements.get(2);
+                stock.setStockCode(stockCode);
                 stock.setStockName(stockNameElement.text());
                 stock.setFundCode(fundCode);
                 stock.setTime(time);

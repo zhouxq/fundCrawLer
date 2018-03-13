@@ -8,19 +8,60 @@
         <result property="createTime" column="create_time"/>
         <result property="pe" column="pe"/>
         <result property="pb" column="pb"/>
+        <result property="totalMarketValue" column="total_market_value"/>
+        <result property="netWorth" column="net_worth"/>
+        <result property="netProfit" column="net_profit"/>
+        <result property="grossProfitMargin" column="gross_profit_margin"/>
+        <result property="netInterestRate" column="net_interest_rate"/>
+        <result property="roe" column="roe"/>
+        <result property="subject" column="subject"/>
     </resultMap>
 
     <insert id="insert" parameterType="java.util.List">
-        INSERT tbl_stock_extra(stock_code,stock_name,create_time,pe,stock_url,pb) VALUES
+        INSERT tbl_stock_extra(
+        stock_code,
+        stock_name,
+        create_time,
+        pe,
+        stock_url,
+        pb,
+        total_market_value,
+        net_worth,
+        net_profit,
+        gross_profit_margin,
+        net_interest_rate,
+        roe,
+        subject
+        ) VALUES
         <foreach collection="list" separator="," item="stockExtra">
-            (#{stockExtra.stockCode},#{stockExtra.stockName},now(),#{stockExtra.pe},#{stockExtra.stockUrl},#{stockExtra.pb})
+            (
+            #{stockExtra.stockCode},
+            #{stockExtra.stockName},
+            now(),
+            #{stockExtra.pe},
+            #{stockExtra.stockUrl},
+            #{stockExtra.pb},
+            #{stockExtra.totalMarketValue},
+            #{stockExtra.netWorth},
+            #{stockExtra.netProfit},
+            #{stockExtra.grossProfitMargin},
+            #{stockExtra.netInterestRate},
+            #{stockExtra.roe},
+            #{stockExtra.subject}
+            )
         </foreach>
         ON DUPLICATE KEY UPDATE
         stock_name=VALUES(stock_name),
         pe=VALUES(pe),
         pb=VALUES(pb),
         stock_url=VALUES(stock_url),
-        create_time=VALUES(create_time)
+        total_market_value=VALUES(total_market_value),
+        net_worth=VALUES(net_worth),
+        net_profit=VALUES(net_profit),
+        gross_profit_margin=VALUES(gross_profit_margin),
+        net_interest_rate=VALUES(net_interest_rate),
+        roe=VALUES(roe),
+        subject=VALUES(subject)
     </insert>
 
 
