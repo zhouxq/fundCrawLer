@@ -10,6 +10,10 @@ public class StockExtra {
     private String stockUrl;
     private Date createTime;
 
+    public StockExtra() {
+        createTime = new Date();
+    }
+
     public String getPb() {
         return pb;
     }

@@ -61,7 +61,8 @@
         gross_profit_margin=VALUES(gross_profit_margin),
         net_interest_rate=VALUES(net_interest_rate),
         roe=VALUES(roe),
-        subject=VALUES(subject)
+        subject=VALUES(subject),
+        create_time=VALUES(create_time)
     </insert>
 
 

@@ -1,12 +1,12 @@
 package com.jxnu.fundCrawler.business.store;
 
+import com.jxnu.fundCrawler.bean.FundRankDaoBean;
 import com.jxnu.fundCrawler.business.model.FundRank;
+import com.jxnu.fundCrawler.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author shoumiao_yao
@@ -21,10 +21,8 @@ public class FundRankStore extends BaseStore<FundRank> {
     }
 
     public List<FundRank> selectMulti(String time) {
-        Map map = new HashMap();
-        map.put("time", time);
-        map.put("rate", 1);
-        return super.selectMulti(map);
+        FundRankDaoBean daoBean = new FundRankDaoBean(time, 1);
+        return super.selectMulti(TransformUtil.bean2Map(daoBean));
     }
 
     public void truncateDayRank() {

@@ -8,8 +8,8 @@ import com.jxnu.fundCrawler.business.store.FundStockStore;
 import com.jxnu.fundCrawler.business.store.StockExtraStore;
 import com.jxnu.fundCrawler.utils.ParseUtils;
 import com.jxnu.fundCrawler.utils.TimeUtil;
+import com.jxnu.fundCrawler.utils.base.PopBeanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,6 @@ public class StockStrategy extends BaseSingleNetWorthStrategy {
         if (fundNetWorthList.isEmpty()) return;
         String fundCode = fundNetWorthList.get(0).getFundCode();
         if (StringUtils.isBlank(fundCode)) return;
-        String sylCode = fundCode;
         List<String> times = TimeUtil.latestYear(3);
         for (String time : times) {
             String newUrl = "";
@@ -52,8 +51,7 @@ public class StockStrategy extends BaseSingleNetWorthStrategy {
             stockStore.insert(stocks);
             List<StockExtra> stockExtras = new ArrayList<StockExtra>();
             for (FundStock fundStock : stocks) {
-                StockExtra stockExtra = new StockExtra();
-                BeanUtils.copyProperties(fundStock, stockExtra);
+                StockExtra stockExtra = PopBeanUtils.copyProperties(fundStock, StockExtra.class);
                 stockExtras.add(stockExtra);
             }
             if (stockExtras.isEmpty()) continue;

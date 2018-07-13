@@ -1,13 +1,12 @@
 package com.jxnu.fundCrawler.business.store;
 
+import com.jxnu.fundCrawler.bean.FundDaoBean;
 import com.jxnu.fundCrawler.business.model.Fund;
-import org.apache.commons.lang3.StringUtils;
+import com.jxnu.fundCrawler.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author shoumiao_yao
@@ -22,11 +21,8 @@ public class FundStore extends BaseStore<Fund> {
     }
 
     public List<Fund> selectMulti(String handler) {
-        Map map = new HashMap();
-        if (StringUtils.isNotBlank(handler)) {
-            map.put("handler", handler);
-        }
-        return super.selectMulti(map);
+        FundDaoBean daoBean = new FundDaoBean(handler, null);
+        return super.selectMulti(TransformUtil.bean2Map(daoBean));
     }
 
 
@@ -48,8 +44,7 @@ public class FundStore extends BaseStore<Fund> {
      * @return
      */
     public Fund selectOne(String fundCode) {
-        Map map = new HashMap();
-        map.put("code", fundCode);
-        return super.selectOne(map);
+        FundDaoBean daoBean = new FundDaoBean(null, fundCode);
+        return super.selectOne(TransformUtil.bean2Map(daoBean));
     }
 }

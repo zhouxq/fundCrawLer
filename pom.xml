@@ -152,6 +152,11 @@
             <artifactId>spring-test</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-joy</artifactId>
+            <version>4.1.1</version>
+        </dependency>
 
     </dependencies>
     <build>

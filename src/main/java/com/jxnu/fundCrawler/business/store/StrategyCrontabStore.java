@@ -1,12 +1,13 @@
 package com.jxnu.fundCrawler.business.store;
 
-import com.google.common.collect.Maps;
+import com.jxnu.fundCrawler.bean.StrategyCrontabStoreDaoBean;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontab;
+import com.jxnu.fundCrawler.utils.base.PopBeanUtils;
+import com.jxnu.fundCrawler.utils.base.TransformUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
 
 /**
  * Created by coder on 2017/11/11.
@@ -26,24 +27,10 @@ public class StrategyCrontabStore extends BaseStore<StrategyCrontab> {
      * @param crontab
      */
     public void update(StrategyCrontab crontab) {
-        Map map = Maps.newHashMap();
-        map.put("id", crontab.getId());
-        if (crontab.getState() != null) {
-            map.put("state", crontab.getState());
-        }
-        if (StringUtils.isNotBlank(crontab.getStartTime())) {
-            map.put("startTime", crontab.getStartTime());
-        }
-        if (StringUtils.isNotBlank(crontab.getEndTime())) {
-            map.put("endTime", crontab.getEndTime());
-            if (StringUtils.equals("1", crontab.getEndTime())) {
-                map.put("endTime", "");
-            }
-        }
-        if (crontab.getAmount() != null) {
-            map.put("amount", crontab.getAmount());
-        }
-        super.update(map);
+        StrategyCrontabStoreDaoBean daoBean = PopBeanUtils.copyProperties(crontab, StrategyCrontabStoreDaoBean.class);
+        if (StringUtils.equals(daoBean.getEndTime(), "1"))
+            daoBean.setEndTime("");
+        super.update(TransformUtil.bean2Map(daoBean));
     }
 
 }

@@ -1,13 +1,13 @@
 package com.jxnu.fundCrawler.business.store;
 
+import com.jxnu.fundCrawler.bean.StrategyPurchaseStoreDaoBean;
 import com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyPurchase;
+import com.jxnu.fundCrawler.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author shoumiao_yao
@@ -22,10 +22,8 @@ public class StrategyPurchaseStore extends BaseStore<StrategyPurchase> {
     }
 
     public Integer selectCount(Integer crontabId, String time) {
-        Map<String, Object> map = new HashMap();
-        map.put("crontabId", crontabId);
-        map.put("time", time);
-        return template.selectOne(super.storeName + ".selectCount", map);
+        StrategyPurchaseStoreDaoBean daoBean = new StrategyPurchaseStoreDaoBean(crontabId, time);
+        return template.selectOne(super.storeName + ".selectCount", TransformUtil.bean2Map(daoBean));
     }
 
     public List<PurchaseAnalyze> purchaseAnalyze() {
