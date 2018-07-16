@@ -46,7 +46,7 @@ public class StockStrategy extends BaseSingleNetWorthStrategy {
         for (String time : times) {
             String newUrl = "";
             newUrl = url.replace("#", fundCode).replace("@", time).replace("$", String.valueOf(new Random(5).nextInt()));
-            List<FundStock> stocks = ParseUtils.parseStock(newUrl, fundCode, time, sylUrl, stockUrl);
+            List<FundStock> stocks = ParseUtils.parseStock(newUrl, fundCode, time, stockUrl);
             if (stocks.isEmpty()) continue;
             stockStore.insert(stocks);
             List<StockExtra> stockExtras = new ArrayList<StockExtra>();

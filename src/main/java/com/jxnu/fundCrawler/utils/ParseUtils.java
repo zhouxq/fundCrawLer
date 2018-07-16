@@ -224,7 +224,7 @@ public class ParseUtils {
      * @param fundCode
      * @return
      */
-    public static List<FundStock> parseStock(String url, String fundCode, String time, String sylUrl, String stockUrl) {
+    public static List<FundStock> parseStock(String url, String fundCode, String time, String stockUrl) {
         List<FundStock> stocks = new ArrayList<FundStock>();
         Document document = OkHttpUtils.parseToDocument(url, "utf-8");
         Elements elements = document.getElementsByTag("tbody");
@@ -240,17 +240,13 @@ public class ParseUtils {
                 //股票代码
                 String stockCode = stockCodeElement.text();
                 //市盈率
-                String sylCode = stockCode;
                 String newStockUrl = stockUrl;
                 if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
-                    sylCode += 2;
                     newStockUrl = stockUrl.replace("#", "sz" + stockCode);
                 } else {
-                    sylCode += 1;
                     newStockUrl = stockUrl.replace("#", "sh" + stockCode);
                 }
-                String newSylUrl = sylUrl.replace("#", sylCode).replace("$", String.valueOf(new Date().getTime()));
-                StockIndicator stockIndicator = ParseUtils.parseEastMoney(newSylUrl);
+                StockIndicator stockIndicator = ParseUtils.parseEastMoney(newStockUrl);
                 if (stockIndicator != null) BeanUtils.copyProperties(stockIndicator, stock);
                 //股票名称
                 Element stockNameElement = tdElements.get(2);
@@ -284,6 +280,7 @@ public class ParseUtils {
         String subject = "";
         StockIndicator stockIndicator = new StockIndicator();
         Document document = OkHttpUtils.parseToDocument(url, "gb2312");
+        if(document==null) document = OkHttpUtils.parseToDocument(url,"utf-8");
         Elements elements = document.getElementsByClass("cwzb");
         if (elements == null || elements.isEmpty()) return null;
         Element element = elements.get(0);

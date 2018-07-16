@@ -15,7 +15,7 @@ import java.util.List;
 public class FundNetWorthStore extends BaseStore<FundNetWorth> {
     @PostConstruct
     public void init() {
-        super.storeName = "fundNetWorth.";
+        super.storeName = "fundNetWorth";
     }
 
     public List<FundNetWorth> selectMulti(String fundCode) {

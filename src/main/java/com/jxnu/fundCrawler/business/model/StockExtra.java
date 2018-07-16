@@ -9,6 +9,13 @@ public class StockExtra {
     private String pb;
     private String stockUrl;
     private Date createTime;
+    private String totalMarketValue;   //总市值
+    private String netWorth;           //净资产
+    private String netProfit;          //净利润
+    private String grossProfitMargin;  //毛利率
+    private String netInterestRate;    //净利率
+    private String roe;                //ROE
+    private String subject;            //行业
 
     public StockExtra() {
         createTime = new Date();
@@ -62,6 +69,62 @@ public class StockExtra {
         this.pe = pe;
     }
 
+    public String getTotalMarketValue() {
+        return totalMarketValue;
+    }
+
+    public void setTotalMarketValue(String totalMarketValue) {
+        this.totalMarketValue = totalMarketValue;
+    }
+
+    public String getNetWorth() {
+        return netWorth;
+    }
+
+    public void setNetWorth(String netWorth) {
+        this.netWorth = netWorth;
+    }
+
+    public String getNetProfit() {
+        return netProfit;
+    }
+
+    public void setNetProfit(String netProfit) {
+        this.netProfit = netProfit;
+    }
+
+    public String getGrossProfitMargin() {
+        return grossProfitMargin;
+    }
+
+    public void setGrossProfitMargin(String grossProfitMargin) {
+        this.grossProfitMargin = grossProfitMargin;
+    }
+
+    public String getNetInterestRate() {
+        return netInterestRate;
+    }
+
+    public void setNetInterestRate(String netInterestRate) {
+        this.netInterestRate = netInterestRate;
+    }
+
+    public String getRoe() {
+        return roe;
+    }
+
+    public void setRoe(String roe) {
+        this.roe = roe;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     @Override
     public String toString() {
         return "StockExtra{" +
@@ -71,6 +134,13 @@ public class StockExtra {
                 ", pb='" + pb + '\'' +
                 ", stockUrl='" + stockUrl + '\'' +
                 ", createTime=" + createTime +
+                ", totalMarketValue='" + totalMarketValue + '\'' +
+                ", netWorth='" + netWorth + '\'' +
+                ", netProfit='" + netProfit + '\'' +
+                ", grossProfitMargin='" + grossProfitMargin + '\'' +
+                ", netInterestRate='" + netInterestRate + '\'' +
+                ", roe='" + roe + '\'' +
+                ", subject='" + subject + '\'' +
                 '}';
     }
 }
