@@ -15,6 +15,7 @@ public class FundStock {
     private String netInterestRate;    //净利率
     private String roe;                //ROE
     private String subject;            //行业
+    private String price;              //股价
 
 
     public String getStockCode() {
@@ -127,5 +128,13 @@ public class FundStock {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

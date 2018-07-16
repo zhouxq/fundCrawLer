@@ -4,7 +4,7 @@ import com.jxnu.fundCrawler.business.model.Company;
 import com.jxnu.fundCrawler.business.model.Fund;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
-import com.jxnu.fundCrawler.utils.ParseUtils;
+import com.jxnu.fundCrawler.utils.parse.ParseUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

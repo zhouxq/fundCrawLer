@@ -9,7 +9,7 @@ import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.strategy.BeforeHandlerFundNetWorth.BeforeHandlerNetWorthStrategy;
 import com.jxnu.fundCrawler.strategy.multiFundNetWorth.BaseMultiNetWorthStrategy;
 import com.jxnu.fundCrawler.strategy.singleFundNetWorth.BaseSingleNetWorthStrategy;
-import com.jxnu.fundCrawler.utils.ParseUtils;
+import com.jxnu.fundCrawler.utils.parse.ParseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;

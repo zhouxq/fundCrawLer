@@ -15,6 +15,7 @@
         <result property="netInterestRate" column="net_interest_rate"/>
         <result property="roe" column="roe"/>
         <result property="subject" column="subject"/>
+        <result property="price" column="price"/>
     </resultMap>
 
     <insert id="insert" parameterType="java.util.List">
@@ -31,7 +32,8 @@
         gross_profit_margin,
         net_interest_rate,
         roe,
-        subject
+        subject,
+        price
         ) VALUES
         <foreach collection="list" separator="," item="stockExtra">
             (
@@ -47,6 +49,7 @@
             #{stockExtra.grossProfitMargin},
             #{stockExtra.netInterestRate},
             #{stockExtra.roe},
+            #{stockExtra.price},
             #{stockExtra.subject}
             )
         </foreach>
@@ -62,6 +65,7 @@
         net_interest_rate=VALUES(net_interest_rate),
         roe=VALUES(roe),
         subject=VALUES(subject),
+        price=VALUES(price),
         create_time=VALUES(create_time)
     </insert>
 

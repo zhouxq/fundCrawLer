@@ -15,6 +15,9 @@ public class StockIndicator {
     private String pb;                 //市净率
     private String roe;                //ROE
     private String subject;            //行业
+    private String price;              //当前股价
+
+
 
     public String getPe() {
         return pe;
@@ -86,5 +89,29 @@ public class StockIndicator {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "StockIndicator{" +
+                "totalMarketValue='" + totalMarketValue + '\'' +
+                ", netWorth='" + netWorth + '\'' +
+                ", netProfit='" + netProfit + '\'' +
+                ", grossProfitMargin='" + grossProfitMargin + '\'' +
+                ", netInterestRate='" + netInterestRate + '\'' +
+                ", pe='" + pe + '\'' +
+                ", pb='" + pb + '\'' +
+                ", roe='" + roe + '\'' +
+                ", subject='" + subject + '\'' +
+                ", price='" + price + '\'' +
+                '}';
     }
 }

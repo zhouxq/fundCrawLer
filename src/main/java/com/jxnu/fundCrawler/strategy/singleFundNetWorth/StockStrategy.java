@@ -6,9 +6,9 @@ import com.jxnu.fundCrawler.business.model.FundStock;
 import com.jxnu.fundCrawler.business.model.StockExtra;
 import com.jxnu.fundCrawler.business.store.FundStockStore;
 import com.jxnu.fundCrawler.business.store.StockExtraStore;
-import com.jxnu.fundCrawler.utils.ParseUtils;
 import com.jxnu.fundCrawler.utils.TimeUtil;
 import com.jxnu.fundCrawler.utils.base.PopBeanUtils;
+import com.jxnu.fundCrawler.utils.parse.StockParseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +46,7 @@ public class StockStrategy extends BaseSingleNetWorthStrategy {
         for (String time : times) {
             String newUrl = "";
             newUrl = url.replace("#", fundCode).replace("@", time).replace("$", String.valueOf(new Random(5).nextInt()));
-            List<FundStock> stocks = ParseUtils.parseStock(newUrl, fundCode, time, stockUrl);
+            List<FundStock> stocks = StockParseUtils.parseStock(newUrl, fundCode, time, stockUrl);
             if (stocks.isEmpty()) continue;
             stockStore.insert(stocks);
             List<StockExtra> stockExtras = new ArrayList<StockExtra>();
