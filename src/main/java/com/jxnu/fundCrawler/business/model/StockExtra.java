@@ -16,6 +16,7 @@ public class StockExtra {
     private String netInterestRate;    //净利率
     private String roe;                //ROE
     private String subject;            //行业
+    private String price;
 
     public StockExtra() {
         createTime = new Date();
@@ -125,6 +126,14 @@ public class StockExtra {
         this.subject = subject;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "StockExtra{" +
@@ -141,6 +150,7 @@ public class StockExtra {
                 ", netInterestRate='" + netInterestRate + '\'' +
                 ", roe='" + roe + '\'' +
                 ", subject='" + subject + '\'' +
+                ", price='" + price + '\'' +
                 '}';
     }
 }

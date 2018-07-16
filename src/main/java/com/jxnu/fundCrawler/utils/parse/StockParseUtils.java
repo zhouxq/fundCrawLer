@@ -76,9 +76,9 @@ public class StockParseUtils {
         String url = UrlEnmu.stock_price.url();
         url = url.replace("#", String.valueOf(new Date().getTime()));
         if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
-            url = url.replace("#", stockCode + "2");
+            url = url.replace("@", stockCode + "2");
         } else {
-            url = url.replace("#", stockCode + "1");
+            url = url.replace("@", stockCode + "1");
         }
         Document document = OkHttpUtils.parseToDocument(url, "utf-8");
         String text = document.text();

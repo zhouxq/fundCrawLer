@@ -49,8 +49,8 @@
             #{stockExtra.grossProfitMargin},
             #{stockExtra.netInterestRate},
             #{stockExtra.roe},
-            #{stockExtra.price},
-            #{stockExtra.subject}
+            #{stockExtra.subject},
+            #{stockExtra.price}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE
