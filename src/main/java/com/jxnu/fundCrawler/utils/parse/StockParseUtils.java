@@ -90,7 +90,6 @@ public class StockParseUtils {
             JSONObject infoJson = jsonObject.getJSONObject("info");
             if (infoJson != null) {
                 c = infoJson.getString("c");
-
             }
         }
         return c;
