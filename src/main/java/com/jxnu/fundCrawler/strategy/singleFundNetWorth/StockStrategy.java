@@ -1,9 +1,9 @@
 package com.jxnu.fundCrawler.strategy.singleFundNetWorth;
 
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
-import com.jxnu.fundCrawler.business.model.FundStock;
-import com.jxnu.fundCrawler.business.model.StockExtra;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.FundStock;
+import com.jxnu.fundCrawler.business.model.dao.StockExtra;
 import com.jxnu.fundCrawler.business.store.FundStockStore;
 import com.jxnu.fundCrawler.business.store.StockExtraStore;
 import com.jxnu.fundCrawler.utils.TimeUtil;

@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.store;
 
-import com.jxnu.fundCrawler.business.model.FundIndex;
+import com.jxnu.fundCrawler.business.model.dao.FundIndex;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

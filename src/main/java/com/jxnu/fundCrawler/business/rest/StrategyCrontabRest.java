@@ -2,7 +2,7 @@ package com.jxnu.fundCrawler.business.rest;
 
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
-import com.jxnu.fundCrawler.business.model.Fund;
+import com.jxnu.fundCrawler.business.model.dao.Fund;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundResp;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.StrategyCrontabListReq;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.StrategyCrontabModifyReq;

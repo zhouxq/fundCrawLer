@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.strategy.multiFundNetWorth;
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze;
 import com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabAnalyze;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;

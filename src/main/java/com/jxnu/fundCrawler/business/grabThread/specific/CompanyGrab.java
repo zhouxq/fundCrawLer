@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.grabThread.specific;
 
-import com.jxnu.fundCrawler.business.model.Company;
+import com.jxnu.fundCrawler.business.model.dao.Company;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.utils.parse.ParseUtils;
 import org.springframework.beans.factory.annotation.Autowired;

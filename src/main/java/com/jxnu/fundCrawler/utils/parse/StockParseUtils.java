@@ -1,9 +1,11 @@
 package com.jxnu.fundCrawler.utils.parse;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jxnu.fundCrawler.business.model.FundStock;
 import com.jxnu.fundCrawler.business.model.RestModel.StockIndicator;
-import com.jxnu.fundCrawler.http.UrlEnmu;
+import com.jxnu.fundCrawler.business.model.dao.FundLiftBean;
+import com.jxnu.fundCrawler.business.model.dao.FundStock;
+import com.jxnu.fundCrawler.enmu.UrlEnmu;
 import com.jxnu.fundCrawler.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -11,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +67,28 @@ public class StockParseUtils {
         return stocks;
     }
 
+    /**
+     * 解禁记录
+     *
+     * @param fundCode
+     * @return
+     */
+    public static List<FundLiftBean> parseLiftBean(String fundCode) {
+        List<FundLiftBean> liftBeans = new ArrayList<FundLiftBean>();
+        String url = UrlEnmu.stock_lift_bean.url().replace("@", fundCode).replace("#", String.valueOf(new Date().getTime()));
+        String document = OkHttpUtils.parseToString(url);
+        JSONArray jsonArray = JSONArray.parseArray(document);
+        jsonArray.size();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Object object : jsonArray) {
+            FundLiftBean liftBean = new FundLiftBean();
+            JSONObject liftBeanInfo = (JSONObject) object;
+            liftBean.setLiftBeanTime(dateFormat.format(liftBeanInfo.getDate("ltsj")));
+            liftBean.setLiftBeanShare(liftBeanInfo.getString("xsglx"));
+            liftBeans.add(liftBean);
+        }
+        return liftBeans;
+    }
 
     /**
      * 获取当前股价
@@ -205,6 +230,12 @@ public class StockParseUtils {
         stockIndicator.setTotalMarketValue(totalMarketValue);
         stockIndicator.setRoe(roe);
         return stockIndicator;
+    }
+
+
+    public static void main(String[] args) {
+        String url = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?token=70f12f2f4f091e459a279469fe49eca5&st=ltsj&sr=-1&type=XSJJ_NJ_PC&filter=(gpdm=%27600076%27)&rt=51072191";
+
     }
 
 }

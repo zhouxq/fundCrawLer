@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.store;
 
-import com.jxnu.fundCrawler.business.model.Mail;
+import com.jxnu.fundCrawler.business.model.dao.Mail;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

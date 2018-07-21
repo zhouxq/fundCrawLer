@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.grabThread.specific;
 
-import com.jxnu.fundCrawler.business.model.FundIndex;
+import com.jxnu.fundCrawler.business.model.dao.FundIndex;
 import com.jxnu.fundCrawler.business.store.FundIndexStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.utils.parse.ParseUtils;

@@ -1,8 +1,8 @@
 package com.jxnu.fundCrawler.business.grabThread.specific;
 
-import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
-import com.jxnu.fundCrawler.business.model.FundShareOut;
+import com.jxnu.fundCrawler.business.model.dao.Fund;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.FundShareOut;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.FundShareOutStore;
 import com.jxnu.fundCrawler.business.store.FundStore;

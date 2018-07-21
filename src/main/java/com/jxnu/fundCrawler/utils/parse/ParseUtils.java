@@ -1,9 +1,9 @@
 package com.jxnu.fundCrawler.utils.parse;
 
-import com.jxnu.fundCrawler.business.model.Company;
-import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.FundIndex;
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.Company;
+import com.jxnu.fundCrawler.business.model.dao.Fund;
+import com.jxnu.fundCrawler.business.model.dao.FundIndex;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
 import com.jxnu.fundCrawler.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

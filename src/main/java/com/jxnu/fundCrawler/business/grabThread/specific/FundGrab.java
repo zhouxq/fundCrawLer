@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.business.grabThread.specific;
 
-import com.jxnu.fundCrawler.business.model.Company;
-import com.jxnu.fundCrawler.business.model.Fund;
+import com.jxnu.fundCrawler.business.model.dao.Company;
+import com.jxnu.fundCrawler.business.model.dao.Fund;
 import com.jxnu.fundCrawler.business.store.CompanyStore;
 import com.jxnu.fundCrawler.business.store.FundStore;
 import com.jxnu.fundCrawler.utils.parse.ParseUtils;

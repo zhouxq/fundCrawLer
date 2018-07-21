@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.model.protocol.crontab.resp;
 
-import com.jxnu.fundCrawler.business.model.FundRank;
+import com.jxnu.fundCrawler.business.model.dao.FundRank;
 
 import java.util.List;
 

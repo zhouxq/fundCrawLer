@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.strategy.singleFundNetWorth;
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
-import com.jxnu.fundCrawler.business.model.AttentionFund;
-import com.jxnu.fundCrawler.business.model.FundMakeShare;
+import com.jxnu.fundCrawler.business.model.dao.AttentionFund;
+import com.jxnu.fundCrawler.business.model.dao.FundMakeShare;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,9 @@
 package com.jxnu.fundCrawler.strategy.singleFundNetWorth;
 
 
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
-import com.jxnu.fundCrawler.business.model.Mail;
-import com.jxnu.fundCrawler.business.model.MailFundStatus;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.Mail;
+import com.jxnu.fundCrawler.business.model.dao.MailFundStatus;
 import com.jxnu.fundCrawler.business.store.FundAnalyzeStore;
 import com.jxnu.fundCrawler.business.store.FundNetWorthStore;
 import com.jxnu.fundCrawler.business.store.MailStore;

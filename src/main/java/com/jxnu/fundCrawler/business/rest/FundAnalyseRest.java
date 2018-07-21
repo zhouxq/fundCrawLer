@@ -2,8 +2,7 @@ package com.jxnu.fundCrawler.business.rest;
 
 
 import com.google.common.eventbus.Subscribe;
-import com.jxnu.fundCrawler.business.model.FundRank;
-import com.jxnu.fundCrawler.business.model.Test;
+import com.jxnu.fundCrawler.business.model.dao.FundRank;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.CrontabAnalyseListReq;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.req.FundAnalyseFrankListReq;
 import com.jxnu.fundCrawler.business.model.protocol.crontab.resp.CrontabAnalyseListResp;

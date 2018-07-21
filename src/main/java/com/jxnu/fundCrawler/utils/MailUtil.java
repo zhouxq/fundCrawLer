@@ -1,13 +1,11 @@
 package com.jxnu.fundCrawler.utils;
 
-import com.jxnu.fundCrawler.business.model.Fund;
-import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
+import com.jxnu.fundCrawler.business.model.dao.Fund;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**

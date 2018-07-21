@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.business.model;
+package com.jxnu.fundCrawler.business.model.dao;
 
 /**
  * @author shoumiao_yao

@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.model.protocol.Fund.resp;
 
-import com.jxnu.fundCrawler.business.model.AttentionFund;
+import com.jxnu.fundCrawler.business.model.dao.AttentionFund;
 
 import java.util.List;
 

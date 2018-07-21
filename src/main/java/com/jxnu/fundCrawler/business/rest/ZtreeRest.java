@@ -1,10 +1,10 @@
 package com.jxnu.fundCrawler.business.rest;
 
 import com.google.common.eventbus.Subscribe;
-import com.jxnu.fundCrawler.business.model.Company;
-import com.jxnu.fundCrawler.business.model.Fund;
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.RestModel.ZtreeModel;
+import com.jxnu.fundCrawler.business.model.dao.Company;
+import com.jxnu.fundCrawler.business.model.dao.Fund;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.req.FundNetworthReq;
 import com.jxnu.fundCrawler.business.model.protocol.Fund.resp.FundNetworthResp;
 import com.jxnu.fundCrawler.business.model.protocol.ZtreeReq;

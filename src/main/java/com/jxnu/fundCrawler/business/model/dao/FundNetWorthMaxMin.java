@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.business.model;
+package com.jxnu.fundCrawler.business.model.dao;
 
 /**
  * Created by coder on 2017-03-19.

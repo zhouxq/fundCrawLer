@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.strategy.multiFundNetWorth;
 
 import com.google.common.collect.Lists;
-import com.jxnu.fundCrawler.business.model.FundRank;
+import com.jxnu.fundCrawler.business.model.dao.FundRank;
 import com.jxnu.fundCrawler.business.store.FundRankStore;
 import com.jxnu.fundCrawler.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;

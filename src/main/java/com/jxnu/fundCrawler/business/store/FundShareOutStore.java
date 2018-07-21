@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 
-import com.jxnu.fundCrawler.business.model.FundShareOut;
+import com.jxnu.fundCrawler.business.model.dao.FundShareOut;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

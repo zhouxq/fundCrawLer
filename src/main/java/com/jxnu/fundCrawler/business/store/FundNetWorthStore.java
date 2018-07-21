@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.bean.FundNetWorthDaoBean;
-import com.jxnu.fundCrawler.business.model.FundNetWorth;
+import com.jxnu.fundCrawler.business.model.dao.FundNetWorth;
 import com.jxnu.fundCrawler.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 

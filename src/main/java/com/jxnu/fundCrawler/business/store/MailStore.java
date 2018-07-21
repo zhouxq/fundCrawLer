@@ -1,7 +1,7 @@
 package com.jxnu.fundCrawler.business.store;
 
 import com.jxnu.fundCrawler.bean.MailDaoBean;
-import com.jxnu.fundCrawler.business.model.Mail;
+import com.jxnu.fundCrawler.business.model.dao.Mail;
 import com.jxnu.fundCrawler.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 

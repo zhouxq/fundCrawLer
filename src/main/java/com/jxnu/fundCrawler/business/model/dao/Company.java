@@ -1,4 +1,4 @@
-package com.jxnu.fundCrawler.business.model;
+package com.jxnu.fundCrawler.business.model.dao;
 
 public class Company {
     private String code;         //公司代码

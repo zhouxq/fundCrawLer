@@ -1,6 +1,6 @@
 package com.jxnu.fundCrawler.business.model.protocol.Fund.resp;
 
-import com.jxnu.fundCrawler.business.model.FundMakeShare;
+import com.jxnu.fundCrawler.business.model.dao.FundMakeShare;
 
 import java.util.List;
 
