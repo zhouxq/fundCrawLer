@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fundIndex">
-    <resultMap id="fundIndexMap" type="com.jxnu.fundCrawler.business.model.dao.FundIndex">
+    <resultMap id="fundIndexMap" type="com.jxnu.finance.store.entity.FundIndex">
         <result property="code" column="code"/>
         <result property="time" column="time"/>
         <result property="name" column="name"/>

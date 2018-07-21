@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="strategyCrontabSell">
-    <resultMap id="strategyCrontabSellMap" type="com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabSell">
+    <resultMap id="strategyCrontabSellMap" type="com.jxnu.finance.store.entity.strategy.StrategyCrontabSell">
         <result property="id" column="id"/>
         <result property="crontabId" column="crontab_id"/>
         <result property="time" column="time"/>
@@ -12,7 +12,7 @@
         <result property="endTime" column="end_time"/>
     </resultMap>
 
-    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze">
+    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.finance.store.entity.strategy.PurchaseAnalyze">
         <result property="crontabId" column="crontab_id"/>
         <result property="fundCode" column="fund_code"/>
         <result property="fundName" column="fund_name"/>
@@ -21,7 +21,7 @@
         <result property="num" column="num"/>
     </resultMap>
 
-    <insert id="insertCrontabShell" parameterType="com.jxnu.fundCrawler.business.model.strategy.StrategyCrontabSell">
+    <insert id="insertCrontabShell" parameterType="com.jxnu.finance.store.entity.strategy.StrategyCrontabSell">
         INSERT into tbl_strategy_crontab_sell
         (
          crontab_id,

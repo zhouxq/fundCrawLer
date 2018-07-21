@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="strategyPurchase">
 
-    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.fundCrawler.business.model.strategy.PurchaseAnalyze">
+    <resultMap id="purchaseAnalyzeMap" type="com.jxnu.finance.store.entity.strategy.PurchaseAnalyze">
         <result property="crontabId" column="crontab_id"/>
         <result property="fundCode" column="fund_code"/>
         <result property="fundName" column="fund_name"/>

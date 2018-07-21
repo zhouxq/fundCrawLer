@@ -4,7 +4,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans.xsd
                         http://www.springframework.org/schema/context
@@ -14,7 +13,7 @@
                         http://www.springframework.org/schema/aop
                         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <context:component-scan base-package="com.jxnu.fundCrawler"/>
+    <context:component-scan base-package="com.jxnu.finance"/>
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <mvc:annotation-driven/>
     <context:annotation-config/>
@@ -33,7 +32,7 @@
     <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newFixedThreadPool">
         <constructor-arg value="${eventbus.thread}"/>
         <constructor-arg>
-            <bean class="com.jxnu.fundCrawler.business.grabThread.FundThreadFactory">
+            <bean class="com.jxnu.finance.crawler.grabThread.FundThreadFactory">
                 <constructor-arg value="eventbus"/>
             </bean>
         </constructor-arg>
@@ -44,8 +43,8 @@
         <constructor-arg index="1" ref="executorService"/>
     </bean>
 
-    <bean name="kv" class="com.jxnu.fundCrawler.http.codec.KvCodec"/>
-    <bean name="json" class="com.jxnu.fundCrawler.http.codec.JsonCodec"/>
+    <bean name="kv" class="com.jxnu.finance.httpRest.http.codec.KvCodec"/>
+    <bean name="json" class="com.jxnu.finance.httpRest.http.codec.JsonCodec"/>
 
     <import resource="spring-database.xml"/>
 
