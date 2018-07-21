@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jxnu.finance.config.enmu.UrlEnmu;
 import com.jxnu.finance.httpRest.model.RestModel.StockIndicator;
-import com.jxnu.finance.store.entity.fund.FundLiftBean;
 import com.jxnu.finance.store.entity.fund.FundStock;
+import com.jxnu.finance.store.entity.stock.StockiftBean;
 import com.jxnu.finance.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -73,15 +73,15 @@ public class StockParseUtils {
      * @param fundCode
      * @return
      */
-    public static List<FundLiftBean> parseLiftBean(String fundCode) {
-        List<FundLiftBean> liftBeans = new ArrayList<FundLiftBean>();
+    public static List<StockiftBean> parseLiftBean(String fundCode) {
+        List<StockiftBean> liftBeans = new ArrayList<StockiftBean>();
         String url = UrlEnmu.stock_lift_bean.url().replace("@", fundCode).replace("#", String.valueOf(new Date().getTime()));
         String document = OkHttpUtils.parseToString(url);
         JSONArray jsonArray = JSONArray.parseArray(document);
         jsonArray.size();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (Object object : jsonArray) {
-            FundLiftBean liftBean = new FundLiftBean();
+            StockiftBean liftBean = new StockiftBean();
             JSONObject liftBeanInfo = (JSONObject) object;
             liftBean.setLiftBeanTime(dateFormat.format(liftBeanInfo.getDate("ltsj")));
             liftBean.setLiftBeanShare(liftBeanInfo.getString("xsglx"));

@@ -1,6 +1,9 @@
-package com.jxnu.finance.store.entity.fund;
+package com.jxnu.finance.store.entity.stock;
 
-public class FundLiftBean {
+/**
+ * 股票解禁
+ */
+public class StockiftBean {
     private String stockCode;
     private String liftBeanTime;
     private String liftBeanShare;
@@ -31,7 +34,7 @@ public class FundLiftBean {
 
     @Override
     public String toString() {
-        return "FundLiftBean{" +
+        return "StockiftBean{" +
                 "stockCode='" + stockCode + '\'' +
                 ", liftBeanTime='" + liftBeanTime + '\'' +
                 ", liftBeanShare='" + liftBeanShare + '\'' +
