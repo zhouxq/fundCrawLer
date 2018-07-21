@@ -68,7 +68,7 @@ public class StockParseUtils {
     }
 
     /**
-     * 解禁记录
+     * 股票解禁记录
      *
      * @param fundCode
      * @return
@@ -91,7 +91,7 @@ public class StockParseUtils {
     }
 
     /**
-     * 获取当前股价
+     * 股价
      *
      * @param stockCode
      * @return
@@ -122,7 +122,7 @@ public class StockParseUtils {
 
 
     /**
-     * 获取股票的市盈率
+     * 股票市盈率
      *
      * @param url
      * @return
