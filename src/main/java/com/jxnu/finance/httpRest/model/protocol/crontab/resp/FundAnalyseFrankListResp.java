@@ -1,6 +1,6 @@
 package com.jxnu.finance.httpRest.model.protocol.crontab.resp;
 
-import com.jxnu.finance.store.entity.FundRank;
+import com.jxnu.finance.store.entity.fund.FundRank;
 
 import java.util.List;
 

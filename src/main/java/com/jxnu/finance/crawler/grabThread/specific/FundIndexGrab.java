@@ -1,6 +1,6 @@
 package com.jxnu.finance.crawler.grabThread.specific;
 
-import com.jxnu.finance.store.entity.FundIndex;
+import com.jxnu.finance.store.entity.fund.FundIndex;
 import com.jxnu.finance.store.mapper.FundIndexStore;
 import com.jxnu.finance.store.mapper.FundStore;
 import com.jxnu.finance.utils.parse.ParseUtils;

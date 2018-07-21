@@ -10,7 +10,7 @@ import com.jxnu.finance.httpRest.model.protocol.crontab.req.StrategyCrontabModif
 import com.jxnu.finance.httpRest.model.protocol.crontab.req.StrategyCrontabReq;
 import com.jxnu.finance.httpRest.model.protocol.crontab.req.StrategyCrontabSellReq;
 import com.jxnu.finance.httpRest.model.protocol.crontab.resp.StrategyCrontabListResp;
-import com.jxnu.finance.store.entity.Fund;
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.strategy.StrategyCrontab;
 import com.jxnu.finance.store.entity.strategy.StrategyCrontabSell;
 import com.jxnu.finance.store.mapper.FundStore;

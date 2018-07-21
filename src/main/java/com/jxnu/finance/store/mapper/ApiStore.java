@@ -1,7 +1,7 @@
 package com.jxnu.finance.store.mapper;
 
-import com.jxnu.finance.store.entity.FundIndex;
-import com.jxnu.finance.store.entity.FundRank;
+import com.jxnu.finance.store.entity.fund.FundIndex;
+import com.jxnu.finance.store.entity.fund.FundRank;
 import com.jxnu.finance.store.entity.strategy.StrategyCrontabAnalyze;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

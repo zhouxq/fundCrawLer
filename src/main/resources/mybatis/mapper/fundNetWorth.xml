@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fundNetWorth">
-    <resultMap id="fundNetWorthMap" type="com.jxnu.finance.store.entity.FundNetWorth">
+    <resultMap id="fundNetWorthMap" type="com.jxnu.finance.store.entity.fund.FundNetWorth">
         <result property="fundCode" column="fund_coder"/>
         <result property="time" column="time"/>
         <result property="netWorth" column="net_worth"/>

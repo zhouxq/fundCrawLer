@@ -1,6 +1,6 @@
 package com.jxnu.finance.httpRest.model.protocol.Fund.resp;
 
-import com.jxnu.finance.store.entity.AttentionFund;
+import com.jxnu.finance.store.entity.strategy.AttentionFund;
 
 import java.util.List;
 

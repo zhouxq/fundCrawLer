@@ -1,6 +1,6 @@
 package com.jxnu.finance.store.mapper;
 
-import com.jxnu.finance.store.entity.FundStock;
+import com.jxnu.finance.store.entity.fund.FundStock;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

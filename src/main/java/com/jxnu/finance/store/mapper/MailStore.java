@@ -1,7 +1,7 @@
 package com.jxnu.finance.store.mapper;
 
 import com.jxnu.finance.store.daoBean.MailDaoBean;
-import com.jxnu.finance.store.entity.Mail;
+import com.jxnu.finance.store.entity.strategy.Mail;
 import com.jxnu.finance.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 

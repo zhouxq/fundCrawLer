@@ -1,7 +1,7 @@
 package com.jxnu.finance.store.mapper;
 
-import com.jxnu.finance.store.entity.AttentionFund;
-import com.jxnu.finance.store.entity.FundMakeShare;
+import com.jxnu.finance.store.entity.strategy.AttentionFund;
+import com.jxnu.finance.store.entity.fund.FundMakeShare;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

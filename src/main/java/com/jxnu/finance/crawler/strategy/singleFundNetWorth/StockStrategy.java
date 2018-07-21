@@ -1,9 +1,9 @@
 package com.jxnu.finance.crawler.strategy.singleFundNetWorth;
 
 
-import com.jxnu.finance.store.entity.FundNetWorth;
-import com.jxnu.finance.store.entity.FundStock;
-import com.jxnu.finance.store.entity.StockExtra;
+import com.jxnu.finance.store.entity.fund.FundNetWorth;
+import com.jxnu.finance.store.entity.fund.FundStock;
+import com.jxnu.finance.store.entity.stock.StockExtra;
 import com.jxnu.finance.store.mapper.FundStockStore;
 import com.jxnu.finance.store.mapper.StockExtraStore;
 import com.jxnu.finance.utils.TimeUtil;

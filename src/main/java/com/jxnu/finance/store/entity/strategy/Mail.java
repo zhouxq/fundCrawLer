@@ -1,4 +1,4 @@
-package com.jxnu.finance.store.entity;
+package com.jxnu.finance.store.entity.strategy;
 
 /**
  * @author shoumiao_yao

@@ -8,9 +8,9 @@ import com.jxnu.finance.httpRest.model.protocol.Fund.req.FundNetworthReq;
 import com.jxnu.finance.httpRest.model.protocol.Fund.resp.FundNetworthResp;
 import com.jxnu.finance.httpRest.model.protocol.ZtreeReq;
 import com.jxnu.finance.httpRest.model.protocol.ZtreeResp;
-import com.jxnu.finance.store.entity.Company;
-import com.jxnu.finance.store.entity.Fund;
-import com.jxnu.finance.store.entity.FundNetWorth;
+import com.jxnu.finance.store.entity.fund.FundCompany;
+import com.jxnu.finance.store.entity.fund.Fund;
+import com.jxnu.finance.store.entity.fund.FundNetWorth;
 import com.jxnu.finance.store.mapper.CompanyStore;
 import com.jxnu.finance.store.mapper.FundNetWorthStore;
 import com.jxnu.finance.store.mapper.FundStore;
@@ -50,13 +50,13 @@ public class ZtreeRest {
     public void ztree(ZtreeReq req) {
         ZtreeResp resp = new ZtreeResp();
         List<ZtreeModel> ztreeModelList = new ArrayList<ZtreeModel>(5000);
-        List<Company> companyList = (List<Company>) CacheUtils.get("company", new Callable() {
+        List<FundCompany> companyList = (List<FundCompany>) CacheUtils.get("company", new Callable() {
             @Override
             public Object call() throws Exception {
                 return companyStore.selectMulti(new HashMap());
             }
         });
-        for (Company company : companyList) {
+        for (FundCompany company : companyList) {
             ZtreeModel ztreeModel = new ZtreeModel();
             if (company == null || company.getCode() == null) continue;
             final String code = company.getCode().toString();

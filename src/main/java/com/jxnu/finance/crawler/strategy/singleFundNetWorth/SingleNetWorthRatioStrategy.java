@@ -1,9 +1,9 @@
 package com.jxnu.finance.crawler.strategy.singleFundNetWorth;
 
 
-import com.jxnu.finance.store.entity.FundNetWorth;
-import com.jxnu.finance.store.entity.Mail;
-import com.jxnu.finance.store.entity.MailFundStatus;
+import com.jxnu.finance.store.entity.fund.FundNetWorth;
+import com.jxnu.finance.store.entity.strategy.Mail;
+import com.jxnu.finance.store.entity.strategy.MailFundStatus;
 import com.jxnu.finance.store.mapper.FundAnalyzeStore;
 import com.jxnu.finance.store.mapper.FundNetWorthStore;
 import com.jxnu.finance.store.mapper.MailStore;

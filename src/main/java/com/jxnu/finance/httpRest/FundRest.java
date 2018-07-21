@@ -11,7 +11,7 @@ import com.jxnu.finance.httpRest.model.protocol.Fund.resp.FundResp;
 import com.jxnu.finance.httpRest.model.protocol.Fund.resp.FundSubjectFundResp;
 import com.jxnu.finance.httpRest.model.protocol.Fund.resp.FundSubjectResp;
 import com.jxnu.finance.httpRest.model.protocol.Fund.resp.MakeShareResp;
-import com.jxnu.finance.store.entity.Fund;
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.mapper.AttentionFundStore;
 import com.jxnu.finance.store.mapper.FundStore;
 import com.jxnu.finance.utils.ResponseUtils;

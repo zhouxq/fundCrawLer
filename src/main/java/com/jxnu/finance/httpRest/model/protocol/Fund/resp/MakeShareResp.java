@@ -1,6 +1,6 @@
 package com.jxnu.finance.httpRest.model.protocol.Fund.resp;
 
-import com.jxnu.finance.store.entity.FundMakeShare;
+import com.jxnu.finance.store.entity.fund.FundMakeShare;
 
 import java.util.List;
 

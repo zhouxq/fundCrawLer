@@ -8,7 +8,7 @@ import com.jxnu.finance.httpRest.model.protocol.crontab.req.CrontabAnalyseListRe
 import com.jxnu.finance.httpRest.model.protocol.crontab.req.FundAnalyseFrankListReq;
 import com.jxnu.finance.httpRest.model.protocol.crontab.resp.CrontabAnalyseListResp;
 import com.jxnu.finance.httpRest.model.protocol.crontab.resp.FundAnalyseFrankListResp;
-import com.jxnu.finance.store.entity.FundRank;
+import com.jxnu.finance.store.entity.fund.FundRank;
 import com.jxnu.finance.store.entity.strategy.StrategyCrontabAnalyze;
 import com.jxnu.finance.store.mapper.ApiStore;
 import com.jxnu.finance.utils.ResponseUtils;

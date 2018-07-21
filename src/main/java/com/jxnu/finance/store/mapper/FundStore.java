@@ -1,7 +1,7 @@
 package com.jxnu.finance.store.mapper;
 
 import com.jxnu.finance.store.daoBean.FundDaoBean;
-import com.jxnu.finance.store.entity.Fund;
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 

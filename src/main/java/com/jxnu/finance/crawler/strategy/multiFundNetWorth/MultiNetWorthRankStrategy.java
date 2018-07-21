@@ -1,7 +1,7 @@
 package com.jxnu.finance.crawler.strategy.multiFundNetWorth;
 
 import com.google.common.collect.Lists;
-import com.jxnu.finance.store.entity.FundRank;
+import com.jxnu.finance.store.entity.fund.FundRank;
 import com.jxnu.finance.store.mapper.FundRankStore;
 import com.jxnu.finance.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;

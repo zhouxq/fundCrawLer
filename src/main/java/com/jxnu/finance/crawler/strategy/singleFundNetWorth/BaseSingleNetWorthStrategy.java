@@ -1,6 +1,6 @@
 package com.jxnu.finance.crawler.strategy.singleFundNetWorth;
 
-import com.jxnu.finance.store.entity.FundNetWorth;
+import com.jxnu.finance.store.entity.fund.FundNetWorth;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.jxnu.finance.store.entity;
+package com.jxnu.finance.store.entity.fund;
 
 public class FundStock {
     private String stockCode;

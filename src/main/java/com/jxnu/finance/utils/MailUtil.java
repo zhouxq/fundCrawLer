@@ -1,6 +1,6 @@
 package com.jxnu.finance.utils;
 
-import com.jxnu.finance.store.entity.Fund;
+import com.jxnu.finance.store.entity.fund.Fund;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package com.jxnu.finance.crawler.grabThread.specific;
 
-import com.jxnu.finance.store.entity.Company;
-import com.jxnu.finance.store.entity.Fund;
+import com.jxnu.finance.store.entity.fund.FundCompany;
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.mapper.CompanyStore;
 import com.jxnu.finance.store.mapper.FundStore;
 import com.jxnu.finance.utils.parse.ParseUtils;
@@ -30,8 +30,8 @@ public class FundGrab extends Grab {
     private String fundUrl;
 
     public void handler(Integer num) {
-        List<Company> companyList = companyStore.selectMulti(new HashMap());
-        for (Company company : companyList) {
+        List<FundCompany> companyList = companyStore.selectMulti(new HashMap());
+        for (FundCompany company : companyList) {
             try {
                 List<Fund> fundList = ParseUtils.parseFund(this.fundUrl, company);
                 if (!fundList.isEmpty()) {

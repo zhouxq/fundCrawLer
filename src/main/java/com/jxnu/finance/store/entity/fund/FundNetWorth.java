@@ -1,4 +1,4 @@
-package com.jxnu.finance.store.entity;
+package com.jxnu.finance.store.entity.fund;
 
 /**
  * Created by coder on 2016/7/2.

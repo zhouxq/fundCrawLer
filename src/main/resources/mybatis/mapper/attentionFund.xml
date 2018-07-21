@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="attentionFund">
-    <resultMap id="attentionFundMap" type="com.jxnu.finance.store.entity.AttentionFund">
+    <resultMap id="attentionFundMap" type="com.jxnu.finance.store.entity.strategy.AttentionFund">
         <result property="id" column="id"/>
         <result property="fundName" column="fund_name"/>
         <result property="fundCode" column="fund_code"/>
     </resultMap>
 
-    <resultMap id="makeShareMap" type="com.jxnu.finance.store.entity.FundMakeShare">
+    <resultMap id="makeShareMap" type="com.jxnu.finance.store.entity.fund.FundMakeShare">
         <result property="code" column="code"/>
         <result property="name" column="name"/>
         <result property="total" column="total"/>

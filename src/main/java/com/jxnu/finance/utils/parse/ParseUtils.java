@@ -1,9 +1,9 @@
 package com.jxnu.finance.utils.parse;
 
-import com.jxnu.finance.store.entity.Company;
-import com.jxnu.finance.store.entity.Fund;
-import com.jxnu.finance.store.entity.FundIndex;
-import com.jxnu.finance.store.entity.FundNetWorth;
+import com.jxnu.finance.store.entity.fund.FundCompany;
+import com.jxnu.finance.store.entity.fund.Fund;
+import com.jxnu.finance.store.entity.fund.FundIndex;
+import com.jxnu.finance.store.entity.fund.FundNetWorth;
 import com.jxnu.finance.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -90,15 +90,15 @@ public class ParseUtils {
      * @param url
      * @return
      */
-    public static List<Company> parseCompany(String url) {
-        List<Company> companyList = new ArrayList<Company>();
+    public static List<FundCompany> parseCompany(String url) {
+        List<FundCompany> companyList = new ArrayList<FundCompany>();
         String responseBody = OkHttpUtils.parseToString(url);
         if (StringUtils.isEmpty(responseBody)) return companyList;
         responseBody = responseBody.substring(responseBody.indexOf("[") + 1, responseBody.lastIndexOf("]"));
         responseBody = responseBody.replaceAll("'", "");
         String[] responses = StringUtils.substringsBetween(responseBody, "[", "]");
         for (String response : responses) {
-            Company company = new Company();
+            FundCompany company = new FundCompany();
             String[] values = response.split(",");
             String code = values[0].trim();
             if (StringUtils.isBlank(code)) return companyList;
@@ -129,7 +129,7 @@ public class ParseUtils {
      * @param company
      * @return
      */
-    public static List<Fund> parseFund(String url, Company company) {
+    public static List<Fund> parseFund(String url, FundCompany company) {
         List<Fund> fundList = new ArrayList<Fund>();
         String companyCode = company.getCode().toString();
         String url2 = url.replace("#", companyCode);
