@@ -22,9 +22,9 @@ public class OkHttpUtils {
     private final static Logger logger = LoggerFactory.getLogger(OkHttpUtils.class);
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final static OkHttpClient client = new OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(3, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(3, TimeUnit.SECONDS)
             .build();
 
     //解析指定的url,指定的编码 为jsoup的document对象
@@ -78,7 +78,7 @@ public class OkHttpUtils {
             response = client.newCall(requestBuild.build()).execute();
             return response.body().string();
         } catch (IOException e) {
-            logger.error("error:{}", ExceptionUtils.getRootCauseStackTrace(e));
+            logger.error("error:{}", ExceptionUtils.getRootCause(e));
         }
         return "";
     }
@@ -122,7 +122,7 @@ public class OkHttpUtils {
         Map<String, String> json = new HashMap();
         json.put("url", "PCF10/RptLatestTarget2");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("SecurityCode", "601939.SH");
+        jsonObject.put("SecurityCode", "770001.SH");
         json.put("postData", jsonObject.toJSONString());
         json.put("type", "post");
         json.put("remove", "DRROE,DRPRPAA,incomeIncreaseBy,profitsIncreaseBy,DeductedEps,DilutedEps,ReportDate,Reason");

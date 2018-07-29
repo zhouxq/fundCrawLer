@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class GrabFactory {
     @Value("${company.switch}")
     private Integer companySwitch;
-    @Value("${finance.switch}")
+    @Value("${fund.switch}")
     private Integer fundSwitch;
     @Value("${fundNetWorth.switch}")
     private Integer fundNetWorthSwitch;

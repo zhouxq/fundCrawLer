@@ -17,7 +17,7 @@ public class FundStore extends BaseStore<Fund> {
 
     @PostConstruct
     public void init() {
-        super.storeName = "finance";
+        super.storeName = "fund";
     }
 
     public List<Fund> selectMulti(String handler) {

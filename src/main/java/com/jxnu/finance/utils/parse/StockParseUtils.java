@@ -61,7 +61,7 @@ public class StockParseUtils {
                 stock.setTime(time);
                 stock.setPrice(StockParseUtils.stockPrice(stockCode));
                 stock.setStockUrl(newStockUrl);
-                stock.setTotalShare(shares(fundCode));
+                stock.setTotalShare(shares(stockCode));
                 stocks.add(stock);
             }
         }
@@ -71,27 +71,31 @@ public class StockParseUtils {
     /**
      * 获取股票总股本
      *
-     * @param fundCode
+     * @param stockCode
      * @return
      */
-    private static String shares(String fundCode) {
-        Map<String, String> json = new HashMap();
-        json.put("url", "PCF10/RptLatestTarget2");
-        JSONObject jsonObject = new JSONObject();
-        if (fundCode.startsWith("00") || fundCode.startsWith("3")) {
-            fundCode += ".SZ";
-        } else {
-            fundCode += ".SH";
+    private static String shares(String stockCode) {
+        try {
+            Map<String, String> json = new HashMap();
+            json.put("url", "PCF10/RptLatestTarget2");
+            JSONObject jsonObject = new JSONObject();
+            if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
+                stockCode += ".SZ";
+            } else {
+                stockCode += ".SH";
+            }
+            jsonObject.put("SecurityCode", stockCode);
+            json.put("postData", jsonObject.toJSONString());
+            json.put("type", "post");
+            json.put("remove", "DRROE,DRPRPAA,incomeIncreaseBy,profitsIncreaseBy,DeductedEps,DilutedEps,ReportDate,Reason");
+            String body = OkHttpUtils.post(json, null, UrlEnmu.stock_share.url());
+            JSONArray jsonArray = JSONArray.parseArray(body);
+            if (CollectionUtils.isEmpty(jsonArray)) return "";
+            JSONObject shareJson = (JSONObject) jsonArray.get(0);
+            return shareJson.getBigDecimal("TOTALSHARE").divide(new BigDecimal(10000)).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+        } catch (Exception e) {
+            return "";
         }
-        jsonObject.put("SecurityCode", fundCode);
-        json.put("postData", jsonObject.toJSONString());
-        json.put("type", "post");
-        json.put("remove", "DRROE,DRPRPAA,incomeIncreaseBy,profitsIncreaseBy,DeductedEps,DilutedEps,ReportDate,Reason");
-        String body = OkHttpUtils.post(json, null, UrlEnmu.stock_share.url());
-        JSONArray jsonArray = JSONArray.parseArray(body);
-        if (CollectionUtils.isEmpty(jsonArray)) return "";
-        JSONObject shareJson = (JSONObject) jsonArray.get(0);
-        return shareJson.getBigDecimal("TOTALSHARE").divide(new BigDecimal(100000)).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
     }
 
     /**
