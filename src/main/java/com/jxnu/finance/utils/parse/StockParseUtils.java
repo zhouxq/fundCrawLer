@@ -12,11 +12,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 股票解析工具类
@@ -61,10 +61,37 @@ public class StockParseUtils {
                 stock.setTime(time);
                 stock.setPrice(StockParseUtils.stockPrice(stockCode));
                 stock.setStockUrl(newStockUrl);
+                stock.setTotalShare(shares(fundCode));
                 stocks.add(stock);
             }
         }
         return stocks;
+    }
+
+    /**
+     * 获取股票总股本
+     *
+     * @param fundCode
+     * @return
+     */
+    private static String shares(String fundCode) {
+        Map<String, String> json = new HashMap();
+        json.put("url", "PCF10/RptLatestTarget2");
+        JSONObject jsonObject = new JSONObject();
+        if (fundCode.startsWith("00") || fundCode.startsWith("3")) {
+            fundCode += ".SZ";
+        } else {
+            fundCode += ".SH";
+        }
+        jsonObject.put("SecurityCode", fundCode);
+        json.put("postData", jsonObject.toJSONString());
+        json.put("type", "post");
+        json.put("remove", "DRROE,DRPRPAA,incomeIncreaseBy,profitsIncreaseBy,DeductedEps,DilutedEps,ReportDate,Reason");
+        String body = OkHttpUtils.post(json, null, UrlEnmu.stock_share.url());
+        JSONArray jsonArray = JSONArray.parseArray(body);
+        if (CollectionUtils.isEmpty(jsonArray)) return "";
+        JSONObject shareJson = (JSONObject) jsonArray.get(0);
+        return shareJson.getBigDecimal("TOTALSHARE").divide(new BigDecimal(100000)).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
     }
 
     /**

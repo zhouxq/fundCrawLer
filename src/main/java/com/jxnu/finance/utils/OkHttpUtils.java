@@ -1,22 +1,26 @@
 package com.jxnu.finance.utils;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
 public class OkHttpUtils {
     private final static Logger logger = LoggerFactory.getLogger(OkHttpUtils.class);
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final static OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
@@ -38,6 +42,45 @@ public class OkHttpUtils {
             logger.error("error:{}", ExceptionUtils.getMessage(e));
             return null;
         }
+    }
+
+    /**
+     * post 表单
+     *
+     * @param params 表单内容
+     * @param heads  请求头
+     * @param url    请求路径
+     * @return
+     * @throws IOException
+     */
+    public static String post(Map<String, String> params, Map<String, String> heads, String url) {
+        if (CollectionUtils.isEmpty(params) || StringUtils.isBlank(url)) return null;
+        //设置表单内容
+        Response response = null;
+        try {
+            FormBody.Builder builder = new FormBody.Builder();
+            Set<String> keys = params.keySet();
+            for (String key : keys) {
+                String value = params.get(key);
+                builder.add(key, value);
+            }
+            //设置请求参数
+            Request.Builder requestBuild = new Request.Builder().post(builder.build()).url(url);
+            //设置请求头部
+            if (!CollectionUtils.isEmpty(heads)) {
+                Set<String> headKeys = heads.keySet();
+                for (String key : headKeys) {
+                    String value = heads.get(key);
+                    requestBuild.addHeader(key, value);
+                }
+            }
+            //获取响应
+            response = client.newCall(requestBuild.build()).execute();
+            return response.body().string();
+        } catch (IOException e) {
+            logger.error("error:{}", ExceptionUtils.getRootCauseStackTrace(e));
+        }
+        return "";
     }
 
     //解析指定url,返回的数据
@@ -75,21 +118,15 @@ public class OkHttpUtils {
 
     public static void main(String[] args) {
         Random random = new Random(1000);
-       /* String url = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=1&rt=" + random.nextInt();
-        Document document=OkHttpUtils.parseToDocument(url,"gb2312");
-        Element element=document.body();
-        String ownText=element.ownText();
-        ownText=ownText.substring(ownText.indexOf("records")+"records".length()+1,ownText.indexOf("pages")-1);
-        String url2 = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519120&page=1&per=781&rt=" + random.nextInt();
-        List<FundNetWorth> fundNetWorthList= ParseUtils.parseFundNetWorth(url2,"519120");
-        fundNetWorthList=fundNetWorthList;*/
-        String url = "http://quote.eastmoney.com/center/index.html#zyzs_0_1";
-        Document document = OkHttpUtils.parseToDocument(url, "gb2312");
-        Elements elements = document.select("#zyzs");
-        Element tableElement = elements.get(0);
-        Elements trElements = tableElement.select("tr");
-        for (Element element : trElements) {
-            System.out.println(element.text());
-        }
+        String url = "http://data.eastmoney.com/DataCenter_V3/stockdata/getData.ashx";
+        Map<String, String> json = new HashMap();
+        json.put("url", "PCF10/RptLatestTarget2");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("SecurityCode", "601939.SH");
+        json.put("postData", jsonObject.toJSONString());
+        json.put("type", "post");
+        json.put("remove", "DRROE,DRPRPAA,incomeIncreaseBy,profitsIncreaseBy,DeductedEps,DilutedEps,ReportDate,Reason");
+        String body = OkHttpUtils.post(json, null, url);
+        body = body;
     }
 }

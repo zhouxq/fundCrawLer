@@ -17,6 +17,7 @@ public class StockExtra {
     private String roe;                //ROE
     private String subject;            //行业
     private String price;
+    private String totalShare;         //总份额
 
     public StockExtra() {
         createTime = new Date();
@@ -134,6 +135,14 @@ public class StockExtra {
         this.price = price;
     }
 
+    public String getTotalShare() {
+        return totalShare;
+    }
+
+    public void setTotalShare(String totalShare) {
+        this.totalShare = totalShare;
+    }
+
     @Override
     public String toString() {
         return "StockExtra{" +
@@ -151,6 +160,7 @@ public class StockExtra {
                 ", roe='" + roe + '\'' +
                 ", subject='" + subject + '\'' +
                 ", price='" + price + '\'' +
+                ", totalShare='" + totalShare + '\'' +
                 '}';
     }
 }

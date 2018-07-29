@@ -16,6 +16,7 @@ public class FundStock {
     private String roe;                //ROE
     private String subject;            //行业
     private String price;              //股价
+    private String totalShare;         //总份额
 
 
     public String getStockCode() {
@@ -136,5 +137,13 @@ public class FundStock {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public void setTotalShare(String totalShare) {
+        this.totalShare = totalShare;
+    }
+
+    public String getTotalShare() {
+        return totalShare;
     }
 }

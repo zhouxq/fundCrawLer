@@ -33,7 +33,8 @@
         net_interest_rate,
         roe,
         subject,
-        price
+        price,
+        total_share
         ) VALUES
         <foreach collection="list" separator="," item="stockExtra">
             (
@@ -50,7 +51,8 @@
             #{stockExtra.netInterestRate},
             #{stockExtra.roe},
             #{stockExtra.subject},
-            #{stockExtra.price}
+            #{stockExtra.price},
+            #{stockExtra.totalShare}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE
@@ -66,7 +68,8 @@
         roe=VALUES(roe),
         subject=VALUES(subject),
         price=VALUES(price),
-        create_time=VALUES(create_time)
+        create_time=VALUES(create_time),
+        total_share=VALUES(total_share)
     </insert>
 
 
