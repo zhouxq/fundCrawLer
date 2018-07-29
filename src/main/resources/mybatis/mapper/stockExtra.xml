@@ -16,6 +16,7 @@
         <result property="roe" column="roe"/>
         <result property="subject" column="subject"/>
         <result property="price" column="price"/>
+        <result property="totalShare" column="total_share"/>
     </resultMap>
 
     <insert id="insert" parameterType="java.util.List">
