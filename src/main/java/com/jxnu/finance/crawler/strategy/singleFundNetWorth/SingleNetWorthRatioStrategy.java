@@ -1,6 +1,7 @@
 package com.jxnu.finance.crawler.strategy.singleFundNetWorth;
 
 
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.fund.FundNetWorth;
 import com.jxnu.finance.store.entity.strategy.Mail;
 import com.jxnu.finance.store.entity.strategy.MailFundStatus;
@@ -41,7 +42,7 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
     }
 
     @Override
-    public void handler(List<FundNetWorth> fundNetWorthList) {
+    public void handler(List<FundNetWorth> fundNetWorthList, Fund fund) {
         if (fundNetWorthList.isEmpty()) return;
         String code = fundNetWorthList.get(0).getFundCode();
         //两个月最大净值
@@ -78,7 +79,7 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
         }
 
         if (super.next != null) {
-            super.next.handler(fundNetWorthList);
+            super.next.handler(fundNetWorthList, fund);
         }
     }
 

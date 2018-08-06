@@ -6,6 +6,7 @@ import com.jxnu.finance.config.enmu.UrlEnmu;
 import com.jxnu.finance.httpRest.model.RestModel.StockIndicator;
 import com.jxnu.finance.store.entity.fund.FundStock;
 import com.jxnu.finance.store.entity.stock.StockiftBean;
+import com.jxnu.finance.utils.CacheUtils;
 import com.jxnu.finance.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -41,9 +42,14 @@ public class StockParseUtils {
                 if (tdElements.isEmpty() || tdElements.size() < 3) continue;
                 FundStock stock = new FundStock();
                 Element stockCodeElement = tdElements.get(1);
-                if (stockCodeElement == null) continue;
+                if (stockCodeElement == null) {
+                    continue;
+                }
                 //股票代码
                 String stockCode = stockCodeElement.text();
+                if (CacheUtils.get(stockCode, null) != null) {
+                    continue;
+                }
                 //市盈率
                 String newStockUrl = stockUrl;
                 if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
@@ -63,6 +69,7 @@ public class StockParseUtils {
                 stock.setStockUrl(newStockUrl);
                 stock.setTotalShare(shares(fundCode));
                 stocks.add(stock);
+                CacheUtils.put(stockCode, stockCode);
             }
         }
         return stocks;

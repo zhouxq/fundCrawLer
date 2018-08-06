@@ -1,6 +1,7 @@
 package com.jxnu.finance.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.util.concurrent.RateLimiter;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -27,11 +28,17 @@ public class OkHttpUtils {
             .writeTimeout(10, TimeUnit.SECONDS)
             .build();
 
-    //解析指定的url,指定的编码 为jsoup的document对象
+    /**
+     * 解析指定的url,指定的编码 为jsoup的document对象
+     *
+     * @param url
+     * @param encode
+     * @return
+     */
     public static Document parseToDocument(String url, String encode) {
         try {
             Request request = constructeRequst(url);
-            Response response = client.newCall(request).execute();
+            Response response = call(request);
             int status = response.code();
             logger.info("http response status:{}", status);
             if (status != 200) return null;
@@ -75,24 +82,24 @@ public class OkHttpUtils {
                 }
             }
             //获取响应
-            response = client.newCall(requestBuild.build()).execute();
+            response = call(requestBuild.build());
             return response.body().string();
         } catch (IOException e) {
-            logger.error("error:{}", ExceptionUtils.getRootCauseStackTrace(e));
+            logger.error("error:{}", ExceptionUtils.getRootCause(e));
         }
         return "";
     }
+
 
     //解析指定url,返回的数据
     public static String parseToString(String url) {
         try {
             Request request = constructeRequst(url);
-            Response response = client.newCall(request).execute();
+            Response response = call(request);
             int status = response.code();
             logger.info("http response status:{}", status);
             if (status != 200) return null;
-            String body = response.body().string();
-            return body;
+            return response.body().string();
         } catch (Exception e) {
             logger.error("error:{}", ExceptionUtils.getMessage(e));
             return null;
@@ -113,6 +120,25 @@ public class OkHttpUtils {
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0")
                 .build();
         return request;
+    }
+
+    /**
+     * http请求频率控制
+     *
+     * @param builder
+     * @return
+     * @throws IOException
+     */
+    private static Response call(Object builder) throws IOException {
+        RateLimiter rateLimiter = RateLimiter.create(10.0);
+        if (rateLimiter.tryAcquire()) {
+            rateLimiter.acquire();
+            if (builder instanceof Request) {
+                return client.newCall((Request) builder).execute();
+            }
+            return client.newCall(((Request.Builder) builder).build()).execute();
+        }
+        return null;
     }
 
 

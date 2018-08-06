@@ -47,49 +47,79 @@ public class FundNetWorthGrab extends Grab {
     private BeforeHandlerNetWorthStrategy beforeHandlerNetWorthStrategy;
 
     public void handler(Integer num) {
-        Random random = new Random(1000);
         List<Fund> fundList = fundStore.selectMulti("");
-        String code;
         if (num != -1) {
-            //基金净值前 策略执行
+            /**
+             * 基金净值获取前 策略执行
+             */
             beforeHandlerNetWorthStrategy.handler();
+            List<FundNetWorth> fundNetWorthList = new ArrayList<FundNetWorth>();
             for (Fund fund : fundList) {
                 try {
-                    String count;
-                    if (fund == null || StringUtils.isEmpty(code = fund.getCode())) continue;
-                    if (num == 0) {
-                        String countUrl = this.fundNetWorthUrl.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
-                        count = ParseUtils.parseFundNetWorthCount(countUrl);
-                    } else {
-                        count = num.toString();
-                    }
-                    String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
-                    List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
-                    if (fundNetWorthList.isEmpty()) continue;
-                    fundNetWorthStore.insert(fundNetWorthList);
-                    insetShareOuts(code);
-                    //当个基金净值 策略执行
-                    fundNetWorthStrategy.handler(fundNetWorthList);
+                    /**
+                     * 基金净值获取
+                     */
+                    //fundNetWorthList = fundNetWorth(num, fund);
+                    /**
+                     * 单个基金净值获取后 策略执行
+                     */
+                    fundNetWorthStrategy.handler(fundNetWorthList, fund);
                 } catch (Exception e) {
                     logger.error("error:{}", ExceptionUtils.getStackTrace(e));
                 }
             }
         }
-        //所有基金净值 策略执行
+        /**
+         * 所有基金净值获取后 策略执行
+         */
         multiNetWorthStrategy.handler();
     }
 
-    private void insetShareOuts(String code){
-        List<FundShareOut> fundShareOuts=new ArrayList<FundShareOut>();
-        List<String> shareOuts= ParseUtils.parseFundShareOut(fundUrl.replace("#",code));
-        if(shareOuts==null || shareOuts.isEmpty()) return;
-        for(String shareOut : shareOuts){
-            FundShareOut share=new FundShareOut();
+
+    /**
+     * 基金净值
+     *
+     * @return
+     */
+    private List<FundNetWorth> fundNetWorth(Integer num, Fund fund) {
+        Random random = new Random(1000);
+        List<FundNetWorth> fundNetWorths = new ArrayList<FundNetWorth>();
+        String code = "";
+        String count;
+        if (fund == null || StringUtils.isEmpty(code = fund.getCode())) {
+            return fundNetWorths;
+        }
+        if (num == 0) {
+            String countUrl = this.fundNetWorthUrl.replace("$", code).replace("#", "1").replace("%", random.nextInt() + "");
+            count = ParseUtils.parseFundNetWorthCount(countUrl);
+        } else {
+            count = num.toString();
+        }
+        String content = this.fundNetWorthUrl.replace("$", code).replace("#", count).replace("%", random.nextInt() + "");
+        List<FundNetWorth> fundNetWorthList = ParseUtils.parseFundNetWorth(content, code);
+        if (!fundNetWorthList.isEmpty()) {
+            fundNetWorthStore.insert(fundNetWorthList);
+        }
+        insetShareOuts(code);
+        return fundNetWorthList;
+    }
+
+    /**
+     * 基金分红
+     *
+     * @param code
+     */
+    private void insetShareOuts(String code) {
+        List<FundShareOut> fundShareOuts = new ArrayList<FundShareOut>();
+        List<String> shareOuts = ParseUtils.parseFundShareOut(fundUrl.replace("#", code));
+        if (shareOuts == null || shareOuts.isEmpty()) return;
+        for (String shareOut : shareOuts) {
+            FundShareOut share = new FundShareOut();
             share.setFundCode(code);
             share.setTime(shareOut);
             fundShareOuts.add(share);
         }
-        if(shareOuts.isEmpty()) return;
+        if (shareOuts.isEmpty()) return;
         fundShareOutStore.insert(fundShareOuts);
     }
 }
