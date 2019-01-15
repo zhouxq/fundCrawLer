@@ -225,3 +225,5 @@ CREATE TABLE  tbl_strategy_purchase  (
   KEY  idx_crontab  ( crontab_id )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+###捐赠
+
