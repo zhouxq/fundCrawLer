@@ -19,4 +19,8 @@ public class NumberUtil {
         if (ratio > 0.12) return true;
         return false;
     }
+    
+    public static Double calculate(BigDecimal bigDecimal){
+        return bigDecimal.divide(new BigDecimal(100000000), 2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+    }
 }
