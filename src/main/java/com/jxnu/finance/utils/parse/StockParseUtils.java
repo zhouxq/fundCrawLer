@@ -7,6 +7,7 @@ import com.jxnu.finance.httpRest.model.RestModel.StockIndicator;
 import com.jxnu.finance.store.entity.fund.FundStock;
 import com.jxnu.finance.store.entity.stock.StockiftBean;
 import com.jxnu.finance.utils.CacheUtils;
+import com.jxnu.finance.utils.NumberUtil;
 import com.jxnu.finance.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
