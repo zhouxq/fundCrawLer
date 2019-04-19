@@ -45,7 +45,11 @@ public class CacheUtils {
     public static Object get(String key, Callable callable) {
         Object object = null;
         try {
-            object = cache.get(key, callable);
+            if (callable != null) {
+                object = cache.get(key, callable);
+            } else {
+                object = cache.getIfPresent(key);
+            }
         } catch (ExecutionException e) {
             logger.error("cache get error:{}", ExceptionUtils.getMessage(e));
         }

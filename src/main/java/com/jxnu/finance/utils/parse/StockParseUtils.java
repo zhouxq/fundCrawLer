@@ -6,6 +6,7 @@ import com.jxnu.finance.config.enmu.UrlEnmu;
 import com.jxnu.finance.httpRest.model.RestModel.StockIndicator;
 import com.jxnu.finance.store.entity.fund.FundStock;
 import com.jxnu.finance.store.entity.stock.StockiftBean;
+import com.jxnu.finance.utils.CacheUtils;
 import com.jxnu.finance.utils.OkHttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -41,9 +42,14 @@ public class StockParseUtils {
                 if (tdElements.isEmpty() || tdElements.size() < 3) continue;
                 FundStock stock = new FundStock();
                 Element stockCodeElement = tdElements.get(1);
-                if (stockCodeElement == null) continue;
+                if (stockCodeElement == null) {
+                    continue;
+                }
                 //股票代码
                 String stockCode = stockCodeElement.text();
+                if (CacheUtils.get(stockCode, null) != null) {
+                    continue;
+                }
                 //市盈率
                 String newStockUrl = stockUrl;
                 if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
@@ -63,6 +69,7 @@ public class StockParseUtils {
                 stock.setStockUrl(newStockUrl);
                 stock.setTotalShare(shares(stockCode));
                 stocks.add(stock);
+                CacheUtils.put(stockCode, stockCode);
             }
         }
         return stocks;
@@ -159,113 +166,65 @@ public class StockParseUtils {
      * @return
      */
     private static StockIndicator parseEastMoney(String url) {
-        String totalMarketValue = "";
-        String netWorth = "";
-        String netProfit = "";
-        String grossProfitMargin = "";
-        String netInterestRate = "";
-        String pe = "";
-        String pb = "";
-        String roe = "";
+        Double totalMarketValue;
+        Double netWorth;
+        Double netProfit;
+        Double grossProfitMargin;
+        Double netInterestRate;
+        Double pe;
+        Double pb;
+        Double roe;
         String subject = "";
         StockIndicator stockIndicator = new StockIndicator();
-        Document document = OkHttpUtils.parseToDocument(url, "gb2312");
-        if (document == null) document = OkHttpUtils.parseToDocument(url, "utf-8");
-        Elements elements = document.getElementsByClass("cwzb");
-        if (elements == null || elements.isEmpty()) return null;
-        Element element = elements.get(0);
-        Elements tableElements = element.getElementsByTag("tbody");
-        if (tableElements == null || tableElements.isEmpty()) return null;
-        Elements trElements = tableElements.get(0).getElementsByTag("tr");
-        if (trElements == null || trElements.isEmpty()) return null;
-        int index = 1;
-        for (Element trElement : trElements) {
-            if (trElement == null) continue;
-            Elements tdElements = trElement.getElementsByTag("td");
-            if (tdElements == null || tdElements.isEmpty()) continue;
-            for (int k = 0; k < tdElements.size(); k++) {
-                Element tdElement = tdElements.get(k);
-                if (tdElement == null) continue;
-                String text = tdElement.text();
-                if (index == 1) {
-                    switch (k) {
-                        case 1:
-                            totalMarketValue = text;
-                            break;
-                        case 2:
-                            netWorth = text;
-                            break;
-                        case 3:
-                            netProfit = text;
-                            break;
-                        case 4:
-                            pe = text;
-                            break;
-                        case 5:
-                            pb = text;
-                            break;
-                        case 6:
-                            grossProfitMargin = text;
-                            break;
-                        case 7:
-                            netInterestRate = text;
-                            break;
-                        case 8:
-                            roe = text;
-                            break;
-                    }
-                } else if (index == 2) {
-                    if (k == 0) {
-                        subject = text;
-                    }
-
-                } else if (index == 3) {
-                    text = text.substring(0, text.indexOf("|") + 1);
-                    switch (k) {
-                        case 1:
-                            totalMarketValue = text + totalMarketValue;
-                            break;
-                        case 2:
-                            netWorth = text + netWorth;
-                            break;
-                        case 3:
-                            netProfit = text + netProfit;
-                            break;
-                        case 4:
-                            pe = text + pe;
-                            break;
-                        case 5:
-                            pb = text + pb;
-                            break;
-                        case 6:
-                            grossProfitMargin = text + grossProfitMargin;
-                            break;
-                        case 7:
-                            netInterestRate = text + netInterestRate;
-                            break;
-                        case 8:
-                            roe = text + roe;
-                            break;
-                    }
-                }
-            }
-            index++;
+        String response = OkHttpUtils.parseToString(url);
+        if (StringUtils.isBlank(response)) {
+            return stockIndicator;
         }
-        stockIndicator.setPb(pb);
-        stockIndicator.setPe(pe);
-        stockIndicator.setNetWorth(netWorth);
+        JSONObject json = (JSONObject) JSONObject.parse(response);
+        if (json == null) {
+            return stockIndicator;
+        }
+        JSONObject dataJson = json.getJSONObject("data");
+        if (dataJson == null) {
+            return stockIndicator;
+        }
+        JSONArray jsonArray = dataJson.getJSONArray("diff");
+        if (jsonArray == null && jsonArray.isEmpty()) {
+            return stockIndicator;
+        }
+        JSONObject stockInfo = (JSONObject) jsonArray.get(0);
+        JSONObject industryInfo = (JSONObject) jsonArray.get(1);
+        if (stockInfo == null || industryInfo == null) {
+            return stockIndicator;
+        }
+
+        totalMarketValue = NumberUtil.calculate(stockInfo.getBigDecimal("f20"));
+        pb = stockInfo.getDoubleValue("f23");
+        pe = stockInfo.getDoubleValue("f9");
+        netWorth = NumberUtil.calculate(stockInfo.getBigDecimal("f135"));
+        netProfit = NumberUtil.calculate(stockInfo.getBigDecimal("f45"));
+        subject = industryInfo.getString("f14");
+        grossProfitMargin = stockInfo.getDoubleValue("f49");
+        netInterestRate = stockInfo.getDoubleValue("f129");
+        roe = stockInfo.getDouble("f37");
+
+        stockIndicator.setTotalMarketValue(stockInfo.getString("f1020") + "|" + totalMarketValue);
+        stockIndicator.setNetWorth(stockInfo.getString("f1135") + "|" + netWorth);
+        stockIndicator.setNetProfit(stockInfo.getString("f1045") + "|" + netProfit);
+        stockIndicator.setPe(stockInfo.getString("f1009") + "|" + pe);
+        stockIndicator.setPb(stockInfo.getString("f1023") + "|" + pb);
+        stockIndicator.setGrossProfitMargin(stockInfo.getString("f1049") + "|" + grossProfitMargin);
+        stockIndicator.setNetInterestRate(stockInfo.getString("f1129") + "|" + netInterestRate);
+        stockIndicator.setRoe(stockInfo.getString("f1037") + "|" + roe);
         stockIndicator.setSubject(subject);
-        stockIndicator.setGrossProfitMargin(grossProfitMargin);
-        stockIndicator.setNetInterestRate(netInterestRate);
-        stockIndicator.setNetProfit(netProfit);
-        stockIndicator.setTotalMarketValue(totalMarketValue);
-        stockIndicator.setRoe(roe);
         return stockIndicator;
     }
 
 
-    public static void main(String[] args) {
-        String url = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?token=70f12f2f4f091e459a279469fe49eca5&st=ltsj&sr=-1&type=XSJJ_NJ_PC&filter=(gpdm=%27600076%27)&rt=51072191";
+     public static void main(String[] args) {
+        String url = "http://push2.eastmoney.com/api/qt/slist/get?spt=1&np=3&fltt=2&invt=2&fields=f9,f12,f13,f14,f20,f23,f37,f45,f49,f134,f135,f129,f1000,f2000,f3000&ut=bd1d9ddb04089700cf9c27f6f7426281&secid=1.600438";
+        StockIndicator stockIndicator = StockParseUtils.parseEastMoney(url);
+        stockIndicator.getGrossProfitMargin();
 
     }
 

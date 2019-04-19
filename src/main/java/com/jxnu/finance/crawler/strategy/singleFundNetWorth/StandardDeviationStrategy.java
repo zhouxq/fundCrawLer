@@ -1,6 +1,7 @@
 package com.jxnu.finance.crawler.strategy.singleFundNetWorth;
 
 
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.fund.FundNetWorth;
 import com.jxnu.finance.store.mapper.FundNetWorthStore;
 import com.jxnu.finance.store.mapper.FundShareOutStore;
@@ -32,7 +33,7 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
     }
 
     @Override
-    public void handler(List<FundNetWorth> fundNetWorthList) {
+    public void handler(List<FundNetWorth> fundNetWorthList, Fund fund) {
         /*if (fundNetWorthList.isEmpty()) return;
         String fundCode = fundNetWorthList.get(0).getFundCode();
         Fund finance = fundStore.selectOne(fundCode);
@@ -78,7 +79,7 @@ public class StandardDeviationStrategy extends BaseSingleNetWorthStrategy {
         if (deviations.isEmpty()) return;
         crontabSellStore.insertStandardDeviation(deviations);*/
         if (super.next != null) {
-            super.next.handler(fundNetWorthList);
+            super.next.handler(fundNetWorthList, fund);
         }
     }
 }

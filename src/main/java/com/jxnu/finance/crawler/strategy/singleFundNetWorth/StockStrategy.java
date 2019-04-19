@@ -1,6 +1,7 @@
 package com.jxnu.finance.crawler.strategy.singleFundNetWorth;
 
 
+import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.fund.FundNetWorth;
 import com.jxnu.finance.store.entity.fund.FundStock;
 import com.jxnu.finance.store.entity.stock.StockExtra;
@@ -38,10 +39,9 @@ public class StockStrategy extends BaseSingleNetWorthStrategy {
     }
 
     @Override
-    public void handler(List<FundNetWorth> fundNetWorthList) {
-        if (fundNetWorthList.isEmpty()) return;
-        String fundCode = fundNetWorthList.get(0).getFundCode();
-        if (StringUtils.isBlank(fundCode)) return;
+    public void handler(List<FundNetWorth> fundNetWorthList, Fund fund) {
+        String fundCode = "";
+        if (fund == null || StringUtils.isBlank(fundCode = fund.getCode())) return;
         List<String> times = TimeUtil.latestYear(3);
         for (String time : times) {
             String newUrl = "";
@@ -58,7 +58,7 @@ public class StockStrategy extends BaseSingleNetWorthStrategy {
             stockExtraStore.insert(stockExtras);
         }
         if (super.next != null) {
-            super.handler(fundNetWorthList);
+            super.handler(fundNetWorthList, fund);
         }
     }
 }
