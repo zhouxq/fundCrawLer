@@ -217,8 +217,10 @@ public class StockParseUtils {
     }
 
 
-    public static void main(String[] args) {
-        String url = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?token=70f12f2f4f091e459a279469fe49eca5&st=ltsj&sr=-1&type=XSJJ_NJ_PC&filter=(gpdm=%27600076%27)&rt=51072191";
+     public static void main(String[] args) {
+        String url = "http://push2.eastmoney.com/api/qt/slist/get?spt=1&np=3&fltt=2&invt=2&fields=f9,f12,f13,f14,f20,f23,f37,f45,f49,f134,f135,f129,f1000,f2000,f3000&ut=bd1d9ddb04089700cf9c27f6f7426281&secid=1.600438";
+        StockIndicator stockIndicator = StockParseUtils.parseEastMoney(url);
+        stockIndicator.getGrossProfitMargin();
 
     }
 
