@@ -53,12 +53,15 @@ public class StockParseUtils {
                 }
                 //市盈率
                 String newStockUrl = stockUrl;
+                String oldStockUrl = "http://push2.eastmoney.com/api/qt/slist/get?spt=1&np=3&fltt=2&invt=2&fields=f9,f12,f13,f14,f20,f23,f37,f45,f49,f134,f135,f129,f1000,f2000,f3000&ut=bd1d9ddb04089700cf9c27f6f7426281&secid=";
                 if (stockCode.startsWith("00") || stockCode.startsWith("3")) {
                     newStockUrl = stockUrl.replace("#", "sz" + stockCode);
+                    oldStockUrl += "0." + stockCode;
                 } else {
                     newStockUrl = stockUrl.replace("#", "sh" + stockCode);
+                    oldStockUrl += "1." + stockCode;
                 }
-                StockIndicator stockIndicator = parseEastMoney(newStockUrl);
+                StockIndicator stockIndicator = parseEastMoney(oldStockUrl);
                 if (stockIndicator != null) BeanUtils.copyProperties(stockIndicator, stock);
                 //股票名称
                 Element stockNameElement = tdElements.get(2);
@@ -205,6 +208,10 @@ public class StockParseUtils {
         netWorth = NumberUtil.calculate(stockInfo.getBigDecimal("f135"));
         netProfit = NumberUtil.calculate(stockInfo.getBigDecimal("f45"));
         subject = industryInfo.getString("f14");
+        if (StringUtils.isNotBlank(subject) &&
+                subject.contains("(行业平均)")) {
+            subject = subject.replace("(行业平均)", "");
+        }
         grossProfitMargin = stockInfo.getDoubleValue("f49");
         netInterestRate = stockInfo.getDoubleValue("f129");
         roe = stockInfo.getDouble("f37");
@@ -222,7 +229,7 @@ public class StockParseUtils {
     }
 
 
-     public static void main(String[] args) {
+    public static void main(String[] args) {
         String url = "http://push2.eastmoney.com/api/qt/slist/get?spt=1&np=3&fltt=2&invt=2&fields=f9,f12,f13,f14,f20,f23,f37,f45,f49,f134,f135,f129,f1000,f2000,f3000&ut=bd1d9ddb04089700cf9c27f6f7426281&secid=1.600438";
         StockIndicator stockIndicator = StockParseUtils.parseEastMoney(url);
         stockIndicator.getGrossProfitMargin();
