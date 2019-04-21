@@ -193,7 +193,7 @@ public class StockParseUtils {
             return stockIndicator;
         }
         JSONArray jsonArray = dataJson.getJSONArray("diff");
-        if (jsonArray == null && jsonArray.isEmpty()) {
+        if (jsonArray == null || jsonArray.isEmpty()) {
             return stockIndicator;
         }
         JSONObject stockInfo = (JSONObject) jsonArray.get(0);
