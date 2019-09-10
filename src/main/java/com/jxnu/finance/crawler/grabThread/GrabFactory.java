@@ -31,17 +31,17 @@ public class GrabFactory {
     @PostConstruct
     public void init() {
         if (companySwitch == 1) {
-            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(companyGrab, companySwitch), 0, 6, TimeUnit.HOURS);
+            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(companyGrab, companySwitch), 0, 6, TimeUnit.MINUTES);
         }
 
         if (fundSwitch == 1) {
-            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundGrab, fundSwitch), 0, 6, TimeUnit.HOURS);
+            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundGrab, fundSwitch), 0, 6, TimeUnit.MINUTES);
         }
 
 
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 24, TimeUnit.HOURS);
+        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 24, TimeUnit.SECONDS);
 
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 0, 16, TimeUnit.HOURS);
+        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 0, 16, TimeUnit.SECONDS);
 
     }
 

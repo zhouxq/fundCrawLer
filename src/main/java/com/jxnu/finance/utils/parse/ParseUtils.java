@@ -131,7 +131,7 @@ public class ParseUtils {
      */
     public static List<Fund> parseFund(String url, FundCompany company) {
         List<Fund> fundList = new ArrayList<Fund>();
-        String companyCode = company.getCode().toString();
+        String companyCode = company.getCode();
         String url2 = url.replace("#", companyCode);
         Document document = OkHttpUtils.parseToDocument(url2, "utf-8");
         if (document == null) return fundList;
