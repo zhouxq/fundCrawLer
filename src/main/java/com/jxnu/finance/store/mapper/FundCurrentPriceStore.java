@@ -1,8 +1,6 @@
 package com.jxnu.finance.store.mapper;
 
-import com.jxnu.finance.store.daoBean.FundNetWorthDaoBean;
 import com.jxnu.finance.store.entity.fund.FundCurrentPrice;
-import com.jxnu.finance.store.entity.fund.FundNetWorth;
 import com.jxnu.finance.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +16,10 @@ public class FundCurrentPriceStore extends BaseStore<FundCurrentPrice> {
     }
 
 
-    public List<FundCurrentPrice> selectMulti(String fundCode) {
+    /*public List<FundCurrentPrice> selectMulti(String fundCode) {
         FundCurrentPrice daoBean = new FundCurrentPrice();
         daoBean.setFundcode(fundCode);
         return super.selectMulti(TransformUtil.bean2Map(daoBean));
-    }
+    }*/
 
 }

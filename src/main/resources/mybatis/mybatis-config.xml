@@ -18,5 +18,6 @@
         <mapper resource="mybatis/mapper/strategyCrontabAnalyze.xml"/>
         <mapper resource="mybatis/mapper/strategyCrontabSell.xml"/>
         <mapper resource="mybatis/mapper/strategyPurchase.xml"/>
+        <mapper resource="mybatis/mapper/fundPrice.xml"/>
     </mappers>
 </configuration>

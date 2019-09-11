@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +21,16 @@ public class FundCurrentPriceStrategy extends BaseSingleFundPriceStrategy {
     @Value("${tiantian.finance.current_price}")
     private String fundCurrentPriceUrl;
 
+    @Resource(name = "fundCurrentPriceStrategy")
+    private BaseSingleFundPriceStrategy baseSingleFundPriceStrategy;
+
     @Autowired
     private FundCurrentPriceStore fundCurrentPriceStore;
 
+    @PostConstruct
+    public void init() {
+        super.next = baseSingleFundPriceStrategy;
+    }
 
     @Override
     public void handler(List<Fund> fundList) {
@@ -35,7 +44,9 @@ public class FundCurrentPriceStrategy extends BaseSingleFundPriceStrategy {
             fundCurrentPriceStore.insert(fundCurrentPrices);
 
         }
-
+        if (super.next != null) {
+            super.next.handler(fundList);
+        }
     }
 
 
