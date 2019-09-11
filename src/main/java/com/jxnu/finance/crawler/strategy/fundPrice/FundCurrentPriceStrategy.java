@@ -2,7 +2,7 @@ package com.jxnu.finance.crawler.strategy.fundPrice;
 
 import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.fund.FundCurrentPrice;
-import com.jxnu.finance.store.mapper.FundCurrentPriceStore;
+import com.jxnu.finance.store.mapper.FundPriceStore;
 import com.jxnu.finance.utils.parse.StockParseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ public class FundCurrentPriceStrategy extends BaseSingleFundPriceStrategy {
     private BaseSingleFundPriceStrategy baseSingleFundPriceStrategy;
 
     @Autowired
-    private FundCurrentPriceStore fundCurrentPriceStore;
+    private FundPriceStore fundPriceStore;
 
     @PostConstruct
     public void init() {
@@ -41,7 +41,7 @@ public class FundCurrentPriceStrategy extends BaseSingleFundPriceStrategy {
                 FundCurrentPrice fundCurrentPrice = StockParseUtils.parseFundCurrentPrice(fundCurrentPriceUrl);
                 fundCurrentPrices.add(fundCurrentPrice);
             }
-            fundCurrentPriceStore.insert(fundCurrentPrices);
+            fundPriceStore.insert(fundCurrentPrices);
 
         }
         if (super.next != null) {

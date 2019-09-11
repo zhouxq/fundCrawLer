@@ -8,18 +8,18 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
-public class FundCurrentPriceStore extends BaseStore<FundCurrentPrice> {
+public class FundPriceStore extends BaseStore<FundCurrentPrice> {
 
     @PostConstruct
     public void init() {
-        super.storeName = "fundPriceStore";
+        super.storeName = "fundPrice";
     }
 
 
-    /*public List<FundCurrentPrice> selectMulti(String fundCode) {
+    public List<FundCurrentPrice> selectMulti(String fundCode) {
         FundCurrentPrice daoBean = new FundCurrentPrice();
         daoBean.setFundcode(fundCode);
         return super.selectMulti(TransformUtil.bean2Map(daoBean));
-    }*/
+    }
 
 }
