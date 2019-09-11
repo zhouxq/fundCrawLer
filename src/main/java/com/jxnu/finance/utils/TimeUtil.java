@@ -124,7 +124,7 @@ public class TimeUtil {
 
 
     public static void main(String[] args) throws ParseException {
-        System.out.println(latestYear(3));
+        System.out.println(new Date().getTime());
         System.out.println(intervalTime("2017-10-09", "2017-11-08"));
     }
 }

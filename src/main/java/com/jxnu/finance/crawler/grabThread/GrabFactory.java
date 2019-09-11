@@ -4,6 +4,7 @@ import com.jxnu.finance.crawler.grabThread.specific.CompanyGrab;
 import com.jxnu.finance.crawler.grabThread.specific.FundGrab;
 import com.jxnu.finance.crawler.grabThread.specific.FundIndexGrab;
 import com.jxnu.finance.crawler.grabThread.specific.FundNetWorthGrab;
+import com.jxnu.finance.crawler.grabThread.specific.FundPriceGrab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,10 @@ public class GrabFactory {
     @Autowired
     private FundIndexGrab fundIndexGrab;
 
+    @Autowired
+    private FundPriceGrab fundPriceGrab;
+
+
     @PostConstruct
     public void init() {
         if (companySwitch == 1) {
@@ -38,6 +43,11 @@ public class GrabFactory {
             ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundGrab, fundSwitch), 0, 6, TimeUnit.MINUTES);
         }
 
+        if (fundSwitch == 1) {
+            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundPriceGrab, fundSwitch), 0, 6, TimeUnit.MINUTES);
+        }
+
+        // 分析当日的基金线程
 
         ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 24, TimeUnit.SECONDS);
 

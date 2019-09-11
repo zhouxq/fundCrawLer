@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jxnu.finance.config.enmu.UrlEnmu;
 import com.jxnu.finance.httpRest.model.RestModel.StockIndicator;
+import com.jxnu.finance.store.entity.fund.FundCurrentPrice;
 import com.jxnu.finance.store.entity.fund.FundStock;
 import com.jxnu.finance.store.entity.stock.StockiftBean;
 import com.jxnu.finance.utils.CacheUtils;
@@ -132,6 +133,27 @@ public class StockParseUtils {
         return liftBeans;
     }
 
+
+    /**
+     * 获取实时 的基金价格
+     * @param url
+     * @return
+     */
+    public static FundCurrentPrice parseFundCurrentPrice(String url) {
+        Document document = OkHttpUtils.parseToDocument(url, "utf-8");
+        String text = document.text();
+        if (StringUtils.isNotBlank(text)) {
+            text = text.substring(8, text.length() - 2);
+        }
+        JSONObject jsonObject = JSONObject.parseObject(text);
+        if (jsonObject != null) {
+            return JSONObject.toJavaObject(jsonObject, FundCurrentPrice.class);
+        }
+
+        return null;
+    }
+
+
     /**
      * 股价
      *
@@ -230,9 +252,8 @@ public class StockParseUtils {
 
 
     public static void main(String[] args) {
-        String url = "http://push2.eastmoney.com/api/qt/slist/get?spt=1&np=3&fltt=2&invt=2&fields=f9,f12,f13,f14,f20,f23,f37,f45,f49,f134,f135,f129,f1000,f2000,f3000&ut=bd1d9ddb04089700cf9c27f6f7426281&secid=1.600438";
-        StockIndicator stockIndicator = StockParseUtils.parseEastMoney(url);
-        stockIndicator.getGrossProfitMargin();
+        String url = "http://fundgz.1234567.com.cn/js/001938.js?rt=1568169817174";
+        StockParseUtils.parseFundCurrentPrice(url);
 
     }
 

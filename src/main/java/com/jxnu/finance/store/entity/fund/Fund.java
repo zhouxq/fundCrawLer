@@ -13,6 +13,15 @@ public class Fund {
     private String companyCode;
     private String companyName;
 
+    private String star; //  标记为自己购买的基金
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(String star) {
+        this.star = star;
+    }
 
     public String getCode() {
         return code;

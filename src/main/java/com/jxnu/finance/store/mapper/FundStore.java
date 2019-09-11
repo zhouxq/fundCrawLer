@@ -26,6 +26,13 @@ public class FundStore extends BaseStore<Fund> {
     }
 
 
+    public List<Fund> selectMultiByStar(String star) {
+        Fund daoBean = new Fund();
+        daoBean.setStar(star);
+        return super.selectMulti(TransformUtil.bean2Map(daoBean));
+    }
+
+
     /**
      * 查询基金的经理人
      *

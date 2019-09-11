@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fundPrice">
+    <resultMap id="fundPriceMap" type="com.jxnu.finance.store.entity.fund.FundCurrentPrice">
+        <result property="fundcode" column="fundcode"/>
+        <result property="dwjz" column="dwjz"/>
+        <result property="gztime" column="gztime"/>
+        <result property="jzrq" column="jzrq"/>
+        <result property="gsz" column="gsz"/>
+        <result property="gszzl" column="gszzl"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="java.util.List">
+        INSERT tbl_fund_current_price(fundcode,dwjz,gztime,jzrq,gsz,gszzl)
+        VALUES
+        <foreach collection="list" separator="," item="fundPrice">
+            (#{fundPrice.fundcode},#{fundPrice.dwjz},#{fundPrice.gztime},#{fundPrice.jzrq},#{fundPrice.gsz},#{fundPrice.gszzl})
+        </foreach>
+    </insert>
+
+
+    <select id="selectMulti" resultMap="fundRankMap" parameterType="java.util.Map">
+        SELECT * from `tbl_fund_current_price` a
+        <where>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="rate != null and rate != ''">
+                AND a.rate IS NOT NULL ORDER BY
+            </if>
+        </where>
+        a.rate ASC LIMIT 30
+    </select>
+
+    <update id="truncateDayRank">
+        truncate tbl_fund_rank
+    </update>
+
+
+</mapper>
