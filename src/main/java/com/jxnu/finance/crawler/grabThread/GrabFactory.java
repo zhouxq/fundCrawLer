@@ -35,23 +35,23 @@ public class GrabFactory {
 
     @PostConstruct
     public void init() {
-        if (companySwitch == 1) {
-            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(companyGrab, companySwitch), 0, 1, TimeUnit.MINUTES);
-        }
+//        if (companySwitch == 1) {
+//            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(companyGrab, companySwitch), 0, 1, TimeUnit.MINUTES);
+//        }
+//
+//        if (fundSwitch == 1) {
+//            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundGrab, fundSwitch), 0, 1, TimeUnit.MINUTES);
+//        }
 
-        if (fundSwitch == 1) {
-            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundGrab, fundSwitch), 0, 1, TimeUnit.MINUTES);
-        }
-
-        if (fundSwitch == 1) {
-            ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundPriceGrab, fundSwitch), 0, 1, TimeUnit.MINUTES);
-        }
+//        if (fundSwitch == 1) {// TODO  改成task 更好把
+//            ThreadPool.getInstance().scheduleWithFixedDelay(new CrobThread(fundPriceGrab, fundSwitch),  0,5, TimeUnit.MINUTES);
+//        }
 
         // 分析当日的基金线程
 
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 2, TimeUnit.SECONDS);
-
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 0, 2, TimeUnit.SECONDS);
+//        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 0, 2, TimeUnit.SECONDS);
+//
+//        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 0, 2, TimeUnit.SECONDS);
 
     }
 
