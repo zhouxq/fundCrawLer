@@ -14,6 +14,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,7 @@ public class HttpServer {
     @Resource
     private EventBus eventBus;
 
-    @PostConstruct
+//    @PostConstruct //  影响 spring job  的 执行[  ServerBootStrap 一直在运行,  spring 就一直 wait...... ]
     public void init() {
         Integer proNum = Runtime.getRuntime().availableProcessors();
         EventLoopGroup bossGroup = new NioEventLoopGroup(proNum / 2);
@@ -70,4 +71,5 @@ public class HttpServer {
             logger.info("http server exit...");
         }
     }
+
 }

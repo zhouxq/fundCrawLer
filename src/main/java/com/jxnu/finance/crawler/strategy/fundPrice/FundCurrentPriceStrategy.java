@@ -50,9 +50,7 @@ public class FundCurrentPriceStrategy extends BaseSingleFundPriceStrategy {
             fundPriceStore.insert(fundCurrentPrices);
 
         }
-        if (super.next != null) {
-            super.next.handler(fundList);
-        }
+
     }
 
 

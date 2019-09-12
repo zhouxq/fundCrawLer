@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -44,7 +45,16 @@ public class GrabFactory {
 //        }
 
 //        if (fundSwitch == 1) {// TODO  改成task 更好把
-//            ThreadPool.getInstance().scheduleWithFixedDelay(new CrobThread(fundPriceGrab, fundSwitch),  0,5, TimeUnit.MINUTES);
+//            ThreadPool.getInstance().schedule(
+//                    new Callable<Object>() {
+//                          @Override
+//                          public Object call() throws Exception {
+//                              fundPriceGrab.handler(1);
+//                              Thread.sleep(1000*5);
+//                              return null;
+//                          }
+//                      },
+//                    1, TimeUnit.MINUTES);
 //        }
 
         // 分析当日的基金线程
