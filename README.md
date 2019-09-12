@@ -230,3 +230,6 @@ CREATE TABLE  tbl_strategy_purchase  (
 20190910 我自己的branch
 TODO 分析自己的购买的净值 与当前的净值差额
 当日该基金的净值走向是否涨跌，如果跌了达到阈值做提醒补仓
+
+
+TODO JOB \Server 单独两个服务 module 两个有 冲突，
