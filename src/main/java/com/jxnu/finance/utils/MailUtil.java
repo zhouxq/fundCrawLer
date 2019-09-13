@@ -33,7 +33,7 @@ public class MailUtil {
             email.buildMimeMessage();
             String text="<html><head></head><body>";
             for(Fund fund: funds){
-                text += fund.getName() + ": <a href=\"http://finance.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a></br>";
+                text += fund.getName() + ": <a href=\"http://finance.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> 跌幅 " + fund.getType() + "</br>";
             }
             text+="</body></html>";
             email.getMimeMessage().setContent(text,"text/html;charset=utf-8");

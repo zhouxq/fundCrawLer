@@ -7,10 +7,20 @@ public class FundCurrentPrice {
 
     private String fundcode;
     private BigDecimal dwjz;
-    private BigDecimal gszzl;
+    private Double gszzl;
     private BigDecimal gsz;
     private String gztime;
     private String jzrq;
+
+    private Double gszDouble;
+
+    public Double getGszDouble() {
+        return Double.valueOf(this.getGsz().toString());
+    }
+
+    public void setGszDouble(Double gszDouble) {
+        this.gszDouble = gszDouble;
+    }
 
     public String getFundcode() {
         return fundcode;
@@ -28,11 +38,11 @@ public class FundCurrentPrice {
         this.dwjz = dwjz;
     }
 
-    public BigDecimal getGszzl() {
+    public Double getGszzl() {
         return gszzl;
     }
 
-    public void setGszzl(BigDecimal gszzl) {
+    public void setGszzl(Double gszzl) {
         this.gszzl = gszzl;
     }
 

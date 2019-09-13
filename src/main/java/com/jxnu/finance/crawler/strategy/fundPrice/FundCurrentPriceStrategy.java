@@ -1,6 +1,5 @@
 package com.jxnu.finance.crawler.strategy.fundPrice;
 
-import com.jxnu.finance.crawler.strategy.multiFundNetWorth.MultiNetWorthAnalyzeStrategy;
 import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.fund.FundCurrentPrice;
 import com.jxnu.finance.store.mapper.FundPriceStore;

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class FundPriceStore extends BaseStore<FundCurrentPrice> {
@@ -20,6 +21,11 @@ public class FundPriceStore extends BaseStore<FundCurrentPrice> {
         FundCurrentPrice daoBean = new FundCurrentPrice();
         daoBean.setFundcode(fundCode);
         return super.selectMulti(TransformUtil.bean2Map(daoBean));
+    }
+
+
+    public List<FundCurrentPrice> queryPriceList(Map params){
+        return super.template.selectList(this.storeName+ "queryFundPrice",TransformUtil.bean2Map(params));
     }
 
 }

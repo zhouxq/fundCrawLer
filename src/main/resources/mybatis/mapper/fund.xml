@@ -33,6 +33,15 @@
             <if test="star != null and star != ''">
                 star=#{star}
             </if>
+            <if test="fundSet != null and fundSet != ''">
+                code in(
+                <foreach collection="list" separator="," item="fund">
+                   #{fund.code},
+                </foreach>
+                0 )
+            </if>
+
+
         </where>
         ORDER BY code DESC
     </select>
