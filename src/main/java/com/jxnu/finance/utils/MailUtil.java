@@ -6,6 +6,7 @@ import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalTime;
 import java.util.Set;
 
 /**
@@ -19,19 +20,19 @@ public class MailUtil {
             //发送简单邮件
             SimpleEmail email = new SimpleEmail();
 
-            email.setHostName("smtp.qq.com");
+            email.setHostName("smtp.163.com");
             email.setDebug(true);
             email.setSSLOnConnect(true);
 
             //需要邮件发送服务器验证,用户名/密码
-            email.setAuthentication("1247793952@qq.com", "****");
-            email.setFrom("1247793952@qq.com");
-            email.addTo("15889326057@163.com");
+            email.setAuthentication("wy402447928@163.com", "wy402447928");
+            email.setFrom("wy402447928@163.com");
+            email.addTo("402447928@qq.com");
 
             //设置主题的字符集为UTF-8
             email.setSubject(title);
             email.buildMimeMessage();
-            String text="<html><head></head><body>";
+            String text= String.format("<html><head>基金净值播报%s</head><body>",LocalTime.now());
             for(Fund fund: funds){
                 text += fund.getName() + ": <a href=\"http://finance.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> 跌幅 " + fund.getType() + "</br>";
             }
