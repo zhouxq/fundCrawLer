@@ -29,11 +29,7 @@ public class FundPriceGrab extends Grab {
             /**
              * 基金净值获取策略执行
              */
-//            baseSingleFundPriceStrategy.handler(fundList);
-            Map params = new HashMap();
-            params.put("params","hour");
-
-            fundPriceAnalysisService.execute(params);
+            baseSingleFundPriceStrategy.handler(fundList);
 
         }
     }

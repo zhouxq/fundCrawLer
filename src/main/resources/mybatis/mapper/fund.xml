@@ -36,7 +36,7 @@
             <if test="fundSet != null and fundSet != ''">
                 code in(
                 <foreach collection="list" separator="," item="fund">
-                   #{fund.code},
+                   #{fund},
                 </foreach>
                 0 )
             </if>

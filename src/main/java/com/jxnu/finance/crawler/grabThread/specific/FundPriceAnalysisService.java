@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,20 +68,18 @@ public class FundPriceAnalysisService {
         }
 
         HashMap<String,Object> paramHashMap = new HashMap();
+        if(!CollectionUtils.isEmpty(funCodeList)){
+            paramHashMap.put("fundSet","code");
+            paramHashMap.put("list",funCodeList);
+            List<Fund> fundList = fundStore.selectMulti(paramHashMap);
+            for (Fund fund : fundList) {
+                Double aDouble = fundMap.get(fund.getCode());
+                fund.setType(aDouble.toString());
+                fundSet.add(fund);
+            }
 
-        paramHashMap.put("fundSet","code");
-        paramHashMap.put("list",funCodeList);
-        List<Fund> fundList = fundStore.selectMulti(paramHashMap);
-        for (Fund fund : fundList) {
-            Double aDouble = fundMap.get(fund.getCode());
-            fund.setType(aDouble.toString());
-            fundSet.add(fund);
-        }
-
-
-        if(!CollectionUtils.isEmpty(fundSet)){
-            String title = "hour".equals(paramHashMap.get("params")) ? "收盘前统计跌幅" : "间隔统计跌幅" ;
-            MailUtil.sendmail(title,fundSet);
+            String title = "hour".equals(paramHashMap.get("params")) ? "收盘前统计跌幅%s" : "间隔统计跌幅%s" ;
+            MailUtil.sendmail(String.format(title,LocalTime.now()) ,fundSet);
 
         }
     }
