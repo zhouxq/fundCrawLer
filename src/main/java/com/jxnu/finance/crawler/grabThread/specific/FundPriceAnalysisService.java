@@ -8,6 +8,7 @@ import com.jxnu.finance.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,8 +78,11 @@ public class FundPriceAnalysisService {
         }
 
 
-        String title = "hour".equals(paramHashMap.get("params")) ? "收盘前统计跌幅" : "间隔统计跌幅" ;
-        MailUtil.sendmail(title,fundSet);
+        if(!CollectionUtils.isEmpty(fundSet)){
+            String title = "hour".equals(paramHashMap.get("params")) ? "收盘前统计跌幅" : "间隔统计跌幅" ;
+            MailUtil.sendmail(title,fundSet);
+
+        }
     }
 
 }

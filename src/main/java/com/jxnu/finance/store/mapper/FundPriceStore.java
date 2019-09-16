@@ -25,7 +25,7 @@ public class FundPriceStore extends BaseStore<FundCurrentPrice> {
 
 
     public List<FundCurrentPrice> queryPriceList(Map params){
-        return super.template.selectList(this.storeName+ "queryFundPrice",TransformUtil.bean2Map(params));
+        return super.template.selectList(this.storeName+ ".queryFundPrice",TransformUtil.bean2Map(params));
     }
 
 }

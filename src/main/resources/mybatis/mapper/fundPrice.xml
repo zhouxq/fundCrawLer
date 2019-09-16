@@ -21,15 +21,17 @@
 
     <!--每天中午收盘前，下午收盘前15分钟，正常每30分钟执行一次-->
     <select id="queryFundPrice" resultMap="fundPriceMap" parameterType="java.util.Map">
-        SELECT *  FROM tbl_fund_current_price t WHERE t.`jzrq` = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        SELECT *  FROM tbl_fund_current_price t WHERE DATE_FORMAT(t.`gztime` ,'%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
         AND t.`gztime` &gt;= DATE_ADD(NOW(),
-        <if test="params != null and params='hour' ">
-            INTERVAL - 3 HOUR
-        </if>
 
-        <if test="params != null and params='minutes' ">
-            INTERVAL - 30 MINUTE
-        </if>
+        <choose>
+            <when test="params != null and params != '' and params='hour'">
+                INTERVAL - 3 HOUR
+            </when>
+            <otherwise>
+                INTERVAL - 30 MINUTE
+            </otherwise>
+        </choose>
 
         ) AND t.gztime &lt;= NOW()
     </select>

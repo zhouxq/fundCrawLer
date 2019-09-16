@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class FundPriceGrab extends Grab {
@@ -18,6 +20,8 @@ public class FundPriceGrab extends Grab {
     @Resource(name = "fundCurrentPriceStrategy")
     private BaseSingleFundPriceStrategy baseSingleFundPriceStrategy;
 
+    @Autowired
+    FundPriceAnalysisService fundPriceAnalysisService;
 
     public void handler(Integer num) {
         List<Fund> fundList = fundStore.selectMultiByStar("1");// 查询 标记的基金
@@ -25,7 +29,11 @@ public class FundPriceGrab extends Grab {
             /**
              * 基金净值获取策略执行
              */
-            baseSingleFundPriceStrategy.handler(fundList);
+//            baseSingleFundPriceStrategy.handler(fundList);
+            Map params = new HashMap();
+            params.put("params","hour");
+
+            fundPriceAnalysisService.execute(params);
 
         }
     }
