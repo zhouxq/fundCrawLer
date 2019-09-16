@@ -34,11 +34,11 @@
                 star=#{star}
             </if>
             <if test="fundSet != null and fundSet != ''">
-                code in(
-                <foreach collection="list" separator="," item="fund">
-                   #{fund},
+                code in
+                <foreach collection="list" separator="," item="fund" open="(" close=")">
+                   #{fund}
                 </foreach>
-                0 )
+
             </if>
 
 

@@ -32,9 +32,9 @@ public class MailUtil {
             //设置主题的字符集为UTF-8
             email.setSubject(title);
             email.buildMimeMessage();
-            String text= String.format("<html><head>基金净值播报%s</head><body>",LocalTime.now());
+            String text= String.format("<html><head>基金净值播报%s</head></br><body> ",LocalTime.now());
             for(Fund fund: funds){
-                text += fund.getName() + ": <a href=\"http://finance.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> 跌幅 " + fund.getType() + "</br>";
+                text += fund.getName() + ": <a href=\"http://fund.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> 跌幅 " + fund.getType() + "</br>";
             }
             text+="</body></html>";
             email.getMimeMessage().setContent(text,"text/html;charset=utf-8");
