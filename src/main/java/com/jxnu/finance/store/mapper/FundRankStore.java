@@ -26,6 +26,6 @@ public class FundRankStore extends BaseStore<FundRank> {
     }
 
     public void truncateDayRank() {
-        template.update("fundNetWorth.truncateDayRank");
+        template.update("fundRank.truncateDayRank");
     }
 }

@@ -42,7 +42,7 @@
     </bean>
     <!-- 配置那些类的方法进行事务管理 -->
     <aop:config>
-        <aop:pointcut id="allManagerMethod" expression="execution (* com.jxnu.finance.crawler..*.*(..))" />
+        <aop:pointcut id="allManagerMethod" expression="execution (* com.jxnu.finance.*..*.*(..))" />
         <aop:advisor advice-ref="userTxAdvice" pointcut-ref="allManagerMethod" />
     </aop:config>
 
