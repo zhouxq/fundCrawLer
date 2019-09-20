@@ -43,7 +43,7 @@ public class TaskJob  {
     }
 
 
-    @Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")// 每天 ，9：0 - 15：00 每隔30分钟执行一次
+    @Scheduled(cron = "0 0/60 9,10,11,13,14,15 * * ?")// 每天 ，9：0 - 15：00 每隔30分钟执行一次
     void analysisPriceJob(){
         List<Mail> mailList = mailStore.queryMailList().stream().filter(distinctByKey(b -> b.getAddress())).collect(Collectors.toList());
         for (Mail mail : mailList) {
