@@ -6,6 +6,7 @@ import com.jxnu.finance.utils.base.TransformUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * @author shoumiao_yao
@@ -30,4 +31,9 @@ public class MailStore extends BaseStore<Mail> {
     }
 
 
+    public List<Mail> queryMailList(){
+        MailDaoBean daoBean = new MailDaoBean();
+        return template.selectList(super.storeName + ".queryMailList", TransformUtil.bean2Map(daoBean));
+
+    }
 }

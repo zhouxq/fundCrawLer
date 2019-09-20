@@ -126,5 +126,10 @@ public class TimeUtil {
     public static void main(String[] args) throws ParseException {
         System.out.println(new Date().getTime());
         System.out.println(intervalTime("2017-10-09", "2017-11-08"));
+
+        Map params = new HashMap();
+        params.put("params","hour");
+
+        System.out.println("hour".equals(params.get("params")));
     }
 }

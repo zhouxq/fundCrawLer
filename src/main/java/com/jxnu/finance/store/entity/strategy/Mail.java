@@ -1,5 +1,7 @@
 package com.jxnu.finance.store.entity.strategy;
 
+import java.util.Date;
+
 /**
  * @author shoumiao_yao
  * @date 2016-10-13
@@ -7,8 +9,54 @@ package com.jxnu.finance.store.entity.strategy;
 public class Mail {
     private String id;
     private String code;
-    private String time;
-    private String type;
+    private Date time;
+    private String address;
+
+    private String mailname;
+    private Date endtime;
+
+    private double threshold;
+
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMailname() {
+        return mailname;
+    }
+
+    public void setMailname(String mailname) {
+        this.mailname = mailname;
+    }
+
+    public Date getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
+    }
+
+    public double getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
+    }
 
     public String getId() {
         return id;
@@ -26,19 +74,4 @@ public class Mail {
         this.code = code;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

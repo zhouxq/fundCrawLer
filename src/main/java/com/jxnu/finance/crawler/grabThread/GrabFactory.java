@@ -58,9 +58,9 @@ public class GrabFactory {
 
         // 分析当日的基金线程 5小时 后（14点左右）执行。间隔5小时，一天执行一次
 
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 5, 5, TimeUnit.HOURS);
-
-        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 5, 5, TimeUnit.HOURS);
+//        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundNetWorthGrab, fundNetWorthSwitch), 5, 5, TimeUnit.HOURS);
+//
+//        ThreadPool.getInstance().scheduleAtFixedRate(new CrobThread(fundIndexGrab, companySwitch), 5, 5, TimeUnit.HOURS);
 
     }
 

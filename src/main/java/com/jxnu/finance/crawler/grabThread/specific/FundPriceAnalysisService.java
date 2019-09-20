@@ -2,6 +2,7 @@ package com.jxnu.finance.crawler.grabThread.specific;
 
 import com.jxnu.finance.store.entity.fund.Fund;
 import com.jxnu.finance.store.entity.fund.FundCurrentPrice;
+import com.jxnu.finance.store.entity.strategy.Mail;
 import com.jxnu.finance.store.mapper.FundPriceStore;
 import com.jxnu.finance.store.mapper.FundStore;
 import com.jxnu.finance.utils.MailUtil;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class FundPriceAnalysisService {
 
-    @Value("${threshold}")
+//    @Value("${threshold}")
     private Double threshold;
 
     @Autowired
@@ -58,7 +59,8 @@ public class FundPriceAnalysisService {
             OptionalDouble minGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).min(); ///最小张跌 %
 
             OptionalDouble maxGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).max(); // 最大张跌 %
-
+            Mail mail = (Mail)params.get("mailObject");
+            threshold = mail.getThreshold();
             if(threshold .compareTo( minGszzl.getAsDouble()) > 0) {//  提醒的部分
                 FundCurrentPrice fundCurrentPrice = fundCurrentPrices.get(0);
                 String fundcode = fundCurrentPrice.getFundcode();
@@ -78,7 +80,7 @@ public class FundPriceAnalysisService {
                 fundSet.add(fund);
             }
 
-            String title = "hour".equals(paramHashMap.get("params")) ? "收盘前统计跌幅%s" : "间隔统计跌幅%s" ;
+            String title = "hour".equals(params.get("params")) ? "收盘前统计跌幅%s" : "间隔统计跌幅%s" ;
             MailUtil.sendmail(String.format(title,LocalTime.now()) ,fundSet);
 
         }

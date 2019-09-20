@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mail">
+
+    <resultMap id="mailMap" type="com.jxnu.finance.store.entity.strategy.Mail">
+        <result property="code" column="code"/>
+        <result property="address" column="address"/>
+        <result property="endtime" column="endtime"/>
+        <result property="mailname" column="mailname"/>
+        <result property="threshold" column="threshold"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
     <insert id="insert" parameterType="java.util.List">
         INSERT tbl_mail(code,time,type)
         VALUES
@@ -19,6 +29,12 @@
         and a.type=#{type}
         and NOW() >= a.time
         and  a.time>= ADDDATE(NOW(),INTERVAL -70 DAY)
+    </select>
+
+
+    <select id="queryMailList" parameterType="java.util.Map" resultMap="mailMap">
+        SELECT DISTINCT t.code,t.`address` ,t.`endtime`,t.`mailname`,t.`threshold`,t.`time` FROM tbl_mail t
+
     </select>
 
 

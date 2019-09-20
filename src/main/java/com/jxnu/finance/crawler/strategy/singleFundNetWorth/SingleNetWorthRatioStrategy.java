@@ -56,9 +56,9 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
                 int counts = mailStore.queryMail(code, MailFundStatus.DOWN.getIndex());
                 if (counts == 0) {
                     Mail mail = new Mail();
-                    mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                    mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     mail.setCode(code);
-                    mail.setType(MailFundStatus.DOWN.getIndex());
+//                    mail.setType(MailFundStatus.DOWN.getIndex());
                     mailList.add(mail);
                 }
             }
@@ -66,8 +66,8 @@ public class SingleNetWorthRatioStrategy extends BaseSingleNetWorthStrategy {
                 int counts = mailStore.queryMail(code, MailFundStatus.UP.getIndex());
                 if (counts == 0) {
                     Mail mail = new Mail();
-                    mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                    mail.setType(MailFundStatus.UP.getIndex());
+//                    mail.setTime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                    mail.setType(MailFundStatus.UP.getIndex());
                     mail.setCode(code);
                     mailList.add(mail);
                 }
