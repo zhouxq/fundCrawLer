@@ -1,6 +1,7 @@
 package com.jxnu.finance.utils;
 
 import com.jxnu.finance.store.entity.fund.Fund;
+import com.jxnu.finance.store.entity.strategy.Mail;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 public class MailUtil {
     private final static Logger logger= LoggerFactory.getLogger(MailUtil.class);
-    public static void sendmail(String title,Set<Fund> funds)  {
+    public static void sendmail(String title, Set<Fund> funds, Mail mail)  {
         try {
             //发送简单邮件
             SimpleEmail email = new SimpleEmail();
@@ -27,7 +28,7 @@ public class MailUtil {
             //需要邮件发送服务器验证,用户名/密码
             email.setAuthentication("wy402447928@163.com", "wy402447928");
             email.setFrom("wy402447928@163.com");
-            email.addTo("402447928@qq.com");
+            email.addTo(mail.getAddress());
 
             //设置主题的字符集为UTF-8
             email.setSubject(title);

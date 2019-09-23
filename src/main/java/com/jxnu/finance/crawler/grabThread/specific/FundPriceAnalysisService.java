@@ -7,7 +7,6 @@ import com.jxnu.finance.store.mapper.FundPriceStore;
 import com.jxnu.finance.store.mapper.FundStore;
 import com.jxnu.finance.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -49,6 +48,8 @@ public class FundPriceAnalysisService {
         Set<Fund> fundSet = new HashSet<>();
         List funCodeList = new ArrayList();
         Map<String,Double> fundMap = new HashMap<>();
+        Mail mail = (Mail)params.get("mailObject");
+
         for (String key : listMap.keySet()) {
             List<FundCurrentPrice> fundCurrentPrices = listMap.get(key);
 
@@ -59,7 +60,6 @@ public class FundPriceAnalysisService {
             OptionalDouble minGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).min(); ///最小张跌 %
 
             OptionalDouble maxGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).max(); // 最大张跌 %
-            Mail mail = (Mail)params.get("mailObject");
             threshold = mail.getThreshold();
             if(threshold .compareTo( minGszzl.getAsDouble()) > 0) {//  提醒的部分
                 FundCurrentPrice fundCurrentPrice = fundCurrentPrices.get(0);
@@ -81,7 +81,7 @@ public class FundPriceAnalysisService {
             }
 
             String title = "hour".equals(params.get("params")) ? "收盘前统计跌幅%s" : "间隔统计跌幅%s" ;
-            MailUtil.sendmail(String.format(title,LocalTime.now()) ,fundSet);
+            MailUtil.sendmail(String.format(title,LocalTime.now()) ,fundSet, mail);
 
         }
     }
