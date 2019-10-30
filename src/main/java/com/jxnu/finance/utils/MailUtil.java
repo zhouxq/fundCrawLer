@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalTime;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,7 +36,13 @@ public class MailUtil {
             email.buildMimeMessage();
             String text= String.format("<html><head>基金净值播报%s</head></br><body> ",LocalTime.now());
             for(Fund fund: funds){
-                text += fund.getName() + ": <a href=\"http://fund.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> 跌幅 " + fund.getType() + "% </br>";
+                Map<String, Double> map = fund.getFundMap().get(fund.getCode());
+//                map.get("maxGsz");//最高估算
+//                map.get("minGsz");// 最低估算
+//                map.get("minGszzl");// 最低涨幅
+//                map.get("maxGszzl");// 最高涨幅
+                String formatString = String.format("最低涨幅 %d %; 最高涨幅 %d % ;最高估算值%d; 最低估算值%d;",map.get("minGszzl"),map.get("maxGszzl"),map.get("maxGsz"),map.get("minGsz"));
+                text += fund.getName() + ": <a href=\"http://fund.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> " + formatString + "</br>";
             }
             text+="</body></html>";
             email.getMimeMessage().setContent(text,"text/html;charset=utf-8");

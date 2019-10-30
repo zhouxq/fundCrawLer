@@ -1,5 +1,7 @@
 package com.jxnu.finance.store.entity.fund;
 
+import java.util.Map;
+
 /**
  * 基金
  *
@@ -15,8 +17,17 @@ public class Fund {
 
     private String star; //  标记为自己购买的基金
 
+    private Map<String,Map<String,Double>> fundMap ;
     public String getStar() {
         return star;
+    }
+
+    public Map<String, Map<String, Double>> getFundMap() {
+        return fundMap;
+    }
+
+    public void setFundMap(Map<String, Map<String, Double>> fundMap) {
+        this.fundMap = fundMap;
     }
 
     public void setStar(String star) {

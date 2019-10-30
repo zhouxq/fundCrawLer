@@ -238,3 +238,6 @@ TODO JOB \Server 单独两个服务 module 两个有 冲突，
 https://quote.cngold.org/gjs/yhzhj_ghzhj1.html
 
 https://api.jijinhao.com/quoteCenter/realTime.htm?codes=JO_62290,JO_62286,JO_62285,JO_62291,JO_62289,JO_62288,JO_62283,JO_62284,JO_62282,JO_62287,JO_42760,JO_42761,JO_42762,JO_52644,JO_42757,JO_42758,JO_42759,JO_52643&_=1569374802370
+
+可转债价格
+http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cb=jQuery17207759323175765498_1571392278378&type=CT&cmd=1280732&sty=FC2DPFD&st=z&js=((x))&token=4f1862fc3b5e77c150a2b985b12db0fd&_=1571392299245

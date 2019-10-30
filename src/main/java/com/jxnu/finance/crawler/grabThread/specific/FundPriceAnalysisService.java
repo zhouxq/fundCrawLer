@@ -47,12 +47,12 @@ public class FundPriceAnalysisService {
 
         Set<Fund> fundSet = new HashSet<>();
         List funCodeList = new ArrayList();
-        Map<String,Double> fundMap = new HashMap<>();
+        Map<String,Map<String,Double>> fundMap = new HashMap<>();
         Mail mail = (Mail)params.get("mailObject");
 
         for (String key : listMap.keySet()) {
             List<FundCurrentPrice> fundCurrentPrices = listMap.get(key);
-
+            Map<String,Double> doubleMap = new HashMap<>();
             OptionalDouble maxGsz = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszDouble).max();//估算值最大
 
             OptionalDouble minGsz = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszDouble).min();//估算值最小
@@ -62,10 +62,14 @@ public class FundPriceAnalysisService {
             OptionalDouble maxGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).max(); // 最大张跌 %
             threshold = mail.getThreshold();
             if(threshold .compareTo( minGszzl.getAsDouble()) > 0) {//  提醒的部分
+                doubleMap.put("minGszzl", minGszzl.getAsDouble());
+                doubleMap.put("minGsz", minGsz.getAsDouble());
+                doubleMap.put("maxGsz", maxGsz.getAsDouble());
+                doubleMap.put("maxGszzl", maxGszzl.getAsDouble());
                 FundCurrentPrice fundCurrentPrice = fundCurrentPrices.get(0);
-                String fundcode = fundCurrentPrice.getFundcode();
-                funCodeList.add(fundcode);
-                fundMap.put(fundcode,minGszzl.getAsDouble());
+                String fundCode = fundCurrentPrice.getFundcode();
+                funCodeList.add(fundCode);
+                fundMap.put(fundCode,doubleMap);
             }
         }
 
@@ -75,12 +79,11 @@ public class FundPriceAnalysisService {
             paramHashMap.put("list",funCodeList);
             List<Fund> fundList = fundStore.selectMulti(paramHashMap);
             for (Fund fund : fundList) {
-                Double aDouble = fundMap.get(fund.getCode());
-                fund.setType(aDouble.toString());
+                fund.setFundMap(fundMap);
                 fundSet.add(fund);
             }
 
-            String title = "hour".equals(params.get("params")) ? "收盘前统计跌幅%s" : "间隔统计跌幅%s" ;
+            String title = "hour".equals(params.get("params")) ? "收盘前统计涨跌幅%s" : "间隔统计跌幅%s" ;
             MailUtil.sendmail(String.format(title,LocalTime.now()) ,fundSet, mail);
 
         }
