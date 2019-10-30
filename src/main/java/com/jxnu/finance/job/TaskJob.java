@@ -37,7 +37,7 @@ public class TaskJob  {
     @Autowired
     private MailStore mailStore;
 
-    @Scheduled(cron = "0 30/15 9,10,11,13,14 * * ?")// 每天 ，9：30 - 15：00 每隔五分钟执行一次
+    @Scheduled(cron = "0 0/15 9,10,11,13,14 * * ?")// 每天 ，9：30 - 15：00 每隔五分钟执行一次
     public void fundPriceJob() {
         fundPriceGrab.handler(fundNetWorthSwitch);
     }
@@ -56,7 +56,7 @@ public class TaskJob  {
     }
 
 
-    @Scheduled(cron = "0 40 14 * * ?")// 每天 ( 14:40)收盘前执行一次
+    @Scheduled(cron = "0 46 14 * * ?")// 每天 ( 14:40)收盘前执行一次
     void analysisPriceFinalJob(){
         List<Mail> mailList = mailStore.queryMailList().stream().filter(distinctByKey(b -> b.getAddress())).collect(Collectors.toList());
         for (Mail mail : mailList) {

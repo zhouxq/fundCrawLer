@@ -35,17 +35,32 @@ public class MailUtil {
             email.setSubject(title);
             email.buildMimeMessage();
             String text= String.format("<html><head>基金净值播报%s</head></br><body> ",LocalTime.now());
+
+            StringBuilder content = new StringBuilder(text);
+            content.append("<table style=\"border:solid 1px #E8F2F9;font-size=14px;;font-size:18px;\">");
+            content.append("<tr style=\"background-color: #428BCA; color:#ffffff\"><th>基金名称：代码</th><th>最低涨幅%</th><th>最高涨幅%</th><th>最高值</th><th>最低值</th></tr>");
             for(Fund fund: funds){
                 Map<String, Double> map = fund.getFundMap().get(fund.getCode());
 //                map.get("maxGsz");//最高估算
 //                map.get("minGsz");// 最低估算
 //                map.get("minGszzl");// 最低涨幅
 //                map.get("maxGszzl");// 最高涨幅
-                String formatString = String.format("最低涨幅 %d %; 最高涨幅 %d % ;最高估算值%d; 最低估算值%d;",map.get("minGszzl"),map.get("maxGszzl"),map.get("maxGsz"),map.get("minGsz"));
-                text += fund.getName() + ": <a href=\"http://fund.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> " + formatString + "</br>";
+
+                content.append("<tr>");
+                content.append("<td>" + fund.getName() + ": <a href=\"http://fund.eastmoney.com/" + fund.getCode() + ".html?spm=search\">" + fund.getCode() + "</a> " + "</td>"); //第一列
+                content.append("<td>" + map.get("minGszzl") + "</td>"); //第二列
+                content.append("<td>" + map.get("maxGszzl") + "</td>"); //第三列
+                content.append("<td>" + map.get("maxGsz") + "</td>"); //第4列
+                content.append("<td>" + map.get("minGsz") + "</td>"); //第5列
+
+                content.append("</tr>");
             }
-            text+="</body></html>";
-            email.getMimeMessage().setContent(text,"text/html;charset=utf-8");
+            content.append("</table>");
+            content.append("<h5>收到此邮件是因为今日的跌幅超过阈值-0.5%；此表统计了今日的估值情况，你可以根据最新的估值适时补仓；此邮件每日发送一次敬请注意；如果此邮件对你有帮助请向更多的朋友安利~</h5>");
+            content.append("</body></html>");
+
+            content.append("</body></html>");
+            email.getMimeMessage().setContent(content.toString(),"text/html;charset=utf-8");
             email.sendMimeMessage();
         } catch (Exception e) {
             logger.error("mail error:{}", ExceptionUtils.getStackTrace(e));

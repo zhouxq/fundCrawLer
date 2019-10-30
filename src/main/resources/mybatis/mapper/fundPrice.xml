@@ -26,7 +26,7 @@
 
         <choose>
             <when test="params=='hour'">
-               INTERVAL - 3 HOUR
+               INTERVAL - 5.5 HOUR
             </when>
             <otherwise>
                INTERVAL - 30 MINUTE
