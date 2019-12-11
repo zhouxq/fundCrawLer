@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,21 +54,25 @@ public class FundPriceAnalysisService {
         for (String key : listMap.keySet()) {
             List<FundCurrentPrice> fundCurrentPrices = listMap.get(key);
             Map<String,Double> doubleMap = new HashMap<>();
-            OptionalDouble maxGsz = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszDouble).max();//估算值最大
+            fundCurrentPrices.sort(Comparator.comparing(FundCurrentPrice::getGztime).reversed());//反序排列
 
-            OptionalDouble minGsz = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszDouble).min();//估算值最小
-
-            OptionalDouble minGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).min(); ///最小张跌 %
-
-            OptionalDouble maxGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).max(); // 最大张跌 %
+            FundCurrentPrice currentPrice = fundCurrentPrices.get(0);
             threshold = mail.getThreshold();
-            if(threshold .compareTo( minGszzl.getAsDouble()) > 0) {//  提醒的部分
+            if(threshold .compareTo( currentPrice.getGszzl()) > 0) {//  提醒的部分  取最后一次爬出的数据与阈值进行比对；结果发送邮箱
+                OptionalDouble maxGsz = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszDouble).max();//估算值最大
+
+                OptionalDouble minGsz = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszDouble).min();//估算值最小
+
+                OptionalDouble minGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).min(); ///最小张跌 %
+
+                OptionalDouble maxGszzl = fundCurrentPrices.stream().mapToDouble(FundCurrentPrice::getGszzl).max(); // 最大张跌 %
+
                 doubleMap.put("minGszzl", minGszzl.getAsDouble());
                 doubleMap.put("minGsz", minGsz.getAsDouble());
                 doubleMap.put("maxGsz", maxGsz.getAsDouble());
                 doubleMap.put("maxGszzl", maxGszzl.getAsDouble());
-                FundCurrentPrice fundCurrentPrice = fundCurrentPrices.get(0);
-                String fundCode = fundCurrentPrice.getFundcode();
+                doubleMap.put("current", maxGszzl.getAsDouble());
+                String fundCode = currentPrice.getFundcode();
                 funCodeList.add(fundCode);
                 fundMap.put(fundCode,doubleMap);
             }

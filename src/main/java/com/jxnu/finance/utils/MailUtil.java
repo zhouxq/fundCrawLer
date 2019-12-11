@@ -38,7 +38,7 @@ public class MailUtil {
 
             StringBuilder content = new StringBuilder(text);
             content.append("<table style=\"border:solid 1px #E8F2F9;font-size=14px;;font-size:18px;\">");
-            content.append("<tr style=\"background-color: #428BCA; color:#ffffff\"><th>基金名称：代码</th><th>最低涨幅%</th><th>最高涨幅%</th><th>最高值</th><th>最低值</th></tr>");
+            content.append("<tr style=\"background-color: #428BCA; color:#ffffff\"><th>基金名称：代码</th><th>最低涨幅%</th><th>最高涨幅%</th><th>最高值</th><th>最低值</th><th>最新值</th></tr>");
             for(Fund fund: funds){
                 Map<String, Double> map = fund.getFundMap().get(fund.getCode());
 //                map.get("maxGsz");//最高估算
@@ -52,6 +52,7 @@ public class MailUtil {
                 content.append("<td>" + map.get("maxGszzl") + "</td>"); //第三列
                 content.append("<td>" + map.get("maxGsz") + "</td>"); //第4列
                 content.append("<td>" + map.get("minGsz") + "</td>"); //第5列
+                content.append("<td>" + map.get("current") + "</td>"); //第6列
 
                 content.append("</tr>");
             }
