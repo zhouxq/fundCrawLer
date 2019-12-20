@@ -69,6 +69,13 @@ public class TaskJob  {
 
     }
 
+    @Scheduled(cron = "0 0 15 * * ?")// 每天 ( 15:00)收盘自动退出系统
+    void systemExitJob(){
+       System.exit(0);
+
+    }
+
+
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Map<Object,Boolean> seen = new ConcurrentHashMap<>();
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
